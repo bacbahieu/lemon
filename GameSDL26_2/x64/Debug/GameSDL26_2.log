@@ -1,0 +1,2 @@
+﻿  Main.cpp
+D:\HOang Anh\GameSDL26_2\GameSDL26_2\Main.cpp(1,10): error C1083: Cannot open include file: 'SDL.h': No such file or directory
