@@ -1,15 +1,11 @@
-﻿  BaseObject.cpp
-  BulletObject.cpp
-D:\GAME_TEST\GameSDL26_2\GameSDL26_2\BaseObject.cpp(1,10): error C1083: Cannot open include file: 'stdafx.h': No such file or directory
-D:\GAME_TEST\GameSDL26_2\GameSDL26_2\BulletObject.cpp(2,10): error C1083: Cannot open include file: 'stdafx.h': No such file or directory
-  CommonFunc.cpp
-D:\GAME_TEST\GameSDL26_2\GameSDL26_2\CommonFunc.cpp(2,10): error C1083: Cannot open include file: 'stdafx.h': No such file or directory
-  ImpTimer.cpp
-D:\GAME_TEST\GameSDL26_2\GameSDL26_2\ImpTimer.cpp(2,10): error C1083: Cannot open include file: 'stdafx.h': No such file or directory
-  Main.cpp
-D:\GAME_TEST\GameSDL26_2\GameSDL26_2\Main.cpp(2,10): error C1083: Cannot open include file: 'stdafx.h': No such file or directory
-  MainObject.cpp
-D:\GAME_TEST\GameSDL26_2\GameSDL26_2\MainObject.cpp(1,10): error C1083: Cannot open include file: 'stdafx.h': No such file or directory
-  game_map.cpp
-D:\GAME_TEST\GameSDL26_2\GameSDL26_2\game_map.cpp(2,10): error C1083: Cannot open include file: 'stdafx.h': No such file or directory
-  Generating Code...
+﻿  Main.cpp
+D:\GEOMETRY_DASH\GEOMETRY_DASH\GameSDL26_2\CommonFunc.h(51,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+  (compiling source file 'Main.cpp')
+  
+D:\GEOMETRY_DASH\GEOMETRY_DASH\GameSDL26_2\CommonFunc.h(60,2): warning C4091: 'typedef ': ignored on left of 'Regime' when no variable is declared
+  (compiling source file 'Main.cpp')
+  
+D:\GEOMETRY_DASH\GEOMETRY_DASH\GameSDL26_2\CommonFunc.h(73,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+  (compiling source file 'Main.cpp')
+  
+  GameSDL26_2.vcxproj -> D:\GEOMETRY_DASH\GEOMETRY_DASH\Debug\GameSDL26_2.exe

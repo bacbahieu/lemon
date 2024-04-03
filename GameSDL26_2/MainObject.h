@@ -10,8 +10,12 @@
 
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 18
-#define PLAYER_SPEED 16
-#define PLAYER_JUMP_VAL 56;
+#define MAX_FALL_SPEED_FLAPPY 90
+#define PLAYER_SPEED 14
+#define PLAYER_JUMP_VAL 48;
+#define FLAPPY_JUMP_VAL 64;
+
+const int NUM_TILES_TO_MOVE = 6;
 
 class MainObject : public BaseObject
 {
@@ -23,7 +27,6 @@ public :
 	{
 		WALK_NONE = 0,
 		WALK_RIGHT = 1,
-		WALK_LEFT = 2,
 	};
 
 	bool LoadImg(std::string path, SDL_Renderer* screen);
@@ -50,7 +53,15 @@ public :
 	int get_frame_width() const { return width_frame_; }
 	int get_frame_height() const { return height_frame_; }
 	void set_comeback_time(const int& cb_time) { come_back_time_ = cb_time; }
+	bool CheckPlayerStartPosition() {return is_player_at_start_position;}
+	int GetRegimeType() const;
+
+
+	void LoadExplosionImage(SDL_Renderer* screen) ;
+	void ShowExplosion(SDL_Renderer* des);
 private:
+
+	SDL_Texture* explosion_texture_;
 
 	int money_count;
 	std::vector<BulletObject*> p_bullet_list_;
@@ -60,19 +71,31 @@ private:
 	float x_pos_;
 	float y_pos_;
 
+	float pre_y_pos_;
+
 	int width_frame_;
 	int height_frame_;
 
 	SDL_Rect frame_clip_[8];
+	SDL_Rect explosion_clips[8];
 	Input input_type_;
+
+	Regime regime_type_;
+
 	int frame_;
 	int status_;
 	bool on_ground_;
+	bool roi_tudo;
+	bool va_cham_no;
+	float previous_start_y;
 
 	int map_x_;
 	int map_y_;
 
+	int currentTileX ;
 	int come_back_time_;
+
+	bool is_player_at_start_position; // check vi tri ban dau
 };
 
 

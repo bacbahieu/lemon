@@ -4,6 +4,7 @@
 #define COMMON_FUNCTION_H_
 
 #include <windows.h>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <SDL.h>
@@ -28,14 +29,16 @@ const int COLOR_KEY_B = 180;
 
 const int RENDER_DRAW_COLOW = 0xff;
 
-#define SPACE_PORTAL 15
+#define SPACE_PORTAL_NORMAL_TO_FLAPPY 15
+#define SPACE_PORTAL_FLAPPY_TO_NORMAL 16
+
 #define BLANK_TILE 0
 #define TILE_SIZE  64
 
 #define MAX_MAP_X  400
 #define MAX_MAP_Y  20
 
-#define STATE_MONEY 4
+#define STATE_MONEY 20
 
 typedef struct Input
 {
@@ -45,6 +48,15 @@ typedef struct Input
 	int down_;
 	int jump_;
 
+};
+
+const int FLAPPY_MODE = 1;
+const int NORMAL_MODE = 0;
+
+typedef struct Regime
+{
+	int NORMAL_;
+	int FLAPPY_;
 };
 
 typedef struct Map

@@ -15,8 +15,13 @@ public:
 	SDL_Rect GetRect() const { return rect_; }
 	SDL_Texture* GetObject() const { return p_object_; }
 
+	int GetWidth() const { return rect_.w; }
+	int GetHeight() const { return rect_.h; }
+
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
+
+	void Render_bg(SDL_Renderer* des, const SDL_Rect* clip = NULL, const int& x_pos = 0, const int& y_pos = 0);
 	void Free();
 protected:
 	SDL_Texture* p_object_;

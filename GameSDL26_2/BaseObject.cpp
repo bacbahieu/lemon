@@ -45,6 +45,13 @@ void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip /* NULL */)
 
 }
 
+
+void BaseObject::Render_bg(SDL_Renderer* des, const SDL_Rect* clip, const int& x_pos, const int& y_pos)
+{
+	SDL_Rect renderQuad = { x_pos, y_pos, rect_.w, rect_.h };
+	SDL_RenderCopy(des, p_object_, clip, &renderQuad);
+}
+
 void BaseObject::Free()
 {
 	if (p_object_ != NULL)
