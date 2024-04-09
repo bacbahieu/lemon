@@ -56,7 +56,7 @@ bool MainObject::LoadImg(std::string path, SDL_Renderer* screen)
 	bool ret = BaseObject::LoadImg(path, screen);
 	if (ret == true)
 	{
-		width_frame_ = rect_.w / 8;
+		width_frame_ = rect_.w ;
 		height_frame_ = rect_.h ;
 	}
 
@@ -138,45 +138,128 @@ void MainObject::ShowExplosion(SDL_Renderer* des)
 }
 
 
+//void MainObject::Show(SDL_Renderer* des)
+//{
+//	
+//		UpdateImagePlayer(des);
+//		
+//			if (input_type_.right_ == 1)
+//			{
+//				frame_++;
+//			}
+//			else
+//			{
+//				frame_ = 0;
+//			}
+//
+//
+//			if (frame_ >= 8)
+//			{
+//				frame_ = 2;
+//			}
+//
+//			if (come_back_time_ == 0)
+//			{
+//				rect_.x = x_pos_ - map_x_;
+//				rect_.y = y_pos_ - map_y_;
+//
+//				SDL_Rect* current_clip = &frame_clip_[frame_];
+//				SDL_Rect renderQuad = { rect_.x, rect_.y,width_frame_,height_frame_ };
+//
+//				SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
+//			}
+//		
+//
+//}
+
+//void MainObject::Show(SDL_Renderer* des)
+//{
+//	UpdateImagePlayer(des);
+//
+//	if (on_ground_)
+//	{
+//		if (come_back_time_ == 0)
+//		{
+//			rect_.x = x_pos_ - map_x_;
+//			rect_.y = y_pos_ - map_y_;
+//
+//			SDL_Rect* current_clip = NULL;
+//			SDL_Rect renderQuad = { rect_.x, rect_.y,width_frame_,height_frame_ };
+//
+//			SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
+//		}
+//	}
+//	else
+//	{
+//		if (come_back_time_ == 0)
+//		{
+//			rect_.x = x_pos_ - map_x_;
+//			rect_.y = y_pos_ - map_y_;
+//
+//			SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+//
+//			// Increase the rotation angle gradually
+//			static double angle = 10; // Initial rotation angle
+//			angle += 10; // Increase angle by 10 degrees
+//
+//			// Ensure the angle does not exceed 80 degrees
+//			if (angle > 90)
+//				angle = 90;
+//
+//			// Render the rotated image
+//			SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
+//			SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
+//			SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, angle, &center, flip);
+//		}
+//	}
+//
+//	
+//}
+
 void MainObject::Show(SDL_Renderer* des)
 {
-	
-		UpdateImagePlayer(des);
-		if (va_cham_no) {
-			ShowExplosion(des);
-		}
-		else
-		{
-			if (input_type_.right_ == 1)
-			{
-				frame_++;
-			}
-			else
-			{
-				frame_ = 0;
-			}
+	UpdateImagePlayer(des);
 
+	if (!on_ground_)
+	{
+		// Render the character with the current rotation angle
+		rect_.x = x_pos_ - map_x_;
+		rect_.y = y_pos_ - map_y_;
 
-			if (frame_ >= 8)
-			{
-				frame_ = 2;
-			}
+		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
 
-			if (come_back_time_ == 0)
-			{
-				rect_.x = x_pos_ - map_x_;
-				rect_.y = y_pos_ - map_y_;
+		// Render the rotated image
+		SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
+		SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
+		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
 
-				SDL_Rect* current_clip = &frame_clip_[frame_];
-				SDL_Rect renderQuad = { rect_.x, rect_.y,width_frame_,height_frame_ };
+		// Increase the rotation angle gradually
+		const double ROTATION_SPEED = 14.0; // Rotation speed in degrees per frame
+		rotate_angle += ROTATION_SPEED;
 
-				SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
-			}
-		}
-		
-	
+		// Ensure the angle does not exceed 360 degrees
+		if (rotate_angle >= 360)
+			rotate_angle = 0;
+	}
+	else
+	{
+		// Reset rotation angle when jumping
+		rotate_angle = 0;
 
+		// Render the character without rotation
+		rect_.x = x_pos_ - map_x_;
+		rect_.y = y_pos_ - map_y_;
+
+		SDL_Rect* current_clip = nullptr;
+		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+
+		SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
+	}
 }
+
+
+
+
 
 void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 {
@@ -652,18 +735,19 @@ void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 		{
 			if (roi_tudo)
 			{
-				LoadImg("img//jump_frame_update.png", des);
+				LoadImg("img//lap_phuong.png", des);
 
 			}
 			else {
 				if (on_ground_)
 				{
-					LoadImg("img//frame_dichuyen_2.png", des);
+					LoadImg("img//lap_phuong.png", des);
 
 				}
 				else
 				{
-					LoadImg("img//jump_frame_update.png", des);
+					/*LoadImg("img//jump_frame_update.png", des);*/
+					LoadImg("img//lap_phuong.png", des);
 
 				}
 			}

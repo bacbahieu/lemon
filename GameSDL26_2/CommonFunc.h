@@ -28,6 +28,10 @@ const int COLOR_KEY_G = 175;
 const int COLOR_KEY_B = 180;
 
 const int RENDER_DRAW_COLOW = 0xff;
+const int START_BUTTON_X = SCREEN_WIDTH / 2;
+const int START_BUTTON_Y = SCREEN_HEIGHT / 2;
+
+
 
 #define SPACE_PORTAL_NORMAL_TO_FLAPPY 15
 #define SPACE_PORTAL_FLAPPY_TO_NORMAL 16

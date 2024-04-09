@@ -4,42 +4,45 @@
 #include "MainObject.h"
 #include "ImpTimer.h"
 
-
 enum GameState {
     MENU,
-    PLAYING
+    PLAYING,
 };
 
 BaseObject g_background;
 int bg_x_pos = 0;
 int bg_y_pos = 0;
 
-
 BaseObject menu_image;
-BaseObject menu_image_start;
+BaseObject menu_image_start_2;
 int game_state = MENU;
+
+bool is_mouse_over_menu_2 = false;
 
 // Function to play background music
 void PlayBackgroundMusic(Mix_Music* bg_music) {
     Mix_PlayMusic(bg_music, -1); // -1 means loop indefinitely
 }
 
-void HandleMenuEvents(SDL_Event& event)
-{
-
-    if (event.type == SDL_KEYDOWN)
-    {
-        switch (event.key.keysym.sym)
-        {
-        case SDLK_RETURN:
+void HandleMouseEvents(SDL_Event& event) {
+    if (event.type == SDL_MOUSEMOTION) {
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        if (x >= START_BUTTON_X - 150 && x <= START_BUTTON_X + 150 &&
+            y >= START_BUTTON_Y - 150 && y <= START_BUTTON_Y + 150) {
+            is_mouse_over_menu_2 = true;
+        }
+        else {
+            is_mouse_over_menu_2 = false;
+        }
+    }
+    else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+        if (is_mouse_over_menu_2) {
             game_state = PLAYING;
-            break;
-
-        default:
-            break;
         }
     }
 }
+
 
 bool LoadMenu()
 {
@@ -145,7 +148,7 @@ int main(int argc, char* argv[])
         return -1;
 
 
-    // Tai nhac menu
+    // Load menu music
     menu_music = Mix_LoadMUS("img//menu_music.mp3");
     if (!menu_music) {
         printf("Failed to load menu music! SDL_mixer Error: %s\n", Mix_GetError());
@@ -159,7 +162,7 @@ int main(int argc, char* argv[])
     game_map.LoadTiles(g_screen);
 
     MainObject p_player;
-    p_player.LoadImg("img//frame_dichuyen.png", g_screen);
+    p_player.LoadImg("img//nhan_vat.png", g_screen);
     p_player.set_clips();
 
     bool is_quit = false;
@@ -175,7 +178,7 @@ int main(int argc, char* argv[])
             }
             if (game_state == MENU)
             {
-                HandleMenuEvents(g_event);
+                HandleMouseEvents(g_event);
             }
             else if (game_state == PLAYING)
             {
@@ -186,67 +189,75 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOW, RENDER_DRAW_COLOW, RENDER_DRAW_COLOW, RENDER_DRAW_COLOW);
         SDL_RenderClear(g_screen);
 
-        if (game_state == MENU)
-        {
-
-            // Phat nhac menu
+        if (game_state == MENU) {
+            // Play menu music
             if (Mix_PlayingMusic() == 0) {
                 Mix_PlayMusic(menu_music, -1);
             }
-            menu_image.LoadImg("img//menu_image.png", g_screen);
-            menu_image.Render(g_screen);
 
-
+            // Render menu image based on mouse position
+            if (is_mouse_over_menu_2) {
+                menu_image_start_2.LoadImg("img//menu_image_start_2.png", g_screen);
+                menu_image_start_2.Render(g_screen);
+            }
+            else {
+                menu_image.LoadImg("img//menu_image.png", g_screen);
+                menu_image.Render(g_screen);
+            }
         }
         else if (game_state == PLAYING)
         {
+            // Free menu music resources
             Mix_FreeMusic(menu_music);
             menu_music = NULL;
 
+            // Play background music if not already playing
             if (Mix_PlayingMusic() == 0) {
-        
                 PlayBackgroundMusic(bg_music);
             }
 
+            // Update background position
             bg_x_pos -= 1;
             if (bg_x_pos <= -g_background.GetWidth()) {
                 bg_x_pos = 0;
             }
 
+            // Render background
             g_background.Render_bg(g_screen, NULL, bg_x_pos, bg_y_pos);
-
             if (bg_x_pos < SCREEN_WIDTH - g_background.GetWidth()) {
                 g_background.Render_bg(g_screen, NULL, bg_x_pos + g_background.GetWidth(), bg_y_pos);
             }
 
+            // Handle player actions
             Map map_data = game_map.getMap();
-
             p_player.HandleBullet(g_screen);
             p_player.ShowExplosion(g_screen);
             p_player.SetMapXY(map_data.start_x_, map_data.start_y_);
             p_player.DoPlayer(map_data);
 
+            // Load player image based on regime type
             if (p_player.GetRegimeType() == FLAPPY_MODE)
                 p_player.LoadImg("img//frame_duthuyen_8frame.png", g_screen);
             else
                 p_player.LoadImg("img//frame_dichuyen_2.png", g_screen);
 
+            // Render player and game map
             p_player.Show(g_screen);
-
             game_map.SetMap(map_data);
             game_map.DrawMap(g_screen);
         }
 
         SDL_RenderPresent(g_screen);
 
+        // Play background music if player returns to start position
         if (p_player.CheckPlayerStartPosition()) {
-            Mix_HaltMusic(); 
-            Mix_PlayMusic(bg_music, -1); 
+            Mix_HaltMusic();
+            Mix_PlayMusic(bg_music, -1);
         }
 
+        // Cap frame rate
         int real_imp_time = fps_timer.get_ticks();
         int time_one_frame = 800 / FRAME_PER_SECOND; // ms
-
         if (real_imp_time < time_one_frame)
         {
             int delay_time = time_one_frame - real_imp_time;
@@ -255,10 +266,10 @@ int main(int argc, char* argv[])
                 SDL_Delay(delay_time);
             }
         }
-
         Sleep(10);
     }
 
+    // Clean up resources
     close(bg_music);
 
     return 0;

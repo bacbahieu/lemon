@@ -96,6 +96,8 @@ private:
 	int come_back_time_;
 
 	bool is_player_at_start_position; // check vi tri ban dau
+
+	double rotate_angle;// goc quay
 };
 
 
