@@ -1,6 +1,6 @@
 ﻿// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html//
 #include "MainObject.h"
-
+#include "LText.h"
 MainObject::MainObject()
 {
 	frame_ = 0;
@@ -266,6 +266,8 @@ void MainObject::Show(SDL_Renderer* des)
 
 void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 {
+
+
 	if (regime_type_.NORMAL_ == 1) {
 		
 		status_ = WALK_RIGHT;
@@ -330,6 +332,8 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 			}
 		}
 	}
+
+
 
 }
 
@@ -441,7 +445,7 @@ void MainObject::DoPlayer(Map& map_data)
 		if (va_cham_no) {
 			// Play sound effect
 			if (collision_sound == nullptr) {
-				collision_sound = Mix_LoadWAV("img//explosion.mp3"); // Adjust the path to your sound file
+				collision_sound = Mix_LoadWAV("img//vu_no_3.mp3"); // Adjust the path to your sound file
 				if (collision_sound == nullptr) {
 					// Failed to load the sound
 					std::cerr << "Failed to load collision sound effect. SDL_mixer Error: " << Mix_GetError() << std::endl;
@@ -450,14 +454,16 @@ void MainObject::DoPlayer(Map& map_data)
 			else {
 				Mix_PlayChannel(-1, collision_sound, 0); // Play the sound effect
 			}
+			va_cham_no = false;
 		}
-		va_cham_no = false;
+		
 		is_player_at_start_position = true;
 		SDL_Delay(500); // Delay for 2000 milliseconds (2 seconds)
 		
 		come_back_time_--;
 		if (come_back_time_ == 0)// Reset again
 		{
+			UpdateDeathCount();
 			x_pos_ = 64; // 64
 			y_pos_ = 960;
 			x_val_ = 0;
@@ -729,7 +735,7 @@ void MainObject::CheckToMap(Map& map_data)
 		 if ((val1 >= 6 && val1 <= 10) || (val2 >= 6 && val2 <= 10))
 			{
 			 va_cham_no = true;
-				come_back_time_++;
+			come_back_time_++;
 			}
 
 		}

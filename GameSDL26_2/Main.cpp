@@ -3,6 +3,7 @@
 #include "game_map.h"
 #include "MainObject.h"
 #include "ImpTimer.h"
+#include "LText.h"
 
 enum GameState {
     MENU,
@@ -18,6 +19,9 @@ BaseObject menu_image_start_2;
 int game_state = MENU;
 
 bool is_mouse_over_menu_2 = false;
+
+// pause game//
+bool is_game_paused = false;
 
 // Function to play background music
 void PlayBackgroundMusic(Mix_Music* bg_music) {
@@ -101,6 +105,16 @@ bool InitData(Mix_Music*& bg_music) // Modify to accept reference to bg_music
     return success;
 }
 
+
+bool InitTTF() {
+    // Khoi tao SDL_ttf
+    if (TTF_Init() == -1) {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+        return false;
+    }
+    return true;
+}
+
 bool LoadBackground()
 {
     bool ret = g_background.LoadImg("img//background_8.png", g_screen);
@@ -147,6 +161,10 @@ int main(int argc, char* argv[])
     if (LoadMenu() == false)
         return -1;
 
+    if (!InitTTF()) {
+        return -1;
+    }
+   
 
     // Load menu music
     menu_music = Mix_LoadMUS("img//menu_music.mp3");
@@ -164,6 +182,8 @@ int main(int argc, char* argv[])
     MainObject p_player;
     p_player.LoadImg("img//nhan_vat.png", g_screen);
     p_player.set_clips();
+
+    InitDeathCounter(g_screen);
 
     bool is_quit = false;
 
@@ -207,6 +227,7 @@ int main(int argc, char* argv[])
         }
         else if (game_state == PLAYING)
         {
+
             // Free menu music resources
             Mix_FreeMusic(menu_music);
             menu_music = NULL;
@@ -249,7 +270,11 @@ int main(int argc, char* argv[])
             p_player.Show(g_screen);
             game_map.SetMap(map_data);
             game_map.DrawMap(g_screen);
+
+            RenderDeathCount(g_screen);
         }
+
+        
 
         SDL_RenderPresent(g_screen);
 

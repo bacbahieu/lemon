@@ -21,6 +21,7 @@ public:
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
 
+
 	void Render_bg(SDL_Renderer* des, const SDL_Rect* clip = NULL, const int& x_pos = 0, const int& y_pos = 0);
 	void Free();
 protected:
