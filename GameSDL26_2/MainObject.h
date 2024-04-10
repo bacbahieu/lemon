@@ -1,4 +1,4 @@
-
+// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html //
 #ifndef MAIN_OBJECT_H
 #define MAIN_OBJECT_H
 
@@ -59,6 +59,7 @@ public :
 
 	void LoadExplosionImage(SDL_Renderer* screen) ;
 	void ShowExplosion(SDL_Renderer* des);
+
 private:
 
 	SDL_Texture* explosion_texture_;
@@ -98,6 +99,8 @@ private:
 	bool is_player_at_start_position; // check vi tri ban dau
 
 	double rotate_angle;// goc quay
+
+	Mix_Chunk* collision_sound = nullptr;
 };
 
 

@@ -1,5 +1,5 @@
 
-
+// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan2-ky-thuat-tile-map.html //
 #include "game_map.h"
 
 void GameMap::LoadMap(char* name)

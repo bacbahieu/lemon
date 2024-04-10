@@ -1,4 +1,4 @@
-
+//Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-xu-ly-time-ti-so-fps.html //
 
 #include "ImpTimer.h"
 #include "CommonFunc.h"

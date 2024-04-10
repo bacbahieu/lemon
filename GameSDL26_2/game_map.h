@@ -1,3 +1,4 @@
+ // Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan2-ky-thuat-tile-map.html //
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
 

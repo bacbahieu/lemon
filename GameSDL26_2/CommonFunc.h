@@ -32,9 +32,10 @@ const int START_BUTTON_X = SCREEN_WIDTH / 2;
 const int START_BUTTON_Y = SCREEN_HEIGHT / 2;
 
 
-
-#define SPACE_PORTAL_NORMAL_TO_FLAPPY 15
-#define SPACE_PORTAL_FLAPPY_TO_NORMAL 16
+#define SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN 14
+#define SPACE_PORTAL_NORMAL_TO_FLAPPY_UP 15
+#define SPACE_PORTAL_FLAPPY_TO_NORMAL_UP 16
+#define SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN 17
 
 #define BLANK_TILE 0
 #define TILE_SIZE  64
@@ -76,10 +77,7 @@ typedef struct Map
 
 };
 
-namespace SDLCommonFunc
-{
-	bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);
-}
+
 
 #endif 
 

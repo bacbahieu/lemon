@@ -1,7 +1,5 @@
-﻿
+﻿// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html//
 #include "MainObject.h"
-
-
 
 MainObject::MainObject()
 {
@@ -47,6 +45,11 @@ MainObject::~MainObject()
 	{
 		SDL_DestroyTexture(explosion_texture_);
 		explosion_texture_ = nullptr;
+	}
+
+	if (collision_sound != nullptr) {
+		Mix_FreeChunk(collision_sound);
+		collision_sound = nullptr;
 	}
 }
 
@@ -297,6 +300,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 	}
 	else
 	{
+		
 		if (events.type == SDL_KEYDOWN)
 		{
 			if (events.key.keysym.sym == SDLK_UP)
@@ -434,6 +438,19 @@ void MainObject::DoPlayer(Map& map_data)
 
 	if (come_back_time_ > 0)
 	{
+		if (va_cham_no) {
+			// Play sound effect
+			if (collision_sound == nullptr) {
+				collision_sound = Mix_LoadWAV("img//explosion.mp3"); // Adjust the path to your sound file
+				if (collision_sound == nullptr) {
+					// Failed to load the sound
+					std::cerr << "Failed to load collision sound effect. SDL_mixer Error: " << Mix_GetError() << std::endl;
+				}
+			}
+			else {
+				Mix_PlayChannel(-1, collision_sound, 0); // Play the sound effect
+			}
+		}
 		va_cham_no = false;
 		is_player_at_start_position = true;
 		SDL_Delay(500); // Delay for 2000 milliseconds (2 seconds)
@@ -537,9 +554,19 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				;
 			}
+			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
+			{
+				regime_type_.FLAPPY_ = 1;
+				regime_type_.NORMAL_ = 0;
+			}
+			else if (val1 == SPACE_PORTAL_FLAPPY_TO_NORMAL_UP || val2 == SPACE_PORTAL_FLAPPY_TO_NORMAL_UP || val1 == SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN || val2 == SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN)
+			{
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 1;
+			}
 			else 
 			{
-				if ((val1 != BLANK_TILE && val1 != SPACE_PORTAL_NORMAL_TO_FLAPPY  && val1 != SPACE_PORTAL_FLAPPY_TO_NORMAL)||( val2 != BLANK_TILE && val2 != SPACE_PORTAL_NORMAL_TO_FLAPPY && val2 != SPACE_PORTAL_FLAPPY_TO_NORMAL))
+				if (val1 != BLANK_TILE|| val2 != BLANK_TILE )
 				{
 					/*x_pos_ = x2 * TILE_SIZE;
 					x_pos_ -= width_frame_ + 0.01;
@@ -577,16 +604,7 @@ void MainObject::CheckToMap(Map& map_data)
 				 va_cham_no = true;
 				 come_back_time_++;
 			 }
-			 else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY)
-			 {
-				 regime_type_.FLAPPY_ = 1;
-				 regime_type_.NORMAL_ = 0;
-			 }
-			 else if (val1 == SPACE_PORTAL_FLAPPY_TO_NORMAL || val2 == SPACE_PORTAL_FLAPPY_TO_NORMAL)
-			 {
-				 regime_type_.FLAPPY_ = 0;
-				 regime_type_.NORMAL_ = 1;
-			 }
+			 
 		}
 
 	}
@@ -618,8 +636,18 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				;
 			}
+			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
+			{
+				regime_type_.FLAPPY_ = 1;
+				regime_type_.NORMAL_ = 0;
+			}
+			else if (val1 == SPACE_PORTAL_FLAPPY_TO_NORMAL_UP || val2 == SPACE_PORTAL_FLAPPY_TO_NORMAL_UP || val1 == SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN || val2 == SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN)
+			{
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 1;
+			}
 			else {
-				if ((val1 != BLANK_TILE && val1 != SPACE_PORTAL_NORMAL_TO_FLAPPY) || (val2 != BLANK_TILE && val2 != SPACE_PORTAL_NORMAL_TO_FLAPPY))
+				if (val1 != BLANK_TILE || val2 != BLANK_TILE )
 				{
 					y_pos_ = y2 * TILE_SIZE;
 					y_pos_ -= (height_frame_ + 0.01);
@@ -649,9 +677,19 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				;
 			}
+			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
+			{
+				regime_type_.FLAPPY_ = 1;
+				regime_type_.NORMAL_ = 0;
+			}
+			else if (val1 == SPACE_PORTAL_FLAPPY_TO_NORMAL_UP || val2 == SPACE_PORTAL_FLAPPY_TO_NORMAL_UP || val1 == SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN || val2 == SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN)
+			{
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 1;
+			}
 			else {
 
-				if ((val1 != BLANK_TILE && val1 != SPACE_PORTAL_NORMAL_TO_FLAPPY && val1 != SPACE_PORTAL_FLAPPY_TO_NORMAL) || (val2 != BLANK_TILE && val2 != SPACE_PORTAL_NORMAL_TO_FLAPPY && val2 != SPACE_PORTAL_FLAPPY_TO_NORMAL))
+				if (val1 != BLANK_TILE  || val2 != BLANK_TILE)
 				{
 					y_pos_ = (y1 + 0.01) * TILE_SIZE;
 					y_val_ = 0;
@@ -730,7 +768,6 @@ void MainObject::IncreaseMoney()
 
 void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 {
-	if (!va_cham_no) {
 		if (regime_type_.NORMAL_ == 1)
 		{
 			if (roi_tudo)
@@ -753,16 +790,10 @@ void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 			}
 
 		}
-		else
+		else if(regime_type_.FLAPPY_ == 1)
 		{
-			LoadImg("img//frame_duthuyen_8frame.png", des);
+			LoadImg("img//du_thuyen.png", des);
 		}
-	}
-	else 
-	{
-		LoadImg("img//exp3.png", des);
-	}
-	
 }
 
 

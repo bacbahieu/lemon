@@ -1,4 +1,4 @@
-
+// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html //
 #include "BaseObject.h"
 
 BaseObject::BaseObject()

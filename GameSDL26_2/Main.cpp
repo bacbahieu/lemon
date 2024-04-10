@@ -237,9 +237,13 @@ int main(int argc, char* argv[])
 
             // Load player image based on regime type
             if (p_player.GetRegimeType() == FLAPPY_MODE)
-                p_player.LoadImg("img//frame_duthuyen_8frame.png", g_screen);
+            {
+                p_player.LoadImg("img//du_thuyen.png", g_screen);
+            }
             else
-                p_player.LoadImg("img//frame_dichuyen_2.png", g_screen);
+            {
+                p_player.LoadImg("img//lap_phuong.png", g_screen);
+            }
 
             // Render player and game map
             p_player.Show(g_screen);
@@ -256,7 +260,7 @@ int main(int argc, char* argv[])
         }
 
         // Cap frame rate
-        int real_imp_time = fps_timer.get_ticks();
+        int real_imp_time = fps_timer.get_ticks();          
         int time_one_frame = 800 / FRAME_PER_SECOND; // ms
         if (real_imp_time < time_one_frame)
         {
@@ -266,7 +270,7 @@ int main(int argc, char* argv[])
                 SDL_Delay(delay_time);
             }
         }
-        Sleep(10);
+        Sleep(8);
     }
 
     // Clean up resources
