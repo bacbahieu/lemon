@@ -3,32 +3,40 @@
   "WorkspaceRootPath": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\LText.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\LText.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\ImpTimer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\ImpTimer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\LText.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\MainObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\MainObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\ImpTimer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\ImpTimer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\LText.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\CommonFunc.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\CommonFunc.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\MainObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\MainObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\ImpTimer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\ImpTimer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\ImpTimer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\ImpTimer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\BaseObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -45,14 +53,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\game_map.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\game_map.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\MainObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|solutionrelative:GameSDL26_2\\MainObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C6F2A76-42DC-4241-9BBE-28814526A947}|GameSDL26_2\\GameSDL26_2.vcxproj|D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\BulletObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -78,30 +78,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "LText.cpp",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.cpp",
               "RelativeDocumentMoniker": "GameSDL26_2\\LText.cpp",
               "ToolTip": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.cpp",
               "RelativeToolTip": "GameSDL26_2\\LText.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAFAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-10T09:47:01.667Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "LText.h",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.h",
               "RelativeDocumentMoniker": "GameSDL26_2\\LText.h",
               "ToolTip": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\LText.h",
               "RelativeToolTip": "GameSDL26_2\\LText.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-04-10T09:46:54.769Z",
               "EditorCaption": ""
@@ -120,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 3,
               "Title": "Menu.cpp",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\Menu.cpp",
               "RelativeDocumentMoniker": "GameSDL26_2\\Menu.cpp",
@@ -128,7 +128,8 @@
               "RelativeToolTip": "GameSDL26_2\\Menu.cpp",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-19T07:57:39.248Z"
+              "WhenOpened": "2024-03-19T07:57:39.248Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -144,25 +145,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "MainObject.cpp",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\MainObject.cpp",
               "RelativeDocumentMoniker": "GameSDL26_2\\MainObject.cpp",
               "ToolTip": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\MainObject.cpp",
               "RelativeToolTip": "GameSDL26_2\\MainObject.cpp",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAAALkBAAAAAAAA",
+              "ViewState": "AQIAACMDAAAAAAAAAAAAADIDAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-03-18T13:19:09.235Z"
+              "WhenOpened": "2024-03-18T13:19:09.235Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Main.cpp",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\Main.cpp",
               "RelativeDocumentMoniker": "GameSDL26_2\\Main.cpp",
               "ToolTip": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\Main.cpp",
               "RelativeToolTip": "GameSDL26_2\\Main.cpp",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAAABcAAAAcAAAA",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAAAMIAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-03-13T16:18:32.267Z",
               "EditorCaption": ""
@@ -181,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "game_map.h",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\game_map.h",
               "RelativeDocumentMoniker": "GameSDL26_2\\game_map.h",
@@ -205,7 +207,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "BulletObject.h",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\BulletObject.h",
               "RelativeDocumentMoniker": "GameSDL26_2\\BulletObject.h",
@@ -217,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "ImpTimer.cpp",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\ImpTimer.cpp",
               "RelativeDocumentMoniker": "GameSDL26_2\\ImpTimer.cpp",
@@ -229,7 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "ImpTimer.h",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\ImpTimer.h",
               "RelativeDocumentMoniker": "GameSDL26_2\\ImpTimer.h",
@@ -237,24 +239,24 @@
               "RelativeToolTip": "GameSDL26_2\\ImpTimer.h",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-02-28T13:58:38.648Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-28T13:58:38.648Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 6,
               "Title": "MainObject.h",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\MainObject.h",
               "RelativeDocumentMoniker": "GameSDL26_2\\MainObject.h",
               "ToolTip": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\MainObject.h",
               "RelativeToolTip": "GameSDL26_2\\MainObject.h",
-              "ViewState": "AQIAAD4AAAAAAAAAAAAuwFQAAAAAAAAA",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAADoAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-02-28T06:33:46.133Z"
+              "WhenOpened": "2024-02-28T06:33:46.133Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "BaseObject.cpp",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\BaseObject.cpp",
               "RelativeDocumentMoniker": "GameSDL26_2\\BaseObject.cpp",
@@ -266,19 +268,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "CommonFunc.h",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\CommonFunc.h",
               "RelativeDocumentMoniker": "GameSDL26_2\\CommonFunc.h",
               "ToolTip": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\CommonFunc.h",
               "RelativeToolTip": "GameSDL26_2\\CommonFunc.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACIAAAAtAAAA",
+              "ViewState": "AQIAAAUAAAAAAAAAAADgvx0AAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-02-26T18:23:21.111Z"
+              "WhenOpened": "2024-02-26T18:23:21.111Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "BaseObject.h",
               "DocumentMoniker": "D:\\GEOMETRY_DASH\\GEOMETRY_DASH\\GameSDL26_2\\BaseObject.h",
               "RelativeDocumentMoniker": "GameSDL26_2\\BaseObject.h",

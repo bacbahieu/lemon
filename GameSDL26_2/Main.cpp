@@ -1,4 +1,4 @@
-#include "CommonFunc.h"
+﻿#include "CommonFunc.h"
 #include "BaseObject.h"
 #include "game_map.h"
 #include "MainObject.h"
@@ -22,6 +22,7 @@ bool is_mouse_over_menu_2 = false;
 
 // pause game//
 bool is_game_paused = false;
+
 
 // Function to play background music
 void PlayBackgroundMusic(Mix_Music* bg_music) {
@@ -165,6 +166,7 @@ int main(int argc, char* argv[])
         return -1;
     }
    
+    
 
     // Load menu music
     menu_music = Mix_LoadMUS("img//menu_music.mp3");
@@ -249,6 +251,8 @@ int main(int argc, char* argv[])
                 g_background.Render_bg(g_screen, NULL, bg_x_pos + g_background.GetWidth(), bg_y_pos);
             }
 
+ 
+
             // Handle player actions
             Map map_data = game_map.getMap();
             p_player.HandleBullet(g_screen);
@@ -270,6 +274,30 @@ int main(int argc, char* argv[])
             p_player.Show(g_screen);
             game_map.SetMap(map_data);
             game_map.DrawMap(g_screen);
+
+            float percent_distance_ = (static_cast<float>(p_player.GetX()) / static_cast<float>(total_map_length)) * 100.0f;
+            
+            UpdatePercent(percent_distance_);
+
+            // ve khung thanh phan tram
+            SDL_Rect gray_frame;
+            gray_frame.x = 490;
+            gray_frame.y = 8;
+            gray_frame.w = 300;
+            gray_frame.h = 18;
+
+            SDL_SetRenderDrawColor(g_screen, 169, 169, 169, 255); // 
+            SDL_RenderFillRect(g_screen, &gray_frame);
+
+            // Ve thanh phan tram tang dan
+            SDL_Rect percent_bar;
+            percent_bar.x = 490;
+            percent_bar.y = 10;
+            percent_bar.w = static_cast<int>(percent_distance_ * 3);
+            percent_bar.h = 14;
+
+            SDL_SetRenderDrawColor(g_screen, 255, 165, 0, 255);  // Orange
+            SDL_RenderFillRect(g_screen, &percent_bar);
 
             RenderDeathCount(g_screen);
         }
@@ -295,7 +323,7 @@ int main(int argc, char* argv[])
                 SDL_Delay(delay_time);
             }
         }
-        Sleep(8);
+        Sleep(9);
     }
 
     // Clean up resources

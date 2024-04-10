@@ -1,4 +1,4 @@
-﻿// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html//
+﻿// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html //
 #include "MainObject.h"
 #include "LText.h"
 MainObject::MainObject()
@@ -779,6 +779,7 @@ void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 			if (roi_tudo)
 			{
 				LoadImg("img//lap_phuong.png", des);
+				// img//lap_phuong.png //
 
 			}
 			else {
@@ -811,4 +812,8 @@ int MainObject::GetRegimeType() const {
 	{
 		return NORMAL_MODE;
 	}
+}
+
+int MainObject::GetX() {
+	return (x_pos_ + 64 ) / 64;
 }

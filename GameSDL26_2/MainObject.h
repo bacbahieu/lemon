@@ -9,7 +9,7 @@
 
 
 #define GRAVITY_SPEED 0.8
-#define MAX_FALL_SPEED 18
+#define MAX_FALL_SPEED 20
 #define MAX_FALL_SPEED_FLAPPY 90
 #define PLAYER_SPEED 14
 #define PLAYER_JUMP_VAL 48;
@@ -56,6 +56,7 @@ public :
 	bool CheckPlayerStartPosition() {return is_player_at_start_position;}
 	int GetRegimeType() const;
 
+	int GetX();
 
 	void LoadExplosionImage(SDL_Renderer* screen) ;
 	void ShowExplosion(SDL_Renderer* des);
@@ -100,7 +101,11 @@ private:
 
 	double rotate_angle;// goc quay
 
-	Mix_Chunk* collision_sound = nullptr;
+	Mix_Chunk* collision_sound = nullptr; // music vu no
+
+
+
+
 };
 
 
