@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
 
     GameMap game_map;
 
-    char dat[] = "map/map01.dat";
+    char dat[] = "map_2/map02.dat";
     game_map.LoadMap(dat);
     game_map.LoadTiles(g_screen);
 
@@ -267,7 +267,7 @@ int main(int argc, char* argv[])
             }
             else
             {
-                p_player.LoadImg("img//lap_phuong.png", g_screen);
+                p_player.LoadImg("img//lap_phuong_3.png", g_screen);
             }
 
             // Render player and game map
@@ -323,7 +323,7 @@ int main(int argc, char* argv[])
                 SDL_Delay(delay_time);
             }
         }
-        Sleep(9);
+        Sleep(7);
     }
 
     // Clean up resources

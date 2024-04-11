@@ -9,9 +9,9 @@
 
 
 #define GRAVITY_SPEED 0.8
-#define MAX_FALL_SPEED 20
+#define MAX_FALL_SPEED 12
 #define MAX_FALL_SPEED_FLAPPY 90
-#define PLAYER_SPEED 14
+#define PLAYER_SPEED 16
 #define PLAYER_JUMP_VAL 48;
 #define FLAPPY_JUMP_VAL 64;
 
@@ -100,6 +100,7 @@ private:
 	bool is_player_at_start_position; // check vi tri ban dau
 
 	double rotate_angle;// goc quay
+	double rotate_angle_2;
 
 	Mix_Chunk* collision_sound = nullptr; // music vu no
 

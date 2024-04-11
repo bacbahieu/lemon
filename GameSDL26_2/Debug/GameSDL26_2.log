@@ -1,2 +1,11 @@
-﻿  LText.cpp
+﻿  Main.cpp
+D:\GEOMETRY_DASH\GEOMETRY_DASH\GameSDL26_2\CommonFunc.h(57,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+  (compiling source file 'Main.cpp')
+  
+D:\GEOMETRY_DASH\GEOMETRY_DASH\GameSDL26_2\CommonFunc.h(66,2): warning C4091: 'typedef ': ignored on left of 'Regime' when no variable is declared
+  (compiling source file 'Main.cpp')
+  
+D:\GEOMETRY_DASH\GEOMETRY_DASH\GameSDL26_2\CommonFunc.h(79,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+  (compiling source file 'Main.cpp')
+  
   GameSDL26_2.vcxproj -> D:\GEOMETRY_DASH\GEOMETRY_DASH\Debug\GameSDL26_2.exe

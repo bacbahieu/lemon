@@ -4,10 +4,10 @@
 MainObject::MainObject()
 {
 	frame_ = 0;
-	x_pos_ = 64; // 11776
-	y_pos_ = 960; // 192
+	x_pos_ = 32; // 11776
+	y_pos_ = 280; // 192
 
-	pre_y_pos_ = 960;
+	pre_y_pos_ = 480;
 	x_val_ = 0;
 	y_val_ = 0;
 	width_frame_ = 0;
@@ -23,7 +23,7 @@ MainObject::MainObject()
 	on_ground_ = false;
 	roi_tudo = false;
 	va_cham_no = false;
-
+	rotate_angle_2 = 0;
 	map_x_ = 0;
 	map_y_ = 0;
 
@@ -222,42 +222,51 @@ void MainObject::ShowExplosion(SDL_Renderer* des)
 void MainObject::Show(SDL_Renderer* des)
 {
 	UpdateImagePlayer(des);
+	
+		if (!on_ground_)
+		{
+			// Render the character with the current rotation angle
+			rect_.x = x_pos_ - map_x_;
+			rect_.y = y_pos_ - map_y_;
 
-	if (!on_ground_)
-	{
-		// Render the character with the current rotation angle
-		rect_.x = x_pos_ - map_x_;
-		rect_.y = y_pos_ - map_y_;
+			SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
 
-		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+			// Render the rotated image
+			SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
+			SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
+			SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
 
-		// Render the rotated image
-		SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
-		SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
-		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
-
-		// Increase the rotation angle gradually
-		const double ROTATION_SPEED = 14.0; // Rotation speed in degrees per frame
-		rotate_angle += ROTATION_SPEED;
-
-		// Ensure the angle does not exceed 360 degrees
-		if (rotate_angle >= 360)
+			// Increase the rotation angle gradually
+			const double ROTATION_SPEED = 14.0; // Rotation speed in degrees per frame
+			rotate_angle += ROTATION_SPEED;
+			if (regime_type_.NORMAL_ == 1) {
+				// Ensure the angle does not exceed 360 degrees
+				if (rotate_angle >= 360)
+					rotate_angle = 0;
+			}
+			else {
+				if (rotate_angle >= 80)
+					rotate_angle = 80;
+			}
+			
+			
+		}
+		else
+		{
+			// Reset rotation angle when jumping
 			rotate_angle = 0;
-	}
-	else
-	{
-		// Reset rotation angle when jumping
-		rotate_angle = 0;
 
-		// Render the character without rotation
-		rect_.x = x_pos_ - map_x_;
-		rect_.y = y_pos_ - map_y_;
+			// Render the character without rotation
+			rect_.x = x_pos_ - map_x_;
+			rect_.y = y_pos_ - map_y_;
 
-		SDL_Rect* current_clip = nullptr;
-		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+			SDL_Rect* current_clip = nullptr;
+			SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
 
-		SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
-	}
+			SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
+		}
+	
+
 }
 
 
@@ -402,10 +411,10 @@ void MainObject::DoPlayer(Map& map_data)
 					 y_val_ = -PLAYER_JUMP_VAL;
 					 
 				 }
-				 on_ground_ = false;
+				 
 				 input_type_.jump_ = 0;
 			 }
-			
+			 on_ground_ = false;
 			 
 		 }
 		 else
@@ -415,7 +424,7 @@ void MainObject::DoPlayer(Map& map_data)
 
 			 if (input_type_.jump_ == 1)
 			 {
-			     y_val_ = - 36;
+			     y_val_ = - 46;
 				 input_type_.jump_ = 0;
 			 }
 		 }
@@ -464,8 +473,8 @@ void MainObject::DoPlayer(Map& map_data)
 		if (come_back_time_ == 0)// Reset again
 		{
 			UpdateDeathCount();
-			x_pos_ = 64; // 64
-			y_pos_ = 960;
+			x_pos_ = 32; // 64
+			y_pos_ = 480;
 			x_val_ = 0;
 			y_val_ = 0;
 			
@@ -490,35 +499,6 @@ void MainObject::CenterEntityOnMap(Map& map_data)
 		map_data.start_x_ = map_data.max_x_ - SCREEN_WIDTH;
 	}
 
-
-	// map theo chieu doc
-
-	 
-
-		map_data.start_y_ = y_pos_ - (SCREEN_HEIGHT / 2);
-
-		if (map_data.start_y_ < 0)
-		{
-			map_data.start_y_ = 0;
-		}
-		else if (map_data.start_y_ + SCREEN_HEIGHT >= map_data.max_y_)
-		{
-			map_data.start_y_ = map_data.max_y_ - SCREEN_HEIGHT;
-		}
-		else if(previous_start_y + 128 > y_pos_)
-		{
-			map_data.start_y_ -= 64;
-		}
-		else if (previous_start_y + SCREEN_HEIGHT - y_pos_ - TILE_SIZE < 96 )
-		{
-			map_data.start_y_ += 64;
-		}
-		else {
-			map_data.start_y_ = previous_start_y;
-		}
-
-		previous_start_y = map_data.start_y_;
-	
 
 }
 
@@ -556,7 +536,7 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y2][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= 5 && val1 <= 10) || (val2 >= 5 && val2 <= 10))
+			else if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
 			{
 				;
 			}
@@ -591,11 +571,11 @@ void MainObject::CheckToMap(Map& map_data)
 	// Check threat
 
 
-	x1 = (x_pos_ + x_val_+32) / TILE_SIZE;
-	x2 = (x_pos_ + x_val_ + width_frame_ - 32) / TILE_SIZE;
+	x1 = (x_pos_ + x_val_+ TILE_SIZE/2) / TILE_SIZE;
+	x2 = (x_pos_ + x_val_ + width_frame_ - TILE_SIZE / 2) / TILE_SIZE;
 
 	y1 = (y_pos_) / TILE_SIZE;
-	y2 = (y_pos_ + height_min - 32) / TILE_SIZE;
+	y2 = (y_pos_ + height_min - TILE_SIZE / 2) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 <= MAX_MAP_Y)
 	{
@@ -605,7 +585,7 @@ void MainObject::CheckToMap(Map& map_data)
 			int val1 = map_data.tile[y1][x2];
 			int val2 = map_data.tile[y2][x2];
 
-			 if ((val1 >= 5 && val1 <= 10) || (val2 >= 5 && val2 <= 10))
+			if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
 			 {
 				 va_cham_no = true;
 				 come_back_time_++;
@@ -638,7 +618,7 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y2][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= 6 && val1 <= 10) || (val2 >= 6 && val2 <= 10))
+			else if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
 			{
 				;
 			}
@@ -679,7 +659,7 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y1][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= 6 && val1 <= 10) || (val2 >= 6 && val2 <= 10))
+			else if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
 			{
 				;
 			}
@@ -706,11 +686,11 @@ void MainObject::CheckToMap(Map& map_data)
 
 
 	// check threat 
-	x1 = (x_pos_+32) / TILE_SIZE;
+	x1 = (x_pos_+ TILE_SIZE/2) / TILE_SIZE;
 	x2 = (x_pos_ + width_min) / TILE_SIZE;
 
 	y1 = (y_pos_ + y_val_) / TILE_SIZE;
-	y2 = (y_pos_ + y_val_ + height_frame_ - 32) / TILE_SIZE;
+	y2 = (y_pos_ + y_val_ + height_frame_ - TILE_SIZE / 2) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
 	{
@@ -719,7 +699,7 @@ void MainObject::CheckToMap(Map& map_data)
 			int val1 = map_data.tile[y2][x1];
 			int val2 = map_data.tile[y2][x2];
 
-			if ((val1 >= 6 && val1 <= 10) || (val2 >= 6 && val2 <= 10))
+			if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
 			 {
 				va_cham_no = true;
 				come_back_time_++;
@@ -732,7 +712,7 @@ void MainObject::CheckToMap(Map& map_data)
 			int val1 = map_data.tile[y1][x1];
 			int val2 = map_data.tile[y1][x2];
 
-		 if ((val1 >= 6 && val1 <= 10) || (val2 >= 6 && val2 <= 10))
+			if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
 			{
 			 va_cham_no = true;
 			come_back_time_++;
@@ -778,20 +758,20 @@ void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 		{
 			if (roi_tudo)
 			{
-				LoadImg("img//lap_phuong.png", des);
+				LoadImg("img//lap_phuong_3.png", des);
 				// img//lap_phuong.png //
 
 			}
 			else {
 				if (on_ground_)
 				{
-					LoadImg("img//lap_phuong.png", des);
+					LoadImg("img//lap_phuong_3.png", des);
 
 				}
 				else
 				{
 					/*LoadImg("img//jump_frame_update.png", des);*/
-					LoadImg("img//lap_phuong.png", des);
+					LoadImg("img//lap_phuong_3.png", des);
 
 				}
 			}
@@ -815,5 +795,5 @@ int MainObject::GetRegimeType() const {
 }
 
 int MainObject::GetX() {
-	return (x_pos_ + 64 ) / 64;
+	return (x_pos_ + 32 ) / 32;
 }

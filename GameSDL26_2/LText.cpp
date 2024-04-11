@@ -10,7 +10,7 @@ SDL_Texture* death_count_texture = NULL;
 SDL_Texture* percent_texture = NULL;
 
 void InitDeathCounter(SDL_Renderer* renderer) {
-    font = TTF_OpenFont("font//Sunny Spells Basic.ttf", 60); 
+    font = TTF_OpenFont("font//Rinnero.ttf", 60); 
     if (font == NULL) {
         printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
     }
