@@ -14,6 +14,8 @@
 #define PLAYER_SPEED 16
 #define PLAYER_JUMP_VAL 48;
 #define FLAPPY_JUMP_VAL 64;
+#define JUMP_6_TILE 68;
+#define JUMP_4_TILE 48; 
 
 const int NUM_TILES_TO_MOVE = 6;
 
@@ -101,6 +103,9 @@ private:
 
 	double rotate_angle;// goc quay
 	double rotate_angle_2;
+
+	bool jump_6_tile_200_201;
+	bool jump_4_tile_202_203;
 
 	Mix_Chunk* collision_sound = nullptr; // music vu no
 

@@ -33,7 +33,8 @@ MainObject::MainObject()
 	come_back_time_ = 0;
 
 	is_player_at_start_position = false;
-
+	jump_6_tile_200_201 = false;
+	jump_4_tile_202_203 = false;
 	money_count = 0;
 
 	explosion_texture_ = nullptr;
@@ -294,7 +295,6 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 				}
 
 			}
-
 		}
 		 else if (events.type == SDL_MOUSEBUTTONDOWN)
 		{
@@ -414,8 +414,23 @@ void MainObject::DoPlayer(Map& map_data)
 				 
 				 input_type_.jump_ = 0;
 			 }
-			 on_ground_ = false;
 			 
+
+			 // cham_o_6_jump 
+			 if (jump_6_tile_200_201)
+			 {
+				 y_val_ = -JUMP_6_TILE;
+				 jump_6_tile_200_201 = false;
+			 }
+			
+			 // cham_o_4_jump
+			 if (jump_4_tile_202_203)
+			 {
+				 y_val_ = -JUMP_4_TILE;
+				 jump_4_tile_202_203 = false;
+			 }
+
+			 on_ground_ = false;
 		 }
 		 else
 		 {
@@ -540,6 +555,15 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				;
 			}
+			else if ((val1 == JUMP_4_TILE_L || val1 == JUMP_4_TILE_R) || (val2 == JUMP_4_TILE_L || val2 == JUMP_4_TILE_R))
+			{
+				jump_4_tile_202_203 = true;
+			}
+			else if ((val1 == JUMP_6_TILE_L || val1 == JUMP_6_TILE_R) || (val2 == JUMP_6_TILE_L || val2 == JUMP_6_TILE_R))
+			{
+				jump_6_tile_200_201 = true;
+			}
+			
 			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
 			{
 				regime_type_.FLAPPY_ = 1;
@@ -622,6 +646,15 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				;
 			}
+			else if ((val1 == JUMP_4_TILE_L || val1 == JUMP_4_TILE_R) || (val2 == JUMP_4_TILE_L || val2 == JUMP_4_TILE_R))
+			{
+				jump_4_tile_202_203 = true;
+			}
+
+			else if ((val1 == JUMP_6_TILE_L || val1 == JUMP_6_TILE_R) || (val2 == JUMP_6_TILE_L || val2 == JUMP_6_TILE_R))
+			{
+				jump_6_tile_200_201 = true;
+			}
 			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
 			{
 				regime_type_.FLAPPY_ = 1;
@@ -662,6 +695,15 @@ void MainObject::CheckToMap(Map& map_data)
 			else if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
 			{
 				;
+			}
+			else if ((val1 == JUMP_4_TILE_L || val1 == JUMP_4_TILE_R) || (val2 == JUMP_4_TILE_L || val2 == JUMP_4_TILE_R))
+			{
+				jump_4_tile_202_203 = true;
+			}
+
+			else if ((val1 == JUMP_6_TILE_L || val1 == JUMP_6_TILE_R) || (val2 == JUMP_6_TILE_L || val2 == JUMP_6_TILE_R))
+			{
+				jump_6_tile_200_201 = true;
 			}
 			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
 			{
