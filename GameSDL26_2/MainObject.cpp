@@ -1,6 +1,7 @@
 ﻿// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html //
 #include "MainObject.h"
 #include "LText.h"
+
 MainObject::MainObject()
 {
 	frame_ = 0;
@@ -19,6 +20,10 @@ MainObject::MainObject()
 
 	regime_type_.NORMAL_ = 1;
 	regime_type_.FLAPPY_ = 0;
+	regime_type_.ROUND_ = 0;
+
+	type_ROUND_up = true;
+	type_ROUND_down = false;
 
 	on_ground_ = false;
 	roi_tudo = false;
@@ -35,6 +40,11 @@ MainObject::MainObject()
 	is_player_at_start_position = false;
 	jump_6_tile_200_201 = false;
 	jump_4_tile_202_203 = false;
+	jump_or_up_220_228 = false;
+	jump_3_tile_204_205 = false;
+	jump_3_tile_up_206_207 = false;
+	space_jump_262_271 = false;
+
 	money_count = 0;
 
 	explosion_texture_ = nullptr;
@@ -223,7 +233,8 @@ void MainObject::ShowExplosion(SDL_Renderer* des)
 void MainObject::Show(SDL_Renderer* des)
 {
 	UpdateImagePlayer(des);
-	
+	if (regime_type_.NORMAL_)
+	{
 		if (!on_ground_)
 		{
 			// Render the character with the current rotation angle
@@ -240,17 +251,10 @@ void MainObject::Show(SDL_Renderer* des)
 			// Increase the rotation angle gradually
 			const double ROTATION_SPEED = 14.0; // Rotation speed in degrees per frame
 			rotate_angle += ROTATION_SPEED;
-			if (regime_type_.NORMAL_ == 1) {
-				// Ensure the angle does not exceed 360 degrees
-				if (rotate_angle >= 360)
-					rotate_angle = 0;
-			}
-			else {
-				if (rotate_angle >= 80)
-					rotate_angle = 80;
-			}
-			
-			
+			// Ensure the angle does not exceed 360 degrees
+			if (rotate_angle >= 360)
+				rotate_angle = 0;
+
 		}
 		else
 		{
@@ -266,6 +270,47 @@ void MainObject::Show(SDL_Renderer* des)
 
 			SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
 		}
+	}
+	else if (regime_type_.ROUND_)
+	{
+		// Render the character with the current rotation angle
+		rect_.x = x_pos_ - map_x_;
+		rect_.y = y_pos_ - map_y_;
+
+		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+
+		// Render the rotated image
+		SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
+		SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
+		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
+
+		// Increase the rotation angle gradually
+		const double ROTATION_SPEED = 14.0; // Rotation speed in degrees per frame
+		rotate_angle += ROTATION_SPEED;
+		// Ensure the angle does not exceed 360 degrees
+		if (rotate_angle >= 360)
+			rotate_angle = 0;
+	}
+	else if (regime_type_.FLAPPY_)
+	{
+		// Render the character with the current rotation angle
+		rect_.x = x_pos_ - map_x_;
+		rect_.y = y_pos_ - map_y_;	
+
+		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+
+		// Render the rotated image
+		SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
+		SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
+		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
+
+		// Increase the rotation angle gradually
+		const double ROTATION_SPEED = 14.0; // Rotation speed in degrees per frame
+		rotate_angle += ROTATION_SPEED;
+		// Ensure the angle does not exceed 360 degrees
+		if (rotate_angle >= 360)
+			rotate_angle = 0;
+	}
 	
 
 }
@@ -276,15 +321,12 @@ void MainObject::Show(SDL_Renderer* des)
 
 void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 {
-
+	status_ = WALK_RIGHT;
+	input_type_.right_ = 1;
+	UpdateImagePlayer(screen);
 
 	if (regime_type_.NORMAL_ == 1) {
 		
-		status_ = WALK_RIGHT;
-		input_type_.right_ = 1;
-		UpdateImagePlayer(screen);
-
-
 		if (events.type == SDL_KEYDOWN)
 		{
 			if (events.key.keysym.sym == SDLK_UP || events.key.keysym.sym == SDLK_SPACE)
@@ -293,10 +335,14 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 				{
 					input_type_.jump_ = 1;
 				}
+				else
+				{
+					jump_or_up_220_228 = true;
+				}
 
 			}
 		}
-		 else if (events.type == SDL_MOUSEBUTTONDOWN)
+		else if (events.type == SDL_MOUSEBUTTONDOWN)
 		{
 			if (events.button.button == SDL_BUTTON_LEFT)
 			{
@@ -305,10 +351,40 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 				{
 					input_type_.jump_ = 1;
 				}
+				else
+				{
+					jump_or_up_220_228 = true;
+				}
 			}
 		}
 		
 	}
+	else if (regime_type_.ROUND_ == 1)
+	{
+
+		if (events.type == SDL_KEYDOWN)
+		{
+			if (events.key.keysym.sym == SDLK_UP || events.key.keysym.sym == SDLK_SPACE)
+			{
+				
+				input_type_.jump_ = 1;
+				
+			
+
+			}
+		}
+		else if (events.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (events.button.button == SDL_BUTTON_LEFT)
+			{
+
+				input_type_.jump_ = 1;
+			
+			}
+		}
+	}
+
+
 	else
 	{
 		
@@ -395,12 +471,16 @@ void MainObject::DoPlayer(Map& map_data)
 		is_player_at_start_position = false;
 		x_val_ = 0;
 
-		 if (input_type_.right_ == 1)
-		{
-			x_val_ += PLAYER_SPEED;
-		}
+		int dem = 0;
+		 
 		
 		 if (regime_type_.NORMAL_ == 1) {
+
+			 if (input_type_.right_ == 1)
+			 {
+				 x_val_ += PLAYER_SPEED;
+			 }
+
 			 y_val_ += 8;
 			 if (y_val_ >= MAX_FALL_SPEED) y_val_ = MAX_FALL_SPEED;
 			 
@@ -428,23 +508,76 @@ void MainObject::DoPlayer(Map& map_data)
 			 {
 				 y_val_ = -JUMP_4_TILE;
 				 jump_4_tile_202_203 = false;
+				 jump_or_up_220_228 = false;
 			 }
+
+			 // cham_o_3_jump
+			 if (jump_3_tile_204_205)
+			 {
+				 y_val_ = -JUMP_3_TILE;
+				 jump_3_tile_204_205 = false;
+			 }
+			 
+			 if (jump_3_tile_up_206_207)
+			 {
+				 y_val_ = JUMP_3_TILE;
+				 jump_3_tile_up_206_207 = false;
+			 }
+			 
+			 // cong konh gian bay len
+			 if (space_jump_262_271)
+			 {
+				 y_val_ = -JUMP_SPACE;
+				 space_jump_262_271 = false;
+			 }
+		
 
 			 on_ground_ = false;
 		 }
-		 else
-		 {
-			 y_val_ += 6;
-			 if (y_val_ >= MAX_FALL_SPEED_FLAPPY) { y_val_ = MAX_FALL_SPEED_FLAPPY; }
+		 
 
+		 else if (regime_type_.ROUND_ == 1)
+		 {
+
+			 if (input_type_.right_ == 1)
+			 {
+				 x_val_ += ROUND_SPEED;
+			 }
 			 if (input_type_.jump_ == 1)
 			 {
-			     y_val_ = - 46;
+				 
+				 if (type_ROUND_up)
+				 {
+						 y_val_ = -ROUND_JUMP_VAL;
+						 type_ROUND_up = false;
+						 type_ROUND_down = true; 
+				 }
+				 else if (type_ROUND_down)
+				 {
+						 y_val_ = +ROUND_JUMP_VAL;
+						 type_ROUND_up = true;
+						 type_ROUND_down = false;
+						 
+				 }
+
 				 input_type_.jump_ = 0;
+				 on_ground_ = false;
+				 std::cout << y_val_ << "\n";
 			 }
+
 		 }
 
-		 currentTileX += y_val_;
+		 else if (regime_type_.FLAPPY_ == 1)
+		 {
+			 if (input_type_.right_ == 1)
+			 {
+				 x_val_ += ROUND_SPEED;
+			 }
+		 }
+		 
+
+
+		currentTileX += y_val_;
 
 
 		CheckToMap(map_data);
@@ -492,7 +625,11 @@ void MainObject::DoPlayer(Map& map_data)
 			y_pos_ = 480;
 			x_val_ = 0;
 			y_val_ = 0;
-			
+
+			type_ROUND_up = true;
+			type_ROUND_down = false;
+
+			regime_type_.ROUND_ = 0;
 			regime_type_.FLAPPY_ = 0;
 			regime_type_.NORMAL_ = 1;
 		}
@@ -532,7 +669,7 @@ void MainObject::CheckToMap(Map& map_data)
 
 
 	x1 = (x_pos_ + x_val_) / TILE_SIZE;
-	x2 = (x_pos_ + x_val_ + width_frame_ - 0.01) / TILE_SIZE;
+	x2 = (x_pos_ + x_val_ + 56 - 0.01) / TILE_SIZE;
 
 	y1 = (y_pos_) / TILE_SIZE;
 	y2 = (y_pos_ + height_min - 0.01) / TILE_SIZE;
@@ -551,9 +688,22 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y2][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
+			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
 			{
 				;
+			}
+			else if ((val1 >= JUMP_OR_UP_MIN && val1 <= JUMP_OR_UP_MAX) || (val2 >= JUMP_OR_UP_MIN && val2 <= JUMP_OR_UP_MAX))
+			{
+				if (jump_or_up_220_228) {
+					jump_4_tile_202_203 = true;
+				}
+			}
+			else if ((val1 >= SPACE_JUMP_MIN && val1 <= SPACE_JUMP_MAX) || (val2 >= SPACE_JUMP_MIN && val2 <= SPACE_JUMP_MAX))
+			{
+				if ((val1 >= 268 && val1 <= 270) || (val2 >= 268 && val2 <= 270))
+				{
+					space_jump_262_271 = true;
+				}
 			}
 			else if ((val1 == JUMP_4_TILE_L || val1 == JUMP_4_TILE_R) || (val2 == JUMP_4_TILE_L || val2 == JUMP_4_TILE_R))
 			{
@@ -563,7 +713,32 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				jump_6_tile_200_201 = true;
 			}
-			
+			else if ((val1 == JUMP_3_TILE_L || val1 == JUMP_3_TILE_R) || (val2 == JUMP_3_TILE_L || val2 == JUMP_3_TILE_R))
+			{
+				jump_3_tile_204_205 = true;
+			}
+			else if ((val1 == JUMP_3_TILE_UP_L || val1 == JUMP_3_TILE_UP_R) || (val2 == JUMP_3_TILE_UP_L || val2 == JUMP_3_TILE_UP_R))
+			{
+				jump_3_tile_up_206_207 = true;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val1 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val2 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX))
+			{
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 1;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROUND_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROUND_MAX))
+			{
+				regime_type_.ROUND_ = 1;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 0;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val1 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val2 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX))
+			{
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 1;
+				regime_type_.NORMAL_ = 0;
+			}
 			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
 			{
 				regime_type_.FLAPPY_ = 1;
@@ -609,7 +784,7 @@ void MainObject::CheckToMap(Map& map_data)
 			int val1 = map_data.tile[y1][x2];
 			int val2 = map_data.tile[y2][x2];
 
-			if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
+			if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
 			 {
 				 va_cham_no = true;
 				 come_back_time_++;
@@ -626,8 +801,9 @@ void MainObject::CheckToMap(Map& map_data)
 	x1 = (x_pos_) / TILE_SIZE;
 	x2 = (x_pos_ + width_min) / TILE_SIZE;
 
-	y1 = (y_pos_ + y_val_) / TILE_SIZE;
-	y2 = (y_pos_ + y_val_ + height_frame_ - 0.01) / TILE_SIZE;
+	y1 = (y_pos_ + y_val_ + 0.01) / TILE_SIZE;
+	y2 = (y_pos_ + y_val_ + 56 - 0.01) / TILE_SIZE;
+	
 
 	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
 	{
@@ -642,9 +818,22 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y2][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
+			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
 			{
 				;
+			}
+			else if ((val1 >= JUMP_OR_UP_MIN && val1 <= JUMP_OR_UP_MAX) || (val2 >= JUMP_OR_UP_MIN && val2 <= JUMP_OR_UP_MAX))
+			{
+				if (jump_or_up_220_228) {
+					jump_4_tile_202_203 = true;
+				}
+			}
+			else if ((val1 >= SPACE_JUMP_MIN && val1 <= SPACE_JUMP_MAX) || (val2 >= SPACE_JUMP_MIN && val2 <= SPACE_JUMP_MAX))
+			{
+				if ((val1 >= 268 && val1 <= 270) || (val2 >= 268 && val2 <= 270))
+				{
+					space_jump_262_271 = true;
+				}
 			}
 			else if ((val1 == JUMP_4_TILE_L || val1 == JUMP_4_TILE_R) || (val2 == JUMP_4_TILE_L || val2 == JUMP_4_TILE_R))
 			{
@@ -654,6 +843,33 @@ void MainObject::CheckToMap(Map& map_data)
 			else if ((val1 == JUMP_6_TILE_L || val1 == JUMP_6_TILE_R) || (val2 == JUMP_6_TILE_L || val2 == JUMP_6_TILE_R))
 			{
 				jump_6_tile_200_201 = true;
+			}
+			else if ((val1 == JUMP_3_TILE_L || val1 == JUMP_3_TILE_R) || (val2 == JUMP_3_TILE_L || val2 == JUMP_3_TILE_R))
+			{
+				jump_3_tile_204_205 = true;
+			}
+			else if ((val1 == JUMP_3_TILE_UP_L || val1 == JUMP_3_TILE_UP_R) || (val2 == JUMP_3_TILE_UP_L || val2 == JUMP_3_TILE_UP_R))
+			{
+				jump_3_tile_up_206_207 = true;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val1 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val2 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX))
+			{
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 1;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROUND_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROUND_MAX))
+			{
+				regime_type_.ROUND_ = 1;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 0;
+
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val1 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val2 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX))
+			{
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 1;
+				regime_type_.NORMAL_ = 0;
 			}
 			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
 			{
@@ -692,9 +908,22 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y1][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
+			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
 			{
 				;
+			}
+			else if ((val1 >= JUMP_OR_UP_MIN && val1 <= JUMP_OR_UP_MAX) || (val2 >= JUMP_OR_UP_MIN && val2 <= JUMP_OR_UP_MAX))
+			{
+				if (jump_or_up_220_228) {
+					jump_4_tile_202_203 = true;
+				}
+			}
+			else if ((val1 >= SPACE_JUMP_MIN && val1 <= SPACE_JUMP_MAX) || (val2 >= SPACE_JUMP_MIN && val2 <= SPACE_JUMP_MAX))
+			{
+				if ((val1 >= 268 && val1 <= 270) || (val2 >= 268 && val2 <= 270))
+				{
+					space_jump_262_271 = true;
+				}
 			}
 			else if ((val1 == JUMP_4_TILE_L || val1 == JUMP_4_TILE_R) || (val2 == JUMP_4_TILE_L || val2 == JUMP_4_TILE_R))
 			{
@@ -704,6 +933,32 @@ void MainObject::CheckToMap(Map& map_data)
 			else if ((val1 == JUMP_6_TILE_L || val1 == JUMP_6_TILE_R) || (val2 == JUMP_6_TILE_L || val2 == JUMP_6_TILE_R))
 			{
 				jump_6_tile_200_201 = true;
+			}
+			else if ((val1 == JUMP_3_TILE_L || val1 == JUMP_3_TILE_R) || (val2 == JUMP_3_TILE_L || val2 == JUMP_3_TILE_R))
+			{
+				jump_3_tile_204_205 = true;
+			}
+			else if ((val1 == JUMP_3_TILE_UP_L || val1 == JUMP_3_TILE_UP_R) || (val2 == JUMP_3_TILE_UP_L || val2 == JUMP_3_TILE_UP_R))
+			{
+				jump_3_tile_up_206_207 = true;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val1 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val2 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX))
+			{
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 1;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROUND_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROUND_MAX))
+			{
+				regime_type_.ROUND_ = 1;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 0;
+			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val1 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val2 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX))
+			{
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 1;
+				regime_type_.NORMAL_ = 0;
 			}
 			else if (val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_UP || val1 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN || val2 == SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN)
 			{
@@ -719,49 +974,52 @@ void MainObject::CheckToMap(Map& map_data)
 
 				if (val1 != BLANK_TILE  || val2 != BLANK_TILE)
 				{
-					y_pos_ = (y1 + 0.01) * TILE_SIZE;
+					y_pos_ = 64;
 					y_val_ = 0;
 				}
 			}
 		}
 	}
 
+	
+		// check threat 
+		x1 = (x_pos_ + TILE_SIZE / 2) / TILE_SIZE;
+		x2 = (x_pos_ + width_min) / TILE_SIZE;
 
-	// check threat 
-	x1 = (x_pos_+ TILE_SIZE/2) / TILE_SIZE;
-	x2 = (x_pos_ + width_min) / TILE_SIZE;
+		y1 = (y_pos_ + y_val_) / TILE_SIZE;
+		y2 = (y_pos_ + y_val_ + height_frame_ - TILE_SIZE / 2) / TILE_SIZE;
 
-	y1 = (y_pos_ + y_val_) / TILE_SIZE;
-	y2 = (y_pos_ + y_val_ + height_frame_ - TILE_SIZE / 2) / TILE_SIZE;
-
-	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
-	{
-		if (y_val_ > 0)
+		if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
 		{
-			int val1 = map_data.tile[y2][x1];
-			int val2 = map_data.tile[y2][x2];
-
-			if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
-			 {
-				va_cham_no = true;
-				come_back_time_++;
-			 }
-			
-		}
-
-		else if (y_val_ < 0)
-		{
-			int val1 = map_data.tile[y1][x1];
-			int val2 = map_data.tile[y1][x2];
-
-			if ((val1 >= 50 && val1 <= 90) || (val2 >= 50 && val2 <= 90))
+			if (y_val_ > 0)
 			{
-			 va_cham_no = true;
-			come_back_time_++;
+				int val1 = map_data.tile[y2][x1];
+				int val2 = map_data.tile[y2][x2];
+
+				if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+				{
+					va_cham_no = true;
+					come_back_time_++;
+				}
+
 			}
 
+			else if (y_val_ < 0)
+			{
+				int val1 = map_data.tile[y1][x1];
+				int val2 = map_data.tile[y1][x2];
+
+				if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+				{
+					va_cham_no = true;
+					come_back_time_++;
+				}
+
+			}
 		}
-	}
+	
+
+	
 
 
 	x_pos_ += x_val_;
@@ -786,6 +1044,7 @@ void MainObject::CheckToMap(Map& map_data)
 		y_pos_ = map_data.max_y_ - height_frame_ - 1;
 	}
 
+	std::cout << y_pos_ << "\n";
 }
 
 void MainObject::IncreaseMoney()
@@ -798,30 +1057,15 @@ void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 {
 		if (regime_type_.NORMAL_ == 1)
 		{
-			if (roi_tudo)
-			{
-				LoadImg("img//lap_phuong_3.png", des);
-				// img//lap_phuong.png //
-
-			}
-			else {
-				if (on_ground_)
-				{
-					LoadImg("img//lap_phuong_3.png", des);
-
-				}
-				else
-				{
-					/*LoadImg("img//jump_frame_update.png", des);*/
-					LoadImg("img//lap_phuong_3.png", des);
-
-				}
-			}
-
+			LoadImg("img//lap_phuong_3.png", des);
+		}
+		else if (regime_type_.ROUND_ == 1)
+		{
+			LoadImg("img//khoi_tron_quay.png", des);
 		}
 		else if(regime_type_.FLAPPY_ == 1)
 		{
-			LoadImg("img//du_thuyen.png", des);
+			LoadImg("img//flappy_player.png", des);
 		}
 }
 

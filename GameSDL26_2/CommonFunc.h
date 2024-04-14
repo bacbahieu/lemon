@@ -31,21 +31,44 @@ const int RENDER_DRAW_COLOW = 0xff;
 const int START_BUTTON_X = SCREEN_WIDTH / 2;
 const int START_BUTTON_Y = SCREEN_HEIGHT / 2;
 
-const int total_map_length = 400;
+const int total_map_length = 1600;
 
-#define SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN 250
-#define SPACE_PORTAL_NORMAL_TO_FLAPPY_UP 251
-#define SPACE_PORTAL_FLAPPY_TO_NORMAL_UP 252
-#define SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN 253
+#define SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN 500
+#define SPACE_PORTAL_NORMAL_TO_FLAPPY_UP 499
+#define SPACE_PORTAL_FLAPPY_TO_NORMAL_UP 498
+#define SPACE_PORTAL_FLAPPY_TO_NORMAL_DOWN 497
+
+#define SPACE_PORTAL_ALL_TO_ROUND_MIN 230
+#define SPACE_PORTAL_ALL_TO_ROUND_MAX 241
+
+#define SPACE_PORTAL_ALL_TO_NORMAL_MIN 250
+#define SPACE_PORTAL_ALL_TO_NORMAL_MAX 261
+
+#define SPACE_PORTAL_ALL_TO_FLAPPY_MIN 272
+#define SPACE_PORTAL_ALL_TO_FLAPPY_MAX 283
+
+
+#define THREAT_TILE_MIN 100
+#define THREAT_TILE_MAX 199
+
 #define JUMP_6_TILE_L 200
 #define JUMP_6_TILE_R 201
 #define JUMP_4_TILE_L 202
 #define JUMP_4_TILE_R 203
+#define JUMP_3_TILE_L 204
+#define JUMP_3_TILE_R 205
+#define JUMP_3_TILE_UP_L 206
+#define JUMP_3_TILE_UP_R 207
+#define SPACE_JUMP_MIN 262
+#define SPACE_JUMP_MAX 271
+
+#define JUMP_OR_UP_MIN 220
+#define JUMP_OR_UP_MAX 228
 
 #define BLANK_TILE 0
 #define TILE_SIZE  32
 
-#define MAX_MAP_X  400
+#define MAX_MAP_X  1600
 #define MAX_MAP_Y  20
 
 #define STATE_MONEY 240
@@ -60,6 +83,7 @@ typedef struct Input
 
 };
 
+const int ROUND_MODE = 2;
 const int FLAPPY_MODE = 1;
 const int NORMAL_MODE = 0;
 
@@ -67,6 +91,7 @@ typedef struct Regime
 {
 	int NORMAL_;
 	int FLAPPY_;
+	int ROUND_;
 };
 
 typedef struct Map

@@ -12,10 +12,15 @@
 #define MAX_FALL_SPEED 12
 #define MAX_FALL_SPEED_FLAPPY 90
 #define PLAYER_SPEED 16
+#define ROUND_SPEED 20
 #define PLAYER_JUMP_VAL 48;
 #define FLAPPY_JUMP_VAL 64;
+#define ROUND_JUMP_VAL 32;
 #define JUMP_6_TILE 68;
 #define JUMP_4_TILE 48; 
+#define JUMP_3_TILE 36;
+#define JUMP_SPACE 76;
+
 
 const int NUM_TILES_TO_MOVE = 6;
 
@@ -106,6 +111,13 @@ private:
 
 	bool jump_6_tile_200_201;
 	bool jump_4_tile_202_203;
+	bool jump_or_up_220_228;
+	bool jump_3_tile_204_205;
+	bool jump_3_tile_up_206_207;
+	bool space_jump_262_271;
+
+	bool type_ROUND_up;
+	bool type_ROUND_down;
 
 	Mix_Chunk* collision_sound = nullptr; // music vu no
 

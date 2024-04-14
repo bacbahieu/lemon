@@ -97,7 +97,7 @@ bool InitData(Mix_Music*& bg_music) // Modify to accept reference to bg_music
     }
 
     // Load background music
-    bg_music = Mix_LoadMUS("img//BACK_ON_TRACK.mp3");
+    bg_music = Mix_LoadMUS("img//PRESS_START.mp3");
     if (!bg_music) {
         printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
         success = false;
@@ -265,9 +265,13 @@ int main(int argc, char* argv[])
             {
                 p_player.LoadImg("img//du_thuyen.png", g_screen);
             }
-            else
+            else if(p_player.GetRegimeType() == NORMAL_MODE)
             {
                 p_player.LoadImg("img//lap_phuong_3.png", g_screen);
+            }
+            else if (p_player.GetRegimeType() == ROUND_MODE)
+            {
+                p_player.LoadImg("img//khoi_tron_quay.png", g_screen);
             }
 
             // Render player and game map
@@ -323,7 +327,7 @@ int main(int argc, char* argv[])
                 SDL_Delay(delay_time);
             }
         }
-        Sleep(7);
+        Sleep(5);
     }
 
     // Clean up resources

@@ -10,7 +10,7 @@ SDL_Texture* death_count_texture = NULL;
 SDL_Texture* percent_texture = NULL;
 
 void InitDeathCounter(SDL_Renderer* renderer) {
-    font = TTF_OpenFont("font//Rinnero.ttf", 60); 
+    font = TTF_OpenFont("font//Rinnero.ttf", 60);
     if (font == NULL) {
         printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
     }
@@ -50,7 +50,7 @@ void RenderDeathCount(SDL_Renderer* renderer) {
     }
 
     // Render %
-    SDL_Surface* percent_text_surface = TTF_RenderText_Solid(font_2, ( std::to_string(static_cast<int>(percent_distance)) + "%").c_str(), text_color);
+    SDL_Surface* percent_text_surface = TTF_RenderText_Solid(font_2, (std::to_string(static_cast<int>(percent_distance)) + "%").c_str(), text_color);
     if (percent_text_surface == NULL) {
         printf("Unable to render percent text surface! SDL_ttf Error: %s\n", TTF_GetError());
     }
