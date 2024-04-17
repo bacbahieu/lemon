@@ -263,7 +263,7 @@ int main(int argc, char* argv[])
             // Load player image based on regime type
             if (p_player.GetRegimeType() == FLAPPY_MODE)
             {
-                p_player.LoadImg("img//du_thuyen.png", g_screen);
+                p_player.LoadImg("img//flappy_player.png", g_screen);
             }
             else if(p_player.GetRegimeType() == NORMAL_MODE)
             {
@@ -272,6 +272,10 @@ int main(int argc, char* argv[])
             else if (p_player.GetRegimeType() == ROUND_MODE)
             {
                 p_player.LoadImg("img//khoi_tron_quay.png", g_screen);
+            }
+            else if (p_player.GetRegimeType() == ROCKET_MODE)
+            {
+                p_player.LoadImg("img//rocket_player.png", g_screen);
             }
 
             // Render player and game map

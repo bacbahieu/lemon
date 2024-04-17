@@ -47,6 +47,9 @@ const int total_map_length = 1600;
 #define SPACE_PORTAL_ALL_TO_FLAPPY_MIN 272
 #define SPACE_PORTAL_ALL_TO_FLAPPY_MAX 283
 
+#define SPACE_PORTAL_ALL_TO_ROCKET_MIN 284
+#define SPACE_PORTAL_ALL_TO_ROCKET_MAX 295
+
 
 #define THREAT_TILE_MIN 100
 #define THREAT_TILE_MAX 199
@@ -83,6 +86,7 @@ typedef struct Input
 
 };
 
+const int ROCKET_MODE = 3;
 const int ROUND_MODE = 2;
 const int FLAPPY_MODE = 1;
 const int NORMAL_MODE = 0;
@@ -92,6 +96,7 @@ typedef struct Regime
 	int NORMAL_;
 	int FLAPPY_;
 	int ROUND_;
+	int ROCKET_;
 };
 
 typedef struct Map

@@ -119,6 +119,14 @@ private:
 	bool type_ROUND_up;
 	bool type_ROUND_down;
 
+	bool type_FLAPPY_up;
+	bool type_FLAPPY_down;
+
+	bool type_ROCKET_up;
+	bool type_ROCKET_down;
+
+	int dem;
+
 	Mix_Chunk* collision_sound = nullptr; // music vu no
 
 

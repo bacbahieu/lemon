@@ -21,9 +21,16 @@ MainObject::MainObject()
 	regime_type_.NORMAL_ = 1;
 	regime_type_.FLAPPY_ = 0;
 	regime_type_.ROUND_ = 0;
+	regime_type_.ROCKET_ = 0;
 
 	type_ROUND_up = true;
 	type_ROUND_down = false;
+
+	type_FLAPPY_down = true;
+	type_FLAPPY_up = false;
+
+	type_ROCKET_up = true;
+	type_ROCKET_down = false;
 
 	on_ground_ = false;
 	roi_tudo = false;
@@ -48,6 +55,9 @@ MainObject::MainObject()
 	money_count = 0;
 
 	explosion_texture_ = nullptr;
+
+
+	dem = 0;
 }
 
 MainObject::~MainObject()
@@ -297,21 +307,44 @@ void MainObject::Show(SDL_Renderer* des)
 		rect_.x = x_pos_ - map_x_;
 		rect_.y = y_pos_ - map_y_;	
 
+		// Reset rotation angle when jumping
+		rotate_angle = 0;
+
+		// Render the character without rotation
+		rect_.x = x_pos_ - map_x_;
+		rect_.y = y_pos_ - map_y_;
+
+		SDL_Rect* current_clip = nullptr;
+		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+
+		SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
+
+		
+	}
+	else if (regime_type_.ROCKET_)
+	{
+		// Render the character with the current rotation angle
+		rect_.x = x_pos_ - map_x_;
+		rect_.y = y_pos_ - map_y_;
+
 		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
 
 		// Render the rotated image
 		SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
 		SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
-		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
 
-		// Increase the rotation angle gradually
-		const double ROTATION_SPEED = 14.0; // Rotation speed in degrees per frame
-		rotate_angle += ROTATION_SPEED;
-		// Ensure the angle does not exceed 360 degrees
-		if (rotate_angle >= 360)
-			rotate_angle = 0;
+		if (type_ROCKET_down)
+		{
+			rotate_angle = 45;
+		}
+		else if (type_ROCKET_up)
+		{
+			rotate_angle = 315;
+		}
+
+		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
+		
 	}
-	
 
 }
 
@@ -385,18 +418,14 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 	}
 
 
-	else
+	else if(regime_type_.FLAPPY_ == 1)
 	{
 		
 		if (events.type == SDL_KEYDOWN)
 		{
 			if (events.key.keysym.sym == SDLK_UP)
-			{
-				if (on_ground_)
-				{
-					input_type_.jump_ = 1;
-				}
-
+			{	
+					input_type_.jump_ = 1;		
 			}
 
 		}
@@ -418,8 +447,29 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 		}
 	}
 
+	else if (regime_type_.ROCKET_ == 1)
+	{
 
+		if (events.type == SDL_KEYDOWN)
+		{
+			if (events.key.keysym.sym == SDLK_UP)
+			{
+				if (type_ROCKET_up)
+				{
+					type_ROCKET_up = false;
+					type_ROCKET_down = true;
+				}
+				else
+				{
+					type_ROCKET_up = true;
+					type_ROCKET_down = false;
 
+				}
+			}
+		}
+
+	}
+		
 }
 
 void MainObject::HandleBullet(SDL_Renderer* des)
@@ -573,6 +623,37 @@ void MainObject::DoPlayer(Map& map_data)
 			 {
 				 x_val_ += ROUND_SPEED;
 			 }
+
+			 y_val_ = 8;
+			 if (input_type_.jump_ == 1)
+			 {
+				 y_val_ = -32;
+				 input_type_.jump_ = 0;
+			 }
+
+		 }
+
+		 else if (regime_type_.ROCKET_ == 1)
+		 {
+			 input_type_.jump_ = 1;
+			 x_val_ = 20;
+			
+				 if (type_ROCKET_up)
+				 {
+					 y_val_ = -20;
+				 }
+
+				 else
+				 {
+					 y_val_ = 20;
+				 }
+
+			if (y_pos_ <= 32 || y_pos_ >= 608)
+				 {
+					 come_back_time_++;
+			     }
+			 
+			 
 		 }
 		 
 
@@ -629,6 +710,7 @@ void MainObject::DoPlayer(Map& map_data)
 			type_ROUND_up = true;
 			type_ROUND_down = false;
 
+			regime_type_.ROCKET_ = 0;
 			regime_type_.ROUND_ = 0;
 			regime_type_.FLAPPY_ = 0;
 			regime_type_.NORMAL_ = 1;
@@ -721,20 +803,33 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				jump_3_tile_up_206_207 = true;
 			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX))
+			{
+				regime_type_.ROCKET_ = 1;
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 0;
+
+			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val1 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val2 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX))
 			{
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 0;
 				regime_type_.FLAPPY_ = 0;
 				regime_type_.NORMAL_ = 1;
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROUND_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROUND_MAX))
 			{
+
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 1;
 				regime_type_.FLAPPY_ = 0;
 				regime_type_.NORMAL_ = 0;
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val1 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val2 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX))
 			{
+				
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 0;
 				regime_type_.FLAPPY_ = 1;
 				regime_type_.NORMAL_ = 0;
@@ -852,14 +947,24 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				jump_3_tile_up_206_207 = true;
 			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX))
+			{
+				regime_type_.ROCKET_ = 1;
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 0;
+
+			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val1 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val2 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX))
 			{
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 0;
 				regime_type_.FLAPPY_ = 0;
 				regime_type_.NORMAL_ = 1;
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROUND_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROUND_MAX))
 			{
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 1;
 				regime_type_.FLAPPY_ = 0;
 				regime_type_.NORMAL_ = 0;
@@ -867,6 +972,7 @@ void MainObject::CheckToMap(Map& map_data)
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val1 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val2 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX))
 			{
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 0;
 				regime_type_.FLAPPY_ = 1;
 				regime_type_.NORMAL_ = 0;
@@ -942,20 +1048,32 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				jump_3_tile_up_206_207 = true;
 			}
+			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX))
+			{
+				regime_type_.ROCKET_ = 1;
+				regime_type_.ROUND_ = 0;
+				regime_type_.FLAPPY_ = 0;
+				regime_type_.NORMAL_ = 0;
+
+			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val1 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_NORMAL_MIN && val2 <= SPACE_PORTAL_ALL_TO_NORMAL_MAX))
 			{
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 0;
 				regime_type_.FLAPPY_ = 0;
 				regime_type_.NORMAL_ = 1;
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROUND_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROUND_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROUND_MAX))
 			{
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 1;
 				regime_type_.FLAPPY_ = 0;
 				regime_type_.NORMAL_ = 0;
+
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val1 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_FLAPPY_MIN && val2 <= SPACE_PORTAL_ALL_TO_FLAPPY_MAX))
 			{
+				regime_type_.ROCKET_ = 0;
 				regime_type_.ROUND_ = 0;
 				regime_type_.FLAPPY_ = 1;
 				regime_type_.NORMAL_ = 0;
@@ -1066,6 +1184,10 @@ void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 		else if(regime_type_.FLAPPY_ == 1)
 		{
 			LoadImg("img//flappy_player.png", des);
+		}
+		else if (regime_type_.ROCKET_ == 1)
+		{
+			LoadImg("img//rocket_player.png", des);
 		}
 }
 
