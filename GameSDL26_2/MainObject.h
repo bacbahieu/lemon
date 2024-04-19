@@ -65,6 +65,8 @@ public :
 
 	int GetX();
 
+	float Get_x_pos_player() { return x_pos_; }
+
 	void LoadExplosionImage(SDL_Renderer* screen) ;
 	void ShowExplosion(SDL_Renderer* des);
 
@@ -108,6 +110,7 @@ private:
 
 	double rotate_angle;// goc quay
 	double rotate_angle_2;
+	double rotate_angle_fappy;
 
 	bool jump_6_tile_200_201;
 	bool jump_4_tile_202_203;

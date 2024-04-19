@@ -36,6 +36,7 @@ MainObject::MainObject()
 	roi_tudo = false;
 	va_cham_no = false;
 	rotate_angle_2 = 0;
+	rotate_angle_fappy = 0;
 	map_x_ = 0;
 	map_y_ = 0;
 
@@ -303,21 +304,47 @@ void MainObject::Show(SDL_Renderer* des)
 	}
 	else if (regime_type_.FLAPPY_)
 	{
+
 		// Render the character with the current rotation angle
-		rect_.x = x_pos_ - map_x_;
-		rect_.y = y_pos_ - map_y_;	
-
-		// Reset rotation angle when jumping
-		rotate_angle = 0;
-
-		// Render the character without rotation
 		rect_.x = x_pos_ - map_x_;
 		rect_.y = y_pos_ - map_y_;
 
-		SDL_Rect* current_clip = nullptr;
 		SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+		const double ROTATION_SPEED_DOWN = 8.0; // Rotation speed in degrees per frame
+		const double ROTATION_SPEED_UP = 60.0;
+		// Initialize the rotation angle
+		double target_angle = 0.0;
 
-		SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
+		// Determine the target angle based on the direction of motion
+		if (y_val_ > 0) {
+			target_angle = 60.0; // Angle when moving downwards
+		}
+		else if (y_val_ < 0) {
+			target_angle = -60.0; // Angle when moving upwards
+		}
+
+		// Gradually adjust the rotation angle towards the target angle
+		if (rotate_angle_fappy < target_angle) {
+			rotate_angle_fappy += ROTATION_SPEED_DOWN;
+			if (rotate_angle_fappy > target_angle) {
+				rotate_angle_fappy = target_angle;
+			}
+		}
+		else if (rotate_angle_fappy > target_angle) {
+			rotate_angle_fappy -= ROTATION_SPEED_UP;
+			if (rotate_angle_fappy < target_angle) {
+				rotate_angle_fappy = target_angle;
+			}
+		}
+
+		if (y_pos_ <= 32 || y_pos_ >= 618) {
+			rotate_angle_fappy = 0;;
+		}
+
+		SDL_Point center = { 3*width_frame_ / 4, 3 * height_frame_ / 4 };
+		SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
+		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle_fappy, &center, flip);
+
 
 		
 	}
@@ -612,7 +639,7 @@ void MainObject::DoPlayer(Map& map_data)
 
 				 input_type_.jump_ = 0;
 				 on_ground_ = false;
-				 std::cout << y_val_ << "\n";
+				
 			 }
 
 		 }
@@ -621,15 +648,18 @@ void MainObject::DoPlayer(Map& map_data)
 		 {
 			 if (input_type_.right_ == 1)
 			 {
-				 x_val_ += ROUND_SPEED;
+				 x_val_ += PLAYER_SPEED;
 			 }
 
 			 y_val_ = 8;
 			 if (input_type_.jump_ == 1)
 			 {
-				 y_val_ = -32;
+				 type_FLAPPY_up = true;
+				 y_val_ = -56;
 				 input_type_.jump_ = 0;
 			 }
+			 type_FLAPPY_up = false;
+
 
 		 }
 
@@ -673,7 +703,7 @@ void MainObject::DoPlayer(Map& map_data)
 		{
 			y_val_ = 0;
 		}
-		
+		std::cout << x_pos_ << "\n";
 
 	}
 

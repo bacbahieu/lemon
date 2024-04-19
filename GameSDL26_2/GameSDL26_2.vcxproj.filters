@@ -42,6 +42,12 @@
     <ClCompile Include="LText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BossObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game_map.h">
@@ -66,6 +72,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BossObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
