@@ -25,6 +25,7 @@ private:
     bool MOVE_DOWN;
     bool MOVE_UP;
     bool Time_of_appearance;
+    
     LaserEffect laser_effect_; // Thêm laser effect vào BossObject
 
 public:
@@ -41,6 +42,11 @@ public:
     void RenderBlueTrail(SDL_Renderer* des); // Render_laser
     void UpdateImageBoss(SDL_Renderer* des);
     void UpdateLaserEffect(SDL_Renderer* des); // Thêm hàm cập nhật laser effect
+
+    int GetX() const { return x_pos_; } 
+    int GetY() const { return y_pos_; } 
+    int get_frame_width() const { return width_frame_; } 
+    int get_frame_height() const { return height_frame_; } 
 };
 
 #endif  // BOSS_OBJECT_H_

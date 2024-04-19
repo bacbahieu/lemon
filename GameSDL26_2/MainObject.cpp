@@ -402,21 +402,6 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 
 			}
 		}
-		else if (events.type == SDL_MOUSEBUTTONDOWN)
-		{
-			if (events.button.button == SDL_BUTTON_LEFT)
-			{
-				
-				if (on_ground_)
-				{
-					input_type_.jump_ = 1;
-				}
-				else
-				{
-					jump_or_up_220_228 = true;
-				}
-			}
-		}
 		
 	}
 	else if (regime_type_.ROUND_ == 1)
@@ -601,7 +586,7 @@ void MainObject::DoPlayer(Map& map_data)
 				 jump_3_tile_up_206_207 = false;
 			 }
 			 
-			 // cong konh gian bay len
+			 // cong khong gian bay len
 			 if (space_jump_262_271)
 			 {
 				 y_val_ = -JUMP_SPACE;
@@ -1235,3 +1220,5 @@ int MainObject::GetRegimeType() const {
 int MainObject::GetX() {
 	return (x_pos_ + 32 ) / 32;
 }
+
+

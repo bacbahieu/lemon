@@ -6,6 +6,8 @@
 #include "CommonFunc.h"
 #include "BaseObject.h"
 #include "BulletObject.h"
+#include "BossObject.h"
+#include "Laser.h"
 
 
 #define GRAVITY_SPEED 0.8
