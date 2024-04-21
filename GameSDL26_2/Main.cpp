@@ -28,7 +28,7 @@ bool is_game_paused = false;
 SDL_Texture* paused_screen = NULL;
 
 bool is_pause_button_loaded = false;
-int pause_time = 0; // Thời gian đợi sau khi pause lần 2
+
 
 // Function to play background music
 void PlayBackgroundMusic(Mix_Music* bg_music) {
@@ -66,12 +66,9 @@ void HandleMouseEventsPlaying(SDL_Event& event) {
             is_game_paused = !is_game_paused;
             if (is_game_paused) {
                 CaptureScreen(); // Chụp màn hình khi trò chơi tạm dừng
-                pause_time = SDL_GetTicks();
+
             }
-            else {
-                // Nếu không, đặt lại thời gian đợi khi quay lại trò chơi
-                pause_time = 0;
-            }
+      
         }
     }
 }
@@ -275,13 +272,7 @@ int main(int argc, char* argv[])
     {
         fps_timer.start();
         
-        if (pause_time > 0) {
-            int elapsed_time = SDL_GetTicks() - pause_time;
-            if (elapsed_time < 3000) { // 3 giây
-                SDL_Delay(3000 - elapsed_time); // Đợi cho đủ 3 giây
-            }
-            pause_time = 0; // Đặt lại thời gian đợi sau khi đã chờ đủ 3 giây
-        }
+        
 
         while (SDL_PollEvent(&g_event) != 0)
         {

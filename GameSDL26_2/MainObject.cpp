@@ -660,7 +660,7 @@ void MainObject::DoPlayer(Map& map_data)
 		}
 		
 		is_player_at_start_position = true;
-		SDL_Delay(500); // Delay for 2000 milliseconds (2 seconds)
+
 		
 		come_back_time_--;
 		if (come_back_time_ == 0)// Reset again
