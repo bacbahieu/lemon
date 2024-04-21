@@ -57,7 +57,7 @@ MainObject::MainObject()
 
 	explosion_texture_ = nullptr;
 
-
+	elapsed_time_ = 0.1;
 	dem = 0;
 }
 
@@ -163,83 +163,27 @@ void MainObject::ShowExplosion(SDL_Renderer* des)
 }
 
 
-//void MainObject::Show(SDL_Renderer* des)
-//{
-//	
-//		UpdateImagePlayer(des);
-//		
-//			if (input_type_.right_ == 1)
-//			{
-//				frame_++;
-//			}
-//			else
-//			{
-//				frame_ = 0;
-//			}
-//
-//
-//			if (frame_ >= 8)
-//			{
-//				frame_ = 2;
-//			}
-//
-//			if (come_back_time_ == 0)
-//			{
-//				rect_.x = x_pos_ - map_x_;
-//				rect_.y = y_pos_ - map_y_;
-//
-//				SDL_Rect* current_clip = &frame_clip_[frame_];
-//				SDL_Rect renderQuad = { rect_.x, rect_.y,width_frame_,height_frame_ };
-//
-//				SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
-//			}
-//		
-//
-//}
 
-//void MainObject::Show(SDL_Renderer* des)
-//{
-//	UpdateImagePlayer(des);
-//
-//	if (on_ground_)
-//	{
-//		if (come_back_time_ == 0)
-//		{
-//			rect_.x = x_pos_ - map_x_;
-//			rect_.y = y_pos_ - map_y_;
-//
-//			SDL_Rect* current_clip = NULL;
-//			SDL_Rect renderQuad = { rect_.x, rect_.y,width_frame_,height_frame_ };
-//
-//			SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
-//		}
-//	}
-//	else
-//	{
-//		if (come_back_time_ == 0)
-//		{
-//			rect_.x = x_pos_ - map_x_;
-//			rect_.y = y_pos_ - map_y_;
-//
-//			SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
-//
-//			// Increase the rotation angle gradually
-//			static double angle = 10; // Initial rotation angle
-//			angle += 10; // Increase angle by 10 degrees
-//
-//			// Ensure the angle does not exceed 80 degrees
-//			if (angle > 90)
-//				angle = 90;
-//
-//			// Render the rotated image
-//			SDL_Point center = { width_frame_ / 2, height_frame_ / 2 }; // Rotation center (in this case, the center of the texture)
-//			SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
-//			SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, angle, &center, flip);
-//		}
-//	}
-//
-//	
-//}
+void MainObject::AddPassedTile(int x, int y) {
+	passed_tiles_.push_back(std::make_pair(x, y));
+}
+
+void MainObject::PrintRedTiles(SDL_Renderer* des, double elapsed_time) {
+	UpdateElapsedTime(elapsed_time);
+
+	for (int i = passed_tiles_.size() - 10; i < passed_tiles_.size(); ++i) {
+		int tile_x = passed_tiles_[i].first;
+		int tile_y = passed_tiles_[i].second;
+		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ -16, tile_y * TILE_SIZE - map_y_ + 32 +16, TILE_SIZE/2, TILE_SIZE/2 };
+		SDL_Color color = ChangeColor(elapsed_time_);
+		SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
+
+		SDL_RenderFillRect(des, &rect);
+	}
+}
+
+
+
 
 void MainObject::Show(SDL_Renderer* des)
 {
@@ -372,7 +316,7 @@ void MainObject::Show(SDL_Renderer* des)
 		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
 		
 	}
-
+	PrintRedTiles(des, elapsed_time_);
 }
 
 
@@ -682,6 +626,11 @@ void MainObject::DoPlayer(Map& map_data)
 
 		CenterEntityOnMap(map_data);
 
+		int current_tile_x = x_pos_ / TILE_SIZE;
+		int current_tile_y = y_pos_ / TILE_SIZE;
+
+		
+	    AddPassedTile(current_tile_x, current_tile_y);
 		
 
 		if (on_ground_)

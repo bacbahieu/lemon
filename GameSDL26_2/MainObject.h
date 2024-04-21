@@ -1,4 +1,4 @@
-// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html //
+﻿// Link tham khao: https://phattrienphanmem123az.com/lap-trinh-game-c-p2/game-cpp-phan-2-ky-thuat-load-nhan-vat-game.html //
 #ifndef MAIN_OBJECT_H
 #define MAIN_OBJECT_H
 
@@ -72,10 +72,62 @@ public :
 	void LoadExplosionImage(SDL_Renderer* screen) ;
 	void ShowExplosion(SDL_Renderer* des);
 
+	void AddPassedTile(int x, int y);
+	void PrintRedTiles(SDL_Renderer* des, double elapsed_time);
+
+	void UpdateElapsedTime(double elapsed_time) {
+		elapsed_time_ += 0.1;
+
+		if (elapsed_time_ > 7.0) {
+			elapsed_time_ -= 7.0;
+		}
+	}
+	SDL_Color ChangeColor(double time) {
+		// Tính toán mức độ thay đổi màu dựa trên thời gian
+		double ratio = fmod(elapsed_time_ / 7.0, 1.0); // 7 màu cầu vồng
+
+		// Tính toán giá trị màu RGB tương ứng với màu của cầu vồng
+		Uint8 red, green, blue;
+		if (ratio < 1.0 / 6) {
+			red = 255;
+			green = static_cast<Uint8>(255 * ratio * 6);
+			blue = 0;
+		}
+		else if (ratio < 2.0 / 6) {
+			red = static_cast<Uint8>(255 * (2.0 / 6 - ratio) * 6);
+			green = 255;
+			blue = 0;
+		}
+		else if (ratio < 3.0 / 6) {
+			red = 0;
+			green = 255;
+			blue = static_cast<Uint8>(255 * (ratio - 2.0 / 6) * 6);
+		}
+		else if (ratio < 4.0 / 6) {
+			red = 0;
+			green = static_cast<Uint8>(255 * (4.0 / 6 - ratio) * 6);
+			blue = 255;
+		}
+		else if (ratio < 5.0 / 6) {
+			red = static_cast<Uint8>(255 * (ratio - 4.0 / 6) * 6);
+			green = 0;
+			blue = 255;
+		}
+		else {
+			red = 255;
+			green = 0;
+			blue = static_cast<Uint8>(255 * (6.0 / 6 - ratio) * 6);
+		}
+
+		return { red, green, blue, 255 }; // Trả về màu mới
+	}
+
+
 private:
 
 	SDL_Texture* explosion_texture_;
-
+	std::vector<std::pair<int, int>> passed_tiles_;
+	double elapsed_time_;
 	int money_count;
 	std::vector<BulletObject*> p_bullet_list_;
 	float x_val_;
