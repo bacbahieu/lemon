@@ -24,6 +24,7 @@ bool is_mouse_over_menu_2 = false;
 
 // pause game//
 BaseObject pause_button;
+BaseObject option_image;
 bool is_game_paused = false;
 SDL_Texture* paused_screen = NULL;
 
@@ -96,15 +97,33 @@ void CaptureScreen() {
     SDL_FreeSurface(screen_surface);
 }
 
+
 void RenderPausedScreen() {
     SDL_SetRenderDrawColor(g_screen, 0, 0, 0, 0);
     SDL_RenderClear(g_screen);
+
+    // Load ảnh pause vào màn hình
+    
+    if (!option_image.LoadImg("img//end_game.png", g_screen)) {
+        std::cerr << "Failed to load pause image!" << std::endl;
+        return;
+    }
+
+    // Đặt vị trí để hiển thị ảnh pause
+    SDL_Rect pause_rect;
+    pause_rect.x = (SCREEN_WIDTH - option_image.GetWidth()) / 2;
+    pause_rect.y = (SCREEN_HEIGHT - option_image.GetHeight()) / 2;
+
+    // Hiển thị ảnh pause lên màn hình
+    option_image.Render(g_screen, &pause_rect);
+
     if (paused_screen != NULL) {
         SDL_RenderCopy(g_screen, paused_screen, NULL, NULL);
     }
 
     SDL_RenderPresent(g_screen);
 }
+
 
 
 bool LoadPauseButton() {

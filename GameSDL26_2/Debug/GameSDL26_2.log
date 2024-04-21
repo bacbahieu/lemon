@@ -8,6 +8,6 @@ D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(100,2): warning C4091: 'typ
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(113,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
   (compiling source file 'Main.cpp')
   
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(390,30): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(390,30): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(409,30): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(409,30): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
   GameSDL26_2.vcxproj -> D:\GEOMETRYDASH_ver_2\lemon\Debug\GameSDL26_2.exe
