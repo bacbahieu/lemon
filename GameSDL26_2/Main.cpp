@@ -17,18 +17,72 @@ int bg_x_pos = 0;
 int bg_y_pos = 0;
 
 BaseObject menu_image;
-BaseObject menu_image_start_2;
 int game_state = MENU;
 
-bool is_mouse_over_menu_2 = false;
 
 // pause game//
 BaseObject pause_button;
 BaseObject option_image;
+BaseObject start_button;
+BaseObject setting_button;
+
 bool is_game_paused = false;
+bool cap_screen_one_more = false;
+bool is_start_button_loaded = false;
+bool is_setting_button_loaded = false;
 SDL_Texture* paused_screen = NULL;
 
 bool is_pause_button_loaded = false;
+
+
+
+bool LoadPauseButton() {
+    bool ret = pause_button.LoadImg("img//pause_pause.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+    // Đặt vị trí cho nút tạm dừng ở góc phải màn hình
+    pause_button.SetRect(SCREEN_WIDTH - pause_button.GetWidth(), 0);
+
+    return true;
+}
+
+bool LoadStartButton() {
+    bool ret = start_button.LoadImg("img//start_option.png", g_screen);
+    if (!ret) {
+        std::cout << "Failed to load start button image!" << std::endl;
+        return false;
+    }
+
+    start_button.SetRect(520, 195);
+
+
+    start_button.Render(g_screen);
+
+    is_start_button_loaded = true;
+
+    std::cout << "Start button loaded successfully!" << std::endl;
+
+    return true;
+}
+
+bool LoadSettingButton() {
+    bool ret = setting_button.LoadImg("img//setting_option.png", g_screen);
+    if (!ret) {
+        std::cout << "Failed to load setting button image!" << std::endl;
+        return false;
+    }
+
+    setting_button.SetRect(SCREEN_WIDTH - setting_button.GetWidth(), SCREEN_HEIGHT - setting_button.GetHeight());
+
+
+    setting_button.Render(g_screen);
+
+    is_setting_button_loaded = true;
+
+    return true;
+}
+
 
 
 // Function to play background music
@@ -36,24 +90,46 @@ void PlayBackgroundMusic(Mix_Music* bg_music) {
     Mix_PlayMusic(bg_music, -1); // -1 means loop indefinitely
 }
 
-void HandleMouseEventsMenu(SDL_Event& event) {
+void HandleMouseEventsMenu(SDL_Event& event, SDL_Renderer* renderer) {
     if (event.type == SDL_MOUSEMOTION) {
         int x, y;
         SDL_GetMouseState(&x, &y);
         if (x >= START_BUTTON_X - 150 && x <= START_BUTTON_X + 150 &&
             y >= START_BUTTON_Y - 150 && y <= START_BUTTON_Y + 150) {
-            is_mouse_over_menu_2 = true;
+            LoadStartButton();
         }
         else {
-            is_mouse_over_menu_2 = false;
+            if (is_start_button_loaded) {
+                start_button.Free();
+                menu_image.Render(renderer);
+            }
         }
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-        if (is_mouse_over_menu_2) {
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        if (x >= START_BUTTON_X - 150 && x <= START_BUTTON_X + 150 &&
+            y >= START_BUTTON_Y - 150 && y <= START_BUTTON_Y + 150) {
             game_state = PLAYING;
+        }
+        else if (x >= SETTING_BUTTON_X && x <= SETTING_BUTTON_X + SETTING_BUTTON_WIDTH &&
+            y >= SETTING_BUTTON_Y && y <= SETTING_BUTTON_Y + SETTING_BUTTON_HEIGHT) {
+            // Handle setting button click: Load setting image or perform setting action
+            LoadSettingButton(); // Implement this function to load and render the setting image
+        }
+        else if (x >= RETURN_BUTTON_X && x <= RETURN_BUTTON_X + RETURN_BUTTON_WIDTH &&
+            y >= RETURN_BUTTON_Y && y <= RETURN_BUTTON_Y + RETURN_BUTTON_HEIGHT) {
+            // Handle return button click: Return to previous screen or perform action
+            setting_button.Free();
+            menu_image.Render(renderer);
         }
     }
 }
+
+
+
+
+
 void CaptureScreen();
 
 void HandleMouseEventsPlaying(SDL_Event& event) {
@@ -75,6 +151,7 @@ void HandleMouseEventsPlaying(SDL_Event& event) {
 }
 
 
+
 void CaptureScreen() {
     if (paused_screen != NULL) {
         SDL_DestroyTexture(paused_screen);
@@ -94,49 +171,44 @@ void CaptureScreen() {
         SDL_FreeSurface(screen_surface);
         return;
     }
+
     SDL_FreeSurface(screen_surface);
 }
 
 
+
 void RenderPausedScreen() {
-    SDL_SetRenderDrawColor(g_screen, 0, 0, 0, 0);
-    SDL_RenderClear(g_screen);
-
-    // Load ảnh pause vào màn hình
-    
-    if (!option_image.LoadImg("img//end_game.png", g_screen)) {
-        std::cerr << "Failed to load pause image!" << std::endl;
-        return;
-    }
-
-    // Đặt vị trí để hiển thị ảnh pause
-    SDL_Rect pause_rect;
-    pause_rect.x = (SCREEN_WIDTH - option_image.GetWidth()) / 2;
-    pause_rect.y = (SCREEN_HEIGHT - option_image.GetHeight()) / 2;
-
-    // Hiển thị ảnh pause lên màn hình
-    option_image.Render(g_screen, &pause_rect);
-
+    // Render ảnh đè lên ảnh chụp màn hình
     if (paused_screen != NULL) {
         SDL_RenderCopy(g_screen, paused_screen, NULL, NULL);
     }
 
+
+    // Hiển thị màn hình
     SDL_RenderPresent(g_screen);
 }
 
 
+SDL_Color CalculateBackgroundColor(int elapsed_time) {
+    // Thời gian chuyển đổi từ xanh sang tím (tính theo mili giây)
+    const int transition_time = 5000; // Ví dụ: 5 giây
 
-bool LoadPauseButton() {
-    bool ret = pause_button.LoadImg("img//pause_pause.png", g_screen);
-    if (!ret) {
-        return false;
-    }
-    // Đặt vị trí cho nút tạm dừng ở góc phải màn hình
-    pause_button.SetRect(SCREEN_WIDTH - pause_button.GetWidth(), 0);
+    // Màu xanh và màu tím
+    SDL_Color blue = { 0, 0, 255, 255 };
+    SDL_Color purple = { 128, 0, 128, 255 };
 
-    return true;
+    // Tính toán tỉ lệ chuyển đổi
+    float ratio = static_cast<float>(elapsed_time % transition_time) / transition_time;
+
+    // Tính toán màu sắc dựa trên tỉ lệ
+    SDL_Color result_color;
+    result_color.r = static_cast<Uint8>(blue.r + (purple.r - blue.r) * ratio);
+    result_color.g = static_cast<Uint8>(blue.g + (purple.g - blue.g) * ratio);
+    result_color.b = static_cast<Uint8>(blue.b + (purple.b - blue.b) * ratio);
+    result_color.a = 255; // Alpha không thay đổi
+
+    return result_color;
 }
-
 
 bool LoadMenu()
 {
@@ -280,7 +352,7 @@ int main(int argc, char* argv[])
     p_boss.LoadImg("img//boss_1.png", g_screen);
     p_boss.set_clips();
 
-    int spawn_timer = 4000; // Adjusted spawn_timer to milliseconds
+    int spawn_timer = 5000; // Adjusted spawn_timer to milliseconds
 
 
     InitDeathCounter(g_screen);
@@ -301,7 +373,7 @@ int main(int argc, char* argv[])
             }
             if (game_state == MENU)
             {
-                HandleMouseEventsMenu(g_event);
+                HandleMouseEventsMenu(g_event,g_screen);
             }
             else if (game_state == PLAYING)
             {
@@ -318,9 +390,7 @@ int main(int argc, char* argv[])
         SDL_RenderClear(g_screen);
 
         if (!is_pause_button_loaded) {
-            // Tải ảnh cho nút tạm dừng
             if (!LoadPauseButton()) {
-                // Xử lý lỗi khi tải ảnh
                 return -1;
             }
             is_pause_button_loaded = true;
@@ -333,18 +403,18 @@ int main(int argc, char* argv[])
             }
 
             // Render menu image based on mouse position
-            if (is_mouse_over_menu_2) {
-                menu_image_start_2.LoadImg("img//menu_image_start_2.png", g_screen);
-                menu_image_start_2.Render(g_screen);
-            }
-            else {
-                menu_image.LoadImg("img//menu_image.png", g_screen);
-                menu_image.Render(g_screen);
+            LoadMenu();
+            menu_image.Render(g_screen);
+
+            // Render start button if it's loaded
+            if (is_start_button_loaded) {
+                start_button.Render(g_screen);
             }
         }
+
         else if (game_state == PLAYING && !is_game_paused)
         {
-            
+            cap_screen_one_more = false;
             // Free menu music resources
             Mix_FreeMusic(menu_music);
             menu_music = NULL;
@@ -399,7 +469,7 @@ int main(int argc, char* argv[])
             game_map.DrawMap(g_screen);
 
             spawn_timer -= fps_timer.get_ticks();
-            if (spawn_timer <= 0)
+            if (spawn_timer <= 1000 && spawn_timer >=0)
             {
                 // Xuất hiện boss
                 p_boss.DoBoss(map_data);
@@ -441,7 +511,10 @@ int main(int argc, char* argv[])
             
         }
         else if (is_game_paused) {
-            RenderPausedScreen(); // Hiển thị khung ảnh đã chụp khi trò chơi tạm dừng
+            
+                RenderPausedScreen(); // Hiển thị khung ảnh đã chụp khi trò chơi tạm 
+          
+            
         }
 
 
@@ -451,6 +524,7 @@ int main(int argc, char* argv[])
         if (p_player.CheckPlayerStartPosition()) {
             Mix_HaltMusic();
             Mix_PlayMusic(bg_music, -1);
+            spawn_timer = 5000;
         }
 
         // Cap frame rate

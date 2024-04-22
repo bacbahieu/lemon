@@ -168,13 +168,61 @@ void MainObject::AddPassedTile(int x, int y) {
 	passed_tiles_.push_back(std::make_pair(x, y));
 }
 
-void MainObject::PrintRedTiles(SDL_Renderer* des, double elapsed_time) {
+void MainObject::PrintRedTiles_NORMAL(SDL_Renderer* des, double elapsed_time) {
 	UpdateElapsedTime(elapsed_time);
 
 	for (int i = passed_tiles_.size() - 10; i < passed_tiles_.size(); ++i) {
 		int tile_x = passed_tiles_[i].first;
 		int tile_y = passed_tiles_[i].second;
 		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ -16, tile_y * TILE_SIZE - map_y_ + 32 +16, TILE_SIZE/2, TILE_SIZE/2 };
+		SDL_Color color = ChangeColor(elapsed_time_);
+		SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
+
+		SDL_RenderFillRect(des, &rect);
+	}
+}
+
+void MainObject::PrintRedTiles_ROUND(SDL_Renderer* des, double elapsed_time) {
+	UpdateElapsedTime(elapsed_time);
+
+	for (int i = passed_tiles_.size() - 10; i < passed_tiles_.size(); ++i) {
+		int tile_x = passed_tiles_[i].first;
+		int tile_y = passed_tiles_[i].second;
+		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ - 16 , tile_y * TILE_SIZE - map_y_, TILE_SIZE *2, TILE_SIZE * 2 };
+		SDL_Color color = ChangeColor(elapsed_time_);
+		SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
+
+		SDL_RenderFillRect(des, &rect);
+	}
+}
+
+void MainObject::PrintRedTiles_ROCKET(SDL_Renderer* des, double elapsed_time) {
+	UpdateElapsedTime(elapsed_time);
+
+	// Tính toán màu dựa trên thời gian trôi qua
+	SDL_Color color = ChangeColor(elapsed_time_);
+
+	// Đặt màu vẽ cho renderer
+	SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
+
+	// Duyệt qua tất cả các ô đã đi qua và vẽ chúng
+	for (int i = 0; i < passed_tiles_.size(); ++i) {
+		int tile_x = passed_tiles_[i].first;
+		int tile_y = passed_tiles_[i].second;
+		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ , TILE_SIZE/2 , TILE_SIZE/2  };
+		SDL_RenderFillRect(des, &rect);
+	}
+}
+
+
+
+void MainObject::PrintRedTiles_FLAPPY(SDL_Renderer* des, double elapsed_time) {
+	UpdateElapsedTime(elapsed_time);
+
+	for (int i = passed_tiles_.size() - 10; i < passed_tiles_.size(); ++i) {
+		int tile_x = passed_tiles_[i].first;
+		int tile_y = passed_tiles_[i].second;
+		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ + 32 + 16, TILE_SIZE / 2, TILE_SIZE / 2 };
 		SDL_Color color = ChangeColor(elapsed_time_);
 		SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
 
@@ -225,6 +273,8 @@ void MainObject::Show(SDL_Renderer* des)
 
 			SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
 		}
+
+		PrintRedTiles_NORMAL(des, elapsed_time_);
 	}
 	else if (regime_type_.ROUND_)
 	{
@@ -314,9 +364,9 @@ void MainObject::Show(SDL_Renderer* des)
 		}
 
 		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle, &center, flip);
-		
+		PrintRedTiles_ROCKET(des, elapsed_time_);
 	}
-	PrintRedTiles(des, elapsed_time_);
+	
 }
 
 
@@ -358,8 +408,6 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 				
 				input_type_.jump_ = 1;
 				
-			
-
 			}
 		}
 		else if (events.type == SDL_MOUSEBUTTONDOWN)
@@ -408,7 +456,7 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 
 		if (events.type == SDL_KEYDOWN)
 		{
-			if (events.key.keysym.sym == SDLK_UP)
+			if (events.key.keysym.sym == SDLK_UP || events.key.keysym.sym == SDLK_SPACE)
 			{
 				if (type_ROCKET_up)
 				{

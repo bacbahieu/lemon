@@ -1,1 +1,1 @@
-hjvhjvjv
+git rm -rf --cached .

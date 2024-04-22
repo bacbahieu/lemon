@@ -73,7 +73,10 @@ public :
 	void ShowExplosion(SDL_Renderer* des);
 
 	void AddPassedTile(int x, int y);
-	void PrintRedTiles(SDL_Renderer* des, double elapsed_time);
+	void PrintRedTiles_NORMAL(SDL_Renderer* des, double elapsed_time);
+	void PrintRedTiles_ROUND(SDL_Renderer* des, double elapsed_time);
+	void PrintRedTiles_ROCKET(SDL_Renderer* des, double elapsed_time);
+	void PrintRedTiles_FLAPPY(SDL_Renderer* des, double elapsed_time);
 
 	void UpdateElapsedTime(double elapsed_time) {
 		elapsed_time_ += 0.1;

@@ -31,6 +31,18 @@ const int RENDER_DRAW_COLOW = 0xff;
 const int START_BUTTON_X = SCREEN_WIDTH / 2;
 const int START_BUTTON_Y = SCREEN_HEIGHT / 2;
 
+const int SETTING_BUTTON_X = 860;
+const int SETTING_BUTTON_Y = 260;
+const int SETTING_BUTTON_WIDTH = 110;
+const int SETTING_BUTTON_HEIGHT = 100;
+
+const int RETURN_BUTTON_X = 16;
+const int RETURN_BUTTON_Y = 10;
+const int RETURN_BUTTON_WIDTH = 66;
+const int RETURN_BUTTON_HEIGHT = 72;
+
+
+
 const int total_map_length = 1600;
 
 #define SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN 500

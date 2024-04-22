@@ -138,7 +138,6 @@
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="ImpTimer.cpp" />
-    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="LText.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainObject.cpp" />
@@ -151,7 +150,6 @@
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="game_map.h" />
     <ClInclude Include="ImpTimer.h" />
-    <ClInclude Include="Laser.h" />
     <ClInclude Include="LText.h" />
     <ClInclude Include="MainObject.h" />
     <ClInclude Include="Menu.h" />
