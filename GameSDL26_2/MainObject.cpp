@@ -209,8 +209,10 @@ void MainObject::PrintRedTiles_ROCKET(SDL_Renderer* des, double elapsed_time) {
 	for (int i = 0; i < passed_tiles_.size(); ++i) {
 		int tile_x = passed_tiles_[i].first;
 		int tile_y = passed_tiles_[i].second;
-		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ , TILE_SIZE/2 , TILE_SIZE/2  };
-		SDL_RenderFillRect(des, &rect);
+		SDL_Rect rect_1 = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ , TILE_SIZE/4 , TILE_SIZE /4 };
+		SDL_Rect rect_2 = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ +16 , TILE_SIZE / 4 , TILE_SIZE / 4 };
+		SDL_RenderFillRect(des, &rect_1);
+		SDL_RenderFillRect(des, &rect_2);
 	}
 }
 
@@ -218,15 +220,16 @@ void MainObject::PrintRedTiles_ROCKET(SDL_Renderer* des, double elapsed_time) {
 
 void MainObject::PrintRedTiles_FLAPPY(SDL_Renderer* des, double elapsed_time) {
 	UpdateElapsedTime(elapsed_time);
-
+	SDL_Color color = ChangeColor(elapsed_time_);
+	SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
 	for (int i = passed_tiles_.size() - 10; i < passed_tiles_.size(); ++i) {
 		int tile_x = passed_tiles_[i].first;
 		int tile_y = passed_tiles_[i].second;
-		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ + 32 + 16, TILE_SIZE / 2, TILE_SIZE / 2 };
-		SDL_Color color = ChangeColor(elapsed_time_);
-		SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
+		
 
-		SDL_RenderFillRect(des, &rect);
+		SDL_Rect rect_2 = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ +38 , TILE_SIZE / 2 , TILE_SIZE / 2 };
+
+		SDL_RenderFillRect(des, &rect_2);
 	}
 }
 
@@ -311,10 +314,10 @@ void MainObject::Show(SDL_Renderer* des)
 
 		// Determine the target angle based on the direction of motion
 		if (y_val_ > 0) {
-			target_angle = 60.0; // Angle when moving downwards
+			target_angle = 45.0; // Angle when moving downwards
 		}
 		else if (y_val_ < 0) {
-			target_angle = -60.0; // Angle when moving upwards
+			target_angle = -45.0; // Angle when moving upwards
 		}
 
 		// Gradually adjust the rotation angle towards the target angle
@@ -339,6 +342,7 @@ void MainObject::Show(SDL_Renderer* des)
 		SDL_RendererFlip flip = SDL_FLIP_NONE; // No flip
 		SDL_RenderCopyEx(des, p_object_, nullptr, &renderQuad, rotate_angle_fappy, &center, flip);
 
+		PrintRedTiles_FLAPPY(des, elapsed_time_);
 
 		
 	}
