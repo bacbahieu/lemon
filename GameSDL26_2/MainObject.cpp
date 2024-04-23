@@ -6,7 +6,7 @@ MainObject::MainObject()
 {
 	frame_ = 0;
 	x_pos_ = 32; // 11776
-	y_pos_ = 280; // 192
+	y_pos_ = 480; // 192
 
 	pre_y_pos_ = 480;
 	x_val_ = 0;
@@ -97,6 +97,7 @@ SDL_Rect MainObject::GetRectFrame()
 	rect.w = width_frame_;
 	rect.h = height_frame_;	
 
+	std::cout << rect.x << "\\\\\\" << rect.y << std::endl;
 	return rect;
 }
 
@@ -206,7 +207,7 @@ void MainObject::PrintRedTiles_ROCKET(SDL_Renderer* des, double elapsed_time) {
 	SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
 
 	// Duyệt qua tất cả các ô đã đi qua và vẽ chúng
-	for (int i = 0; i < passed_tiles_.size(); ++i) {
+	for (int i = passed_tiles_.size() - 30; i < passed_tiles_.size(); ++i) {
 		int tile_x = passed_tiles_[i].first;
 		int tile_y = passed_tiles_[i].second;
 		SDL_Rect rect_1 = { tile_x * TILE_SIZE - map_x_ - 16, tile_y * TILE_SIZE - map_y_ , TILE_SIZE/4 , TILE_SIZE /4 };

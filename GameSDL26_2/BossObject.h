@@ -39,10 +39,11 @@ private:
     bool MOVE_DOWN;
     bool MOVE_UP;
     bool Time_of_appearance;
-    
+    SDL_Rect trailRectquad;
     LaserEffect laser_effect_; // Thêm laser effect vào BossObject
 
 public:
+    
     static const int MOVE_DOWN_TIME = 5000; // Thời gian để di chuyển xuống (5 giây)
     static const int MOVE_UP_TIME = 5000;
     BossObject();
@@ -61,6 +62,8 @@ public:
     int GetY() const { return y_pos_; } 
     int get_frame_width() const { return width_frame_; } 
     int get_frame_height() const { return height_frame_; } 
+
+    SDL_Rect GetRectlaser();
 };
 
 #endif  // BOSS_OBJECT_H_

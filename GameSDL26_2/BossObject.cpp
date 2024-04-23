@@ -34,7 +34,7 @@ laser_effect_(1000, 2000)
     MOVE_DOWN = true;
     MOVE_UP = false;
     Time_of_appearance = false;
-  
+    
 }
 
 
@@ -149,6 +149,7 @@ void BossObject::RenderBlueTrail(SDL_Renderer* des) {
         alpha = 255 - (255 * i / trailLength);
         SDL_SetRenderDrawColor(des, red, pulsatingGreen, blue, alpha);
         SDL_Rect trailRect = { trailStartX - i, trailStartY - trailWidth / 2, trailWidth, trailWidth };
+        trailRectquad = trailRect;
         SDL_RenderFillRect(des, &trailRect);
     }
 }
@@ -162,4 +163,10 @@ void BossObject::UpdateImageBoss(SDL_Renderer* des)
 void BossObject::UpdateLaserEffect(SDL_Renderer* des)
 {
     laser_effect_.Update(des); 
+}
+
+SDL_Rect BossObject::GetRectlaser()
+{
+    std::cout << trailRectquad.x << "\\\\\\\\" << trailRectquad.y << "\n";
+    return trailRectquad;
 }

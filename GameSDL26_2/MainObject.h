@@ -128,6 +128,8 @@ public :
 
 private:
 
+	
+
 	SDL_Texture* explosion_texture_;
 	std::vector<std::pair<int, int>> passed_tiles_;
 	double elapsed_time_;

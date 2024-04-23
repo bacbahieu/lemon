@@ -404,6 +404,43 @@ SDL_Color CalculateBackgroundColor(int elapsed_time) {
     return result_color;
 }
 
+bool CheckCollision(const SDL_Rect& a, const SDL_Rect& b) {
+    // Kiểm tra va chạm giữa hai hình chữ nhật
+    int left_a = a.x;
+    int right_a = a.x + a.w;
+    int top_a = a.y;
+    int bottom_a = a.y + a.h;
+
+    int left_b = b.x;
+    int right_b = b.x + b.w;
+    int top_b = b.y;
+    int bottom_b = b.y + b.h;
+
+    // Kiểm tra xem hai hình chữ nhật có chồng lấp nhau không
+    if (bottom_a <= top_b || top_a >= bottom_b || right_a <= left_b || left_a >= right_b) {
+        return false;
+    }
+    return true;
+}
+
+
+void CheckCollisionWithLaser(MainObject& player, BossObject& boss) {
+    // Lấy vị trí hiện tại của nhân vật và tất cả các tia laser từ boss
+    SDL_Rect player_rect = player.GetRectFrame();
+    SDL_Rect boss_rect = boss.GetRectlaser();
+
+        // Kiểm tra xem vị trí của nhân vật có chồng lấp với tia laser không
+        if (CheckCollision(player_rect, boss_rect)) {
+            // Xử lý va chạm ở đây, ví dụ giảm điểm số của người chơi
+            // Hoặc kết thúc trò chơi, hiển thị thông báo về việc thua
+            std::cout << "Player collided with laser!" << std::endl;
+            // Thực hiện các hành động phù hợp
+        }
+    
+}
+
+
+
 bool LoadMenu()
 {
     bool ret = menu_image.LoadImg("img//menu_image.png", g_screen);
@@ -546,7 +583,7 @@ int main(int argc, char* argv[])
     p_boss.LoadImg("img//boss_1.png", g_screen);
     p_boss.set_clips();
 
-    int spawn_timer = 5200; // Adjusted spawn_timer to milliseconds
+    int spawn_timer = 1000; // Adjusted spawn_timer to milliseconds
 
     int bf_run_timer = 3000; // time_count_down
 
@@ -711,7 +748,7 @@ int main(int argc, char* argv[])
             game_map.DrawMap(g_screen);
 
             spawn_timer -= fps_timer.get_ticks();
-            if (spawn_timer <= 1000 && spawn_timer >=0)
+            if (spawn_timer <= 0)
             {
                 // Xuất hiện boss
                 p_boss.DoBoss(map_data);
@@ -719,7 +756,7 @@ int main(int argc, char* argv[])
                 // Reset thời gian chờ
 
                 std::cout << "Boss xuất hiện!" << std::endl;
-
+                CheckCollisionWithLaser(p_player, p_boss);
             }
 
             pause_button.Render(g_screen);
@@ -766,7 +803,7 @@ int main(int argc, char* argv[])
         if (p_player.CheckPlayerStartPosition()) {
             Mix_HaltMusic();
             Mix_PlayMusic(bg_music, -1);
-            spawn_timer = 5200;
+            spawn_timer = 200;
             bf_run_timer = 3000;
         }
 
