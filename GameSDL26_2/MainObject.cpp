@@ -6,7 +6,7 @@ MainObject::MainObject()
 {
 	frame_ = 0;
 	x_pos_ = 32; // 11776
-	y_pos_ = 480; // 192
+	y_pos_ = 380; // 192
 
 	pre_y_pos_ = 480;
 	x_val_ = 0;
@@ -37,6 +37,8 @@ MainObject::MainObject()
 	va_cham_no = false;
 	rotate_angle_2 = 0;
 	rotate_angle_fappy = 0;
+	speed_run = PLAYER_SPEED_MIN;
+
 	map_x_ = 0;
 	map_y_ = 0;
 
@@ -315,10 +317,10 @@ void MainObject::Show(SDL_Renderer* des)
 
 		// Determine the target angle based on the direction of motion
 		if (y_val_ > 0) {
-			target_angle = 45.0; // Angle when moving downwards
+			target_angle = 35.0; // Angle when moving downwards
 		}
 		else if (y_val_ < 0) {
-			target_angle = -45.0; // Angle when moving upwards
+			target_angle = -35.0; // Angle when moving upwards
 		}
 
 		// Gradually adjust the rotation angle towards the target angle
@@ -535,9 +537,14 @@ void MainObject::DoPlayer(Map& map_data)
 		
 		 if (regime_type_.NORMAL_ == 1) {
 
+			 
 			 if (input_type_.right_ == 1)
 			 {
-				 x_val_ += PLAYER_SPEED;
+				 speed_run += 0, 1;
+				 if (speed_run > PLAYER_SPEED_MAX) {
+					 speed_run = PLAYER_SPEED_MAX;
+				 }
+				 x_val_ += speed_run ;
 			 }
 
 			 y_val_ += 8;
@@ -630,7 +637,7 @@ void MainObject::DoPlayer(Map& map_data)
 		 {
 			 if (input_type_.right_ == 1)
 			 {
-				 x_val_ += PLAYER_SPEED;
+				 x_val_ += PLAYER_SPEED_MAX;
 			 }
 
 			 y_val_ = 8;
@@ -719,10 +726,11 @@ void MainObject::DoPlayer(Map& map_data)
 		if (come_back_time_ == 0)// Reset again
 		{
 			UpdateDeathCount();
-			x_pos_ = 32; // 64
-			y_pos_ = 480;
+			x_pos_ = 27000; // 64
+			y_pos_ = 200;
 			x_val_ = 0;
 			y_val_ = 0;
+			speed_run = PLAYER_SPEED_MIN;
 
 			type_ROUND_up = true;
 			type_ROUND_down = false;

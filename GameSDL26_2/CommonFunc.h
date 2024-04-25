@@ -17,7 +17,7 @@ static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_event;
 
 // Sceen
-const int FRAME_PER_SECOND = 30; //fps
+const int FRAME_PER_SECOND = 32; //fps
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 640;
@@ -43,7 +43,7 @@ const int RETURN_BUTTON_HEIGHT = 72;
 
 
 
-const int total_map_length = 1600;
+const int total_map_length = 1078;
 
 #define SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN 500
 #define SPACE_PORTAL_NORMAL_TO_FLAPPY_UP 499
@@ -83,7 +83,9 @@ const int total_map_length = 1600;
 #define BLANK_TILE 0
 #define TILE_SIZE  32
 
-#define MAX_MAP_X  1600
+#define MAX_MAP_X 1078
+#define MAX_MAP_X_MAP_1  124
+
 #define MAX_MAP_Y  20
 
 #define STATE_MONEY 240
@@ -110,6 +112,8 @@ typedef struct Regime
 	int ROUND_;
 	int ROCKET_;
 };
+
+
 
 typedef struct Map
 {

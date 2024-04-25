@@ -234,7 +234,7 @@ void HandleMouseEventsMenu(SDL_Event& event, SDL_Renderer* renderer) {
     else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
         int x, y;
         SDL_GetMouseState(&x, &y);
-
+        
         if (in_first_menu) {
             if (x >= START_BUTTON_X - 150 && x <= START_BUTTON_X + 150 &&
                 y >= START_BUTTON_Y - 150 && y <= START_BUTTON_Y + 150) {
@@ -481,6 +481,17 @@ bool InitData(Mix_Music*& bg_music) // Modify to accept reference to bg_music
         }
     }
 
+
+    // Init icon game
+    SDL_Surface* iconSurface = IMG_Load("img//icon_game.png");
+    if (!iconSurface) {
+        SDL_Log("Không thể tải ảnh icon: %s", IMG_GetError());
+    }
+    else {
+        SDL_SetWindowIcon(g_window, iconSurface);
+        SDL_FreeSurface(iconSurface); 
+    }
+
     // Initialize SDL_mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
@@ -583,7 +594,7 @@ int main(int argc, char* argv[])
     p_boss.LoadImg("img//boss_1.png", g_screen);
     p_boss.set_clips();
 
-    int spawn_timer = 1000; // Adjusted spawn_timer to milliseconds
+    int spawn_timer = 200;//4200; // Adjusted spawn_timer to milliseconds
 
     int bf_run_timer = 3000; // time_count_down
 
@@ -748,7 +759,7 @@ int main(int argc, char* argv[])
             game_map.DrawMap(g_screen);
 
             spawn_timer -= fps_timer.get_ticks();
-            if (spawn_timer <= 0)
+            if (spawn_timer <=100 )
             {
                 // Xuất hiện boss
                 p_boss.DoBoss(map_data);
@@ -758,6 +769,8 @@ int main(int argc, char* argv[])
                 std::cout << "Boss xuất hiện!" << std::endl;
                 CheckCollisionWithLaser(p_player, p_boss);
             }
+
+            std::cout << spawn_timer << std::endl;
 
             pause_button.Render(g_screen);
 

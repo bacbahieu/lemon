@@ -13,8 +13,9 @@
 #define GRAVITY_SPEED 0.8
 #define MAX_FALL_SPEED 12
 #define MAX_FALL_SPEED_FLAPPY 90
-#define PLAYER_SPEED 16
-#define ROUND_SPEED 20
+#define PLAYER_SPEED_MIN 16
+#define PLAYER_SPEED_MAX 20
+#define ROUND_SPEED 30
 #define PLAYER_JUMP_VAL 48;
 #define FLAPPY_JUMP_VAL 64;
 #define ROUND_JUMP_VAL 32;
@@ -158,6 +159,7 @@ private:
 	bool roi_tudo;
 	bool va_cham_no;
 	float previous_start_y;
+	float speed_run;
 
 	int map_x_;
 	int map_y_;

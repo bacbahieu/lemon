@@ -148,10 +148,11 @@ void BossObject::RenderBlueTrail(SDL_Renderer* des) {
     for (int i = 0; i < trailLength; ++i) {
         alpha = 255 - (255 * i / trailLength);
         SDL_SetRenderDrawColor(des, red, pulsatingGreen, blue, alpha);
-        SDL_Rect trailRect = { trailStartX - i, trailStartY - trailWidth / 2, trailWidth, trailWidth };
-        trailRectquad = trailRect;
+        SDL_Rect trailRect = { trailStartX - i, trailStartY - trailWidth / 2, trailWidth , trailWidth };
         SDL_RenderFillRect(des, &trailRect);
     }
+    trailRectquad = { trailStartX - 1000, trailStartY - 96, trailWidth, trailWidth };
+
 }
 
 
