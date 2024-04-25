@@ -1190,11 +1190,89 @@ void MainObject::CheckToMap(Map& map_data)
 	std::cout << y_pos_ << "\n";
 }
 
+
+bool MainObject::CheckCollision(const SDL_Rect& a, const SDL_Rect& b) {
+	// Kiểm tra va chạm giữa hai hình chữ nhật
+	int left_a = a.x;
+	int right_a = a.x + a.w;
+	int top_a = a.y;
+	int bottom_a = a.y + a.h;
+
+	int left_b = b.x;
+	int right_b = b.x + b.w;
+	int top_b = b.y;
+	int bottom_b = b.y + b.h;
+
+	// Kiểm tra xem hai hình chữ nhật có chồng lấp nhau không
+	if (bottom_a <= top_b || top_a >= bottom_b || right_a <= left_b || left_a >= right_b) {
+		return false;
+	}
+	return true;
+}
+
+
+void MainObject::CheckCollisionWithLaser(MainObject& player, BossObject& boss) {
+	// Lấy vị trí hiện tại của nhân vật và tất cả các tia laser từ boss
+	SDL_Rect player_rect = player.GetRectFrame();
+	SDL_Rect boss_rect = boss.GetRectlaser();
+
+	// Kiểm tra xem vị trí của nhân vật có chồng lấp với tia laser không
+	if (CheckCollision(player_rect, boss_rect)) {
+
+		std::cout << "Player collided with laser!" << std::endl;
+		come_back_time_++;
+		// Thực hiện các hành động phù hợp
+	}
+
+}
+
+
 void MainObject::IncreaseMoney()
 {
 	money_count++;
 }
 
+
+
+SDL_Color MainObject::ChangeColor(double time) {
+	// Tính toán mức độ thay đổi màu dựa trên thời gian
+	double ratio = fmod(elapsed_time_ / 7.0, 1.0); // 7 màu cầu vồng
+
+	// Tính toán giá trị màu RGB tương ứng với màu của cầu vồng
+	Uint8 red, green, blue;
+	if (ratio < 1.0 / 6) {
+		red = 255;
+		green = static_cast<Uint8>(255 * ratio * 6);
+		blue = 0;
+	}
+	else if (ratio < 2.0 / 6) {
+		red = static_cast<Uint8>(255 * (2.0 / 6 - ratio) * 6);
+		green = 255;
+		blue = 0;
+	}
+	else if (ratio < 3.0 / 6) {
+		red = 0;
+		green = 255;
+		blue = static_cast<Uint8>(255 * (ratio - 2.0 / 6) * 6);
+	}
+	else if (ratio < 4.0 / 6) {
+		red = 0;
+		green = static_cast<Uint8>(255 * (4.0 / 6 - ratio) * 6);
+		blue = 255;
+	}
+	else if (ratio < 5.0 / 6) {
+		red = static_cast<Uint8>(255 * (ratio - 4.0 / 6) * 6);
+		green = 0;
+		blue = 255;
+	}
+	else {
+		red = 255;
+		green = 0;
+		blue = static_cast<Uint8>(255 * (6.0 / 6 - ratio) * 6);
+	}
+
+	return { red, green, blue, 255 }; // Trả về màu mới
+}
 
 void MainObject::UpdateImagePlayer(SDL_Renderer* des)
 {

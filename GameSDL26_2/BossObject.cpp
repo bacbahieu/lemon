@@ -35,6 +35,7 @@ laser_effect_(1000, 2000)
     MOVE_UP = false;
     Time_of_appearance = false;
     
+    time_begin_boss_ = 0;
 }
 
 
@@ -96,14 +97,23 @@ void BossObject::Show(SDL_Renderer* des)
     // Update và vẽ laser
     UpdateLaserEffect(des);
 
-    if (laser_effect_.IsVisible()) {
-        RenderBlueTrail(des);
+    time_begin_boss_ += 200;
+    if (time_begin_boss_ >= 5000)
+    {
+        if (laser_effect_.IsVisible()) {
+            RenderBlueTrail(des);
+        }
+
     }
+
+    
 }
 
 
 void BossObject::DoBoss(Map& map_data)
 {
+
+
     int current_time = SDL_GetTicks();
 
 
@@ -115,6 +125,7 @@ void BossObject::DoBoss(Map& map_data)
         MOVE_DOWN = false;
         MOVE_UP = true; 
         move_timer_ = 0; 
+        time_begin_boss_ = 0;
     }
     else if (move_timer_ >= MOVE_DOWN_TIME && MOVE_UP) {
         // Move down
@@ -122,6 +133,7 @@ void BossObject::DoBoss(Map& map_data)
         MOVE_UP = false;
         MOVE_DOWN = true; 
         move_timer_ = 0; 
+        time_begin_boss_ = 0;
     }
 
     last_update_time_ = current_time;
@@ -151,7 +163,7 @@ void BossObject::RenderBlueTrail(SDL_Renderer* des) {
         SDL_Rect trailRect = { trailStartX - i, trailStartY - trailWidth / 2, trailWidth , trailWidth };
         SDL_RenderFillRect(des, &trailRect);
     }
-    trailRectquad = { trailStartX - 1000, trailStartY - 96, trailWidth, trailWidth };
+    trailRectquad = { 0, trailStartY , trailLength, trailWidth };
 
 }
 

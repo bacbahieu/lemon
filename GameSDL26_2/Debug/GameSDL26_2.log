@@ -8,5 +8,5 @@ D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(114,2): warning C4091: 'typ
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(129,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
   (compiling source file 'BossObject.cpp')
   
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\BossObject.cpp(146,24): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\BossObject.cpp(158,24): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   GameSDL26_2.vcxproj -> D:\GEOMETRYDASH_ver_2\lemon\Debug\GameSDL26_2.exe

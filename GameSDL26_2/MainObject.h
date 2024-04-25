@@ -86,47 +86,11 @@ public :
 			elapsed_time_ -= 7.0;
 		}
 	}
-	SDL_Color ChangeColor(double time) {
-		// Tính toán mức độ thay đổi màu dựa trên thời gian
-		double ratio = fmod(elapsed_time_ / 7.0, 1.0); // 7 màu cầu vồng
 
-		// Tính toán giá trị màu RGB tương ứng với màu của cầu vồng
-		Uint8 red, green, blue;
-		if (ratio < 1.0 / 6) {
-			red = 255;
-			green = static_cast<Uint8>(255 * ratio * 6);
-			blue = 0;
-		}
-		else if (ratio < 2.0 / 6) {
-			red = static_cast<Uint8>(255 * (2.0 / 6 - ratio) * 6);
-			green = 255;
-			blue = 0;
-		}
-		else if (ratio < 3.0 / 6) {
-			red = 0;
-			green = 255;
-			blue = static_cast<Uint8>(255 * (ratio - 2.0 / 6) * 6);
-		}
-		else if (ratio < 4.0 / 6) {
-			red = 0;
-			green = static_cast<Uint8>(255 * (4.0 / 6 - ratio) * 6);
-			blue = 255;
-		}
-		else if (ratio < 5.0 / 6) {
-			red = static_cast<Uint8>(255 * (ratio - 4.0 / 6) * 6);
-			green = 0;
-			blue = 255;
-		}
-		else {
-			red = 255;
-			green = 0;
-			blue = static_cast<Uint8>(255 * (6.0 / 6 - ratio) * 6);
-		}
+	bool CheckCollision(const SDL_Rect& a, const SDL_Rect& b);
+	void CheckCollisionWithLaser(MainObject& player, BossObject& boss);
 
-		return { red, green, blue, 255 }; // Trả về màu mới
-	}
-
-
+	SDL_Color ChangeColor(double time);
 private:
 
 	

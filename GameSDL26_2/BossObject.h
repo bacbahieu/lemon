@@ -42,6 +42,7 @@ private:
     SDL_Rect trailRectquad;
     LaserEffect laser_effect_; // Thêm laser effect vào BossObject
 
+    int time_begin_boss_;
 public:
     
     static const int MOVE_DOWN_TIME = 5000; // Thời gian để di chuyển xuống (5 giây)
