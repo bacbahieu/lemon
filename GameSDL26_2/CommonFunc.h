@@ -62,6 +62,9 @@ const int total_map_length = 1078;
 #define SPACE_PORTAL_ALL_TO_ROCKET_MIN 284
 #define SPACE_PORTAL_ALL_TO_ROCKET_MAX 295
 
+#define END_TILE_MIN 296
+#define END_TILE_MAX 299
+
 
 #define THREAT_TILE_MIN 100
 #define THREAT_TILE_MAX 199
@@ -83,7 +86,7 @@ const int total_map_length = 1078;
 #define BLANK_TILE 0
 #define TILE_SIZE  32
 
-#define MAX_MAP_X 1078
+#define MAX_MAP_X 1128
 #define MAX_MAP_X_MAP_1  124
 
 #define MAX_MAP_Y  20

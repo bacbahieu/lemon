@@ -19,11 +19,10 @@ void LaserEffect::Update(SDL_Renderer* des) {
 BossObject::BossObject():
 laser_effect_(1000, 2000)
 {
-    frame_ = 0;
-    x_pos_ = 1060;
-    y_pos_ = 200;
-    x_val_ = 0;
-    y_val_ = 0;
+
+    head_texture_ = nullptr;
+    jaw_texture_ = nullptr;
+
     width_frame_ = 0;
     height_frame_ = 0;
     map_x_ = 0;
@@ -34,80 +33,125 @@ laser_effect_(1000, 2000)
     MOVE_DOWN = true;
     MOVE_UP = false;
     Time_of_appearance = false;
-    
+
     time_begin_boss_ = 0;
+
+    head_x_pos_ = 1020;
+    head_y_pos_ = 200;
+    head_width_ = 276;
+    head_height_ = 260;
+
+    jaw_x_pos_ = 1000;
+    jaw_y_pos_ = 476;
+    jaw_width_ = 276;
+    jaw_height_ = 123;
+
+    head_rotation_angle_ = 0.0;
+    jaw_rotation_angle_ = 0.0;
 }
 
 
-BossObject::~BossObject() {}
+BossObject::~BossObject() {
+}
 
 
-bool BossObject::LoadImg(std::string path, SDL_Renderer* screen)
-{
-    bool ret = BaseObject::LoadImg(path, screen);
-    if (ret) {
-        width_frame_ = rect_.w;
-        height_frame_ = rect_.h;
+void BossObject::SplitImage(SDL_Renderer* des) {
+    // Tạo đối tượng SDL_Surface để tải ảnh đầu
+    SDL_Surface* head_surface = IMG_Load("img//boss_tren.png");
+    if (!head_surface) {
+        printf("Failed to load head surface: %s\n", IMG_GetError());
+        return;
     }
-    return ret;
-}
 
-SDL_Rect BossObject::GetRectFrame()
-{
-    SDL_Rect rect;
-    rect.x = rect_.x;
-    rect.y = rect_.y;
-    rect.w = width_frame_;
-    rect.h = height_frame_;
-    return rect;
-}
+    // Đặt màu chính trong ảnh là màu trong suốt
+    SDL_SetColorKey(head_surface, SDL_TRUE, SDL_MapRGB(head_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
 
-void BossObject::set_clips()
-{
-    if (width_frame_ > 0 && height_frame_ > 0) {
-        for (int i = 0; i < 5; ++i) {
-            frame_clip_[i].x = i * width_frame_;
-            frame_clip_[i].y = 0;
-            frame_clip_[i].w = width_frame_;
-            frame_clip_[i].h = height_frame_;
+    // Tạo texture từ surface của ảnh đầu
+    head_texture_ = SDL_CreateTextureFromSurface(des, head_surface);
+    if (!head_texture_) {
+        printf("Failed to create texture for head surface: %s\n", SDL_GetError());
+        SDL_FreeSurface(head_surface);
+        return;
+    }
+
+    // Giải phóng surface sau khi tạo texture
+    SDL_FreeSurface(head_surface);
+
+    // Tạo đối tượng SDL_Surface để tải ảnh cằm
+    SDL_Surface* jaw_surface = IMG_Load("img//boss_duoi.png");
+    if (!jaw_surface) {
+        printf("Failed to load jaw surface: %s\n", IMG_GetError());
+        // Giải phóng surface đã tải nếu có lỗi
+        if (head_texture_) {
+            SDL_DestroyTexture(head_texture_);
+            head_texture_ = NULL;
         }
+        return;
     }
+
+    // Đặt màu chính trong ảnh là màu trong suốt
+    SDL_SetColorKey(jaw_surface, SDL_TRUE, SDL_MapRGB(jaw_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
+
+    // Tạo texture từ surface của ảnh cằm
+    jaw_texture_ = SDL_CreateTextureFromSurface(des, jaw_surface);
+    if (!jaw_texture_) {
+        printf("Failed to create texture for jaw surface: %s\n", SDL_GetError());
+        SDL_FreeSurface(jaw_surface);
+        // Giải phóng surface đã tải nếu có lỗi
+        if (head_texture_) {
+            SDL_DestroyTexture(head_texture_);
+            head_texture_ = NULL;
+        }
+        return;
+    }
+
+    // Giải phóng surface sau khi tạo texture
+    SDL_FreeSurface(jaw_surface);
 }
 
-void BossObject::Show(SDL_Renderer* des)
-{
-    UpdateImageBoss(des);
 
-    /*rect_.x = x_pos_ - map_x_;
-    rect_.y = y_pos_ - map_y_;
 
-    SDL_Rect* current_clip = &frame_clip_[frame_];
-    SDL_Rect renderQuad = { rect_.x, rect_.y,width_frame_,height_frame_ };
 
-    SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);*/
 
-    rect_.x = x_pos_ - map_x_;
-    rect_.y = y_pos_ - map_y_;
+void BossObject::UpdateRotation() {
+    // Cập nhật góc quay cho đầu theo chiều kim đồng hồ
+    head_rotation_angle_ += rotation_speed_;
+    if (head_rotation_angle_ >= max_rotation_angle_) {
+        head_rotation_angle_ = max_rotation_angle_;
+    }
 
-    SDL_Rect* current_clip = nullptr;
-    SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
+    // Cập nhật góc quay cho cằm ngược chiều kim đồng hồ
+    jaw_rotation_angle_ -= rotation_speed_;
+    if (jaw_rotation_angle_ <= -max_rotation_angle_) {
+        jaw_rotation_angle_ = -max_rotation_angle_;
+    }
 
-    SDL_RenderCopy(des, p_object_, current_clip, &renderQuad);
 
+
+}
+
+void BossObject::Show(SDL_Renderer* des) {
+    UpdateRotation();
     // Update và vẽ laser
     UpdateLaserEffect(des);
 
-    time_begin_boss_ += 200;
-    if (time_begin_boss_ >= 5000)
-    {
-        if (laser_effect_.IsVisible()) {
-            RenderBlueTrail(des);
-        }
-
+    if (laser_effect_.IsVisible()) {
+        RenderBlueTrail(des);
     }
+    // Hiển thị phần đầu với góc quay theo hướng kim đồng hồ
+    SDL_Rect head_renderQuad = { head_x_pos_, head_y_pos_, head_width_, head_height_ };
+    SDL_RenderCopyEx(des, head_texture_, nullptr, &head_renderQuad, head_rotation_angle_, nullptr, SDL_FLIP_NONE);
+
+    // Hiển thị phần cằm với góc quay ngược kim đồng hồ
+    SDL_Rect jaw_renderQuad = { jaw_x_pos_, jaw_y_pos_, jaw_width_, jaw_height_ };
+    SDL_RenderCopyEx(des, jaw_texture_, nullptr, &jaw_renderQuad, jaw_rotation_angle_, nullptr, SDL_FLIP_NONE);
+
 
     
+
+    // Các hàm khác để vẽ laser, hiện giữ nguyên
 }
+
 
 
 void BossObject::DoBoss(Map& map_data)
@@ -117,23 +161,29 @@ void BossObject::DoBoss(Map& map_data)
     int current_time = SDL_GetTicks();
 
 
-    move_timer_ += current_time - last_update_time_;
+    move_timer_ += current_time - last_update_time_ + 50;
 
     if (move_timer_ >= MOVE_UP_TIME && MOVE_DOWN) {
         // Move up
-        y_pos_ -= 200;
+        head_y_pos_ -= 200;
+        jaw_y_pos_ -= 200;
         MOVE_DOWN = false;
         MOVE_UP = true; 
         move_timer_ = 0; 
         time_begin_boss_ = 0;
+        head_rotation_angle_ = 0.0;
+        jaw_rotation_angle_ =0.0;
     }
     else if (move_timer_ >= MOVE_DOWN_TIME && MOVE_UP) {
         // Move down
-        y_pos_ += 200; 
+        head_y_pos_ += 200;
+        jaw_y_pos_ += 200;
         MOVE_UP = false;
         MOVE_DOWN = true; 
         move_timer_ = 0; 
         time_begin_boss_ = 0;
+        head_rotation_angle_ = 0.0;
+        jaw_rotation_angle_ = 0.0;
     }
 
     last_update_time_ = current_time;
@@ -141,10 +191,10 @@ void BossObject::DoBoss(Map& map_data)
 
 void BossObject::RenderBlueTrail(SDL_Renderer* des) {
 
-    int trailStartX = x_pos_ + width_frame_ - 360; 
-    int trailStartY = y_pos_ + 5 * height_frame_ / 8; 
+    int trailStartX = jaw_x_pos_ + width_frame_  + 100;
+    int trailStartY = jaw_y_pos_ + 5 * height_frame_ / 8;
 
-    int trailLength = 1000; 
+    int trailLength = 1200; 
     int trailWidth = 96; 
 
     int red = 64; 
@@ -165,12 +215,6 @@ void BossObject::RenderBlueTrail(SDL_Renderer* des) {
     }
     trailRectquad = { 0, trailStartY , trailLength, trailWidth };
 
-}
-
-
-void BossObject::UpdateImageBoss(SDL_Renderer* des)
-{
-    LoadImg("img//boss_1.png", des);
 }
 
 void BossObject::UpdateLaserEffect(SDL_Renderer* des)

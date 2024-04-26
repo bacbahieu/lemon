@@ -91,6 +91,8 @@ public :
 	void CheckCollisionWithLaser(MainObject& player, BossObject& boss);
 
 	SDL_Color ChangeColor(double time);
+
+	bool Check_End_Game() { return come_end_game; }
 private:
 
 	
@@ -153,6 +155,9 @@ private:
 	bool type_ROCKET_up;
 	bool type_ROCKET_down;
 
+	bool come_end_game;
+
+	int timer_va_cham_laser;
 	int dem;
 
 	Mix_Chunk* collision_sound = nullptr; // music vu no

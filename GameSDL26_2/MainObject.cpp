@@ -60,6 +60,9 @@ MainObject::MainObject()
 	explosion_texture_ = nullptr;
 
 	elapsed_time_ = 0.1;
+
+	timer_va_cham_laser = 1000;
+
 	dem = 0;
 }
 
@@ -191,7 +194,9 @@ void MainObject::PrintRedTiles_ROUND(SDL_Renderer* des, double elapsed_time) {
 	for (int i = passed_tiles_.size() - 10; i < passed_tiles_.size(); ++i) {
 		int tile_x = passed_tiles_[i].first;
 		int tile_y = passed_tiles_[i].second;
-		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ - 16 , tile_y * TILE_SIZE - map_y_, TILE_SIZE *2, TILE_SIZE * 2 };
+
+		SDL_Rect rect = { tile_x * TILE_SIZE - map_x_ - 16 , tile_y * TILE_SIZE - map_y_, TILE_SIZE / 2, TILE_SIZE / 2 };
+		
 		SDL_Color color = ChangeColor(elapsed_time_);
 		SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
 
@@ -301,6 +306,13 @@ void MainObject::Show(SDL_Renderer* des)
 		// Ensure the angle does not exceed 360 degrees
 		if (rotate_angle >= 360)
 			rotate_angle = 0;
+
+		if (type_ROUND_up) {
+			PrintRedTiles_NORMAL(des, elapsed_time_);
+		}
+		else if (type_ROUND_down) {
+			PrintRedTiles_ROUND(des, elapsed_time_);
+		}
 	}
 	else if (regime_type_.FLAPPY_)
 	{
@@ -726,7 +738,7 @@ void MainObject::DoPlayer(Map& map_data)
 		if (come_back_time_ == 0)// Reset again
 		{
 			UpdateDeathCount();
-			x_pos_ = 27000; // 64
+			x_pos_ = 25000; // 25000; // 64
 			y_pos_ = 200;
 			x_val_ = 0;
 			y_val_ = 0;
@@ -739,6 +751,9 @@ void MainObject::DoPlayer(Map& map_data)
 			regime_type_.ROUND_ = 0;
 			regime_type_.FLAPPY_ = 0;
 			regime_type_.NORMAL_ = 1;
+
+			timer_va_cham_laser = 1000;
+			come_end_game = false;
 		}
 	}
 	
@@ -827,6 +842,9 @@ void MainObject::CheckToMap(Map& map_data)
 			else if ((val1 == JUMP_3_TILE_UP_L || val1 == JUMP_3_TILE_UP_R) || (val2 == JUMP_3_TILE_UP_L || val2 == JUMP_3_TILE_UP_R))
 			{
 				jump_3_tile_up_206_207 = true;
+			}
+			else if ((val1 >= END_TILE_MIN && val1 <= END_TILE_MAX) || (val2 >= END_TILE_MIN && val2 <= END_TILE_MAX)) {
+				come_end_game = true;
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX))
 			{
@@ -972,6 +990,9 @@ void MainObject::CheckToMap(Map& map_data)
 			{
 				jump_3_tile_up_206_207 = true;
 			}
+			else if ((val1 >= END_TILE_MIN && val1 <= END_TILE_MAX) || (val2 >= END_TILE_MIN && val2 <= END_TILE_MAX)) {
+				come_end_game = true;
+			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX))
 			{
 				regime_type_.ROCKET_ = 1;
@@ -1072,6 +1093,9 @@ void MainObject::CheckToMap(Map& map_data)
 			else if ((val1 == JUMP_3_TILE_UP_L || val1 == JUMP_3_TILE_UP_R) || (val2 == JUMP_3_TILE_UP_L || val2 == JUMP_3_TILE_UP_R))
 			{
 				jump_3_tile_up_206_207 = true;
+			}
+			else if ((val1 >= END_TILE_MIN && val1 <= END_TILE_MAX) || (val2 >= END_TILE_MIN && val2 <= END_TILE_MAX)) {
+				come_end_game = true;
 			}
 			else if ((val1 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val1 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX) || (val2 >= SPACE_PORTAL_ALL_TO_ROCKET_MIN && val2 <= SPACE_PORTAL_ALL_TO_ROCKET_MAX))
 			{
@@ -1220,7 +1244,12 @@ void MainObject::CheckCollisionWithLaser(MainObject& player, BossObject& boss) {
 	if (CheckCollision(player_rect, boss_rect)) {
 
 		std::cout << "Player collided with laser!" << std::endl;
-		come_back_time_++;
+		timer_va_cham_laser -= 40;
+
+		if (timer_va_cham_laser < 0)
+		{
+			come_back_time_++;
+		}
 		// Thực hiện các hành động phù hợp
 	}
 

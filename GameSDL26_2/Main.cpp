@@ -20,6 +20,8 @@ int bg_y_pos = 0;
 BaseObject menu_image;
 int game_state = MENU;
 
+BaseObject logo_UET_start;
+int time_run_logo = 5000;
 
 // pause game//
 BaseObject pause_button;
@@ -61,6 +63,7 @@ bool die_by_laser = false;
 int overall_volume = MIX_MAX_VOLUME;
 
 
+
 void UpdateOverallVolume(int volume) {
     // Set âm lượng tổng thể
     overall_volume = volume;
@@ -72,6 +75,17 @@ void HandleVolumeSlider(int volume) {
     // Cập nhật âm lượng tổng thể
     UpdateOverallVolume(volume);
     // Render các thay đổi về âm lượng hoặc thực hiện các hành động khác nếu cần
+}
+
+bool LoadLogoUET() {
+    bool ret = logo_UET_start.LoadImg("img//logo_UET.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    logo_UET_start.SetRect((SCREEN_WIDTH - logo_UET_start.GetWidth())/2, (SCREEN_HEIGHT - logo_UET_start.GetHeight())/2);
+
+    return true;
 }
 
 bool LoadPauseButton() {
@@ -385,27 +399,6 @@ void RenderPausedScreen() {
 }
 
 
-SDL_Color CalculateBackgroundColor(int elapsed_time) {
-    // Thời gian chuyển đổi từ xanh sang tím (tính theo mili giây)
-    const int transition_time = 5000; // Ví dụ: 5 giây
-
-    // Màu xanh và màu tím
-    SDL_Color blue = { 0, 0, 255, 255 };
-    SDL_Color purple = { 128, 0, 128, 255 };
-
-    // Tính toán tỉ lệ chuyển đổi
-    float ratio = static_cast<float>(elapsed_time % transition_time) / transition_time;
-
-    // Tính toán màu sắc dựa trên tỉ lệ
-    SDL_Color result_color;
-    result_color.r = static_cast<Uint8>(blue.r + (purple.r - blue.r) * ratio);
-    result_color.g = static_cast<Uint8>(blue.g + (purple.g - blue.g) * ratio);
-    result_color.b = static_cast<Uint8>(blue.b + (purple.b - blue.b) * ratio);
-    result_color.a = 255; // Alpha không thay đổi
-
-    return result_color;
-}
-
 
 
 bool LoadMenu()
@@ -529,6 +522,8 @@ int main(int argc, char* argv[])
     if (LoadBackground() == false)
         return -1;
 
+    SDL_SetTextureBlendMode(g_background.GetObjectW(), SDL_BLENDMODE_BLEND);
+
     if (LoadMenu() == false)
         return -1;
 
@@ -557,11 +552,9 @@ int main(int argc, char* argv[])
 
 
     BossObject p_boss;
+    p_boss.SplitImage(g_screen);
 
-    p_boss.LoadImg("img//boss_1.png", g_screen);
-    p_boss.set_clips();
-
-    int spawn_timer = 200;//4200; // Adjusted spawn_timer to milliseconds
+    int spawn_timer = 4100;//4200; // Adjusted spawn_timer to milliseconds
 
     int bf_run_timer = 3000; // time_count_down
 
@@ -608,38 +601,51 @@ int main(int argc, char* argv[])
         }
 
         if (game_state == MENU) {
-            // Play menu music
-            if (Mix_PlayingMusic() == 0) {
-                Mix_PlayMusic(menu_music, -1);
+
+            time_run_logo -= 80;
+
+            if (time_run_logo >= 0)
+            {
+                LoadLogoUET();
+                logo_UET_start.Render(g_screen);
+            }
+            else
+            {
+                // Play menu music
+                if (Mix_PlayingMusic() == 0) {
+                    Mix_PlayMusic(menu_music, -1);
+                }
+
+                // Render menu image based on mouse position
+                LoadMenu();
+                menu_image.Render(g_screen);
+
+                // Render start button if it's loaded
+                if (is_start_button_loaded) {
+                    start_button.Render(g_screen);
+                }
+
+                if (is_setting_button_loaded) {
+                    setting_button.Render(g_screen);
+                }
+
+                if (is_map_1_loaded) {
+
+
+                    map_1_option.Render(g_screen);
+                }
+                if (is_map_2_loaded) {
+
+                    map_2_option.Render(g_screen);
+                }
+
+                if (is_map_3_loaded) {
+
+                    map_3_option.Render(g_screen);
+                }
             }
 
-            // Render menu image based on mouse position
-            LoadMenu();
-            menu_image.Render(g_screen);
-
-            // Render start button if it's loaded
-            if (is_start_button_loaded) {
-                start_button.Render(g_screen);
-            }
-
-            if (is_setting_button_loaded) {
-                setting_button.Render(g_screen);
-            }
-
-            if (is_map_1_loaded) {
-                
-         
-                map_1_option.Render(g_screen);
-            }
-            if (is_map_2_loaded) {
-          
-                map_2_option.Render(g_screen);
-            }
-
-            if (is_map_3_loaded) {
-              
-                map_3_option.Render(g_screen);
-            }
+            
         }
 
         else if (game_state == BEFORE_RUN)
@@ -693,7 +699,9 @@ int main(int argc, char* argv[])
                 g_background.Render_bg(g_screen, NULL, bg_x_pos + g_background.GetWidth(), bg_y_pos);
             }
 
-
+            
+            
+            
 
             // Handle player actions
             Map map_data = game_map.getMap();
@@ -701,24 +709,6 @@ int main(int argc, char* argv[])
             p_player.ShowExplosion(g_screen);
             p_player.SetMapXY(map_data.start_x_, map_data.start_y_);
             p_player.DoPlayer(map_data);
-
-            // Load player image based on regime type
-            if (p_player.GetRegimeType() == FLAPPY_MODE)
-            {
-                p_player.LoadImg("img//flappy_player.png", g_screen);
-            }
-            else if (p_player.GetRegimeType() == NORMAL_MODE)
-            {
-                p_player.LoadImg("img//lap_phuong_3.png", g_screen);
-            }
-            else if (p_player.GetRegimeType() == ROUND_MODE)
-            {
-                p_player.LoadImg("img//khoi_tron_quay.png", g_screen);
-            }
-            else if (p_player.GetRegimeType() == ROCKET_MODE)
-            {
-                p_player.LoadImg("img//rocket_player.png", g_screen);
-            }
 
             // Render player and game map
             p_player.Show(g_screen);
@@ -728,8 +718,11 @@ int main(int argc, char* argv[])
             
 
             spawn_timer -= fps_timer.get_ticks();
-            if (spawn_timer <=100 )
+
+          
+            if (p_player.GetX() >= 900 && p_player.GetX() <= 1070)
             {
+                SDL_SetTextureColorMod(g_background.GetObjectW(), 255, 0, 0);
                 // Xuất hiện boss
                 p_boss.DoBoss(map_data);
                 p_boss.Show(g_screen);
@@ -786,11 +779,11 @@ int main(int argc, char* argv[])
         if (p_player.CheckPlayerStartPosition() ) {
             Mix_HaltMusic();
             Mix_PlayMusic(bg_music, -1);
-            spawn_timer = 200;
+            spawn_timer = 4100;
             bf_run_timer = 3000;
-        
+            SDL_SetTextureColorMod(g_background.GetObjectW(), 255, 255, 255);
         }
-
+    
         // Cap frame rate
         int real_imp_time = fps_timer.get_ticks();
         int time_one_frame = 1000 / FRAME_PER_SECOND; // ms
