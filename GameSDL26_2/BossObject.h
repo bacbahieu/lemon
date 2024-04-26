@@ -71,7 +71,6 @@ public:
     void Show(SDL_Renderer* des);
     void DoBoss(Map& map_data);
     void RenderBlueTrail(SDL_Renderer* des); // Render_laser
-    void UpdateImageBoss(SDL_Renderer* des);
     void UpdateLaserEffect(SDL_Renderer* des); // Thêm hàm cập nhật laser effect
     void UpdateRotation();
     void SplitImage(SDL_Renderer* des);

@@ -58,32 +58,25 @@ BossObject::~BossObject() {
 
 
 void BossObject::SplitImage(SDL_Renderer* des) {
-    // Tạo đối tượng SDL_Surface để tải ảnh đầu
     SDL_Surface* head_surface = IMG_Load("img//boss_tren.png");
     if (!head_surface) {
         printf("Failed to load head surface: %s\n", IMG_GetError());
         return;
     }
 
-    // Đặt màu chính trong ảnh là màu trong suốt
     SDL_SetColorKey(head_surface, SDL_TRUE, SDL_MapRGB(head_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
 
-    // Tạo texture từ surface của ảnh đầu
     head_texture_ = SDL_CreateTextureFromSurface(des, head_surface);
     if (!head_texture_) {
         printf("Failed to create texture for head surface: %s\n", SDL_GetError());
         SDL_FreeSurface(head_surface);
         return;
     }
-
-    // Giải phóng surface sau khi tạo texture
     SDL_FreeSurface(head_surface);
 
-    // Tạo đối tượng SDL_Surface để tải ảnh cằm
     SDL_Surface* jaw_surface = IMG_Load("img//boss_duoi.png");
     if (!jaw_surface) {
         printf("Failed to load jaw surface: %s\n", IMG_GetError());
-        // Giải phóng surface đã tải nếu có lỗi
         if (head_texture_) {
             SDL_DestroyTexture(head_texture_);
             head_texture_ = NULL;
@@ -94,12 +87,11 @@ void BossObject::SplitImage(SDL_Renderer* des) {
     // Đặt màu chính trong ảnh là màu trong suốt
     SDL_SetColorKey(jaw_surface, SDL_TRUE, SDL_MapRGB(jaw_surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
 
-    // Tạo texture từ surface của ảnh cằm
     jaw_texture_ = SDL_CreateTextureFromSurface(des, jaw_surface);
     if (!jaw_texture_) {
         printf("Failed to create texture for jaw surface: %s\n", SDL_GetError());
         SDL_FreeSurface(jaw_surface);
-        // Giải phóng surface đã tải nếu có lỗi
+
         if (head_texture_) {
             SDL_DestroyTexture(head_texture_);
             head_texture_ = NULL;
@@ -107,7 +99,6 @@ void BossObject::SplitImage(SDL_Renderer* des) {
         return;
     }
 
-    // Giải phóng surface sau khi tạo texture
     SDL_FreeSurface(jaw_surface);
 }
 
@@ -132,7 +123,6 @@ void BossObject::UpdateRotation() {
 
 void BossObject::Show(SDL_Renderer* des) {
     UpdateRotation();
-    // Update và vẽ laser
     UpdateLaserEffect(des);
 
     if (laser_effect_.IsVisible()) {

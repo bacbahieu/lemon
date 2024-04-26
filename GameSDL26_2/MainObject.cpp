@@ -719,7 +719,7 @@ void MainObject::DoPlayer(Map& map_data)
 		if (va_cham_no) {
 			// Play sound effect
 			if (collision_sound == nullptr) {
-				collision_sound = Mix_LoadWAV("img//vu_no_3.mp3"); // Adjust the path to your sound file
+				collision_sound = Mix_LoadWAV("sound//vu_no_3.mp3"); // Adjust the path to your sound file
 				if (collision_sound == nullptr) {
 					// Failed to load the sound
 					std::cerr << "Failed to load collision sound effect. SDL_mixer Error: " << Mix_GetError() << std::endl;

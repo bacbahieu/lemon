@@ -95,7 +95,7 @@ const int total_map_length = 1128;
 
 #define MAX_MAP_Y  20
 
-#define STATE_MONEY 240
+#define STATE_MONEY 477
 
 typedef struct Input
 {
@@ -134,6 +134,8 @@ typedef struct Map
 	char* file_name_ ;
 
 };
+
+
 
 
 

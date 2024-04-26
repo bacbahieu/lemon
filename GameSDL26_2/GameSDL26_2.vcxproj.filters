@@ -71,5 +71,8 @@
     <ClInclude Include="BinRecyc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Option_credits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
