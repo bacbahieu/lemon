@@ -117,58 +117,6 @@ void MainObject::set_clips()
 	}
 }
 
-void MainObject::LoadExplosionImage(SDL_Renderer* screen)
-{
-	
-	SDL_Surface* explosionSurface = IMG_Load("img//exp3.png");
-	if (explosionSurface == nullptr)
-	{
-		// Handle error
-		std::cerr << "Failed to load explosion image. SDL Error: " << IMG_GetError() << std::endl;
-	}
-	else
-	{
-		// Convert surface to texture
-		explosion_texture_ = SDL_CreateTextureFromSurface(screen, explosionSurface);
-		if (explosion_texture_ == nullptr)
-		{
-			// Handle error
-			std::cerr << "Failed to create texture from explosion surface. SDL Error: " << SDL_GetError() << std::endl;
-		}
-		else
-		{
-			// Set clips for each frame
-			for (int i = 0; i < 8; ++i)
-			{
-				explosion_clips[i].x = i * width_frame_;
-				explosion_clips[i].y = 0;
-				explosion_clips[i].w = width_frame_;
-				explosion_clips[i].h = height_frame_; 
-			}
-		}
-
-		// Free the surface
-		SDL_FreeSurface(explosionSurface);
-	}
-}
-
-
-void MainObject::ShowExplosion(SDL_Renderer* des)
-{
-	static int current_frame = 0;
-	SDL_Rect renderQuad = { rect_.x, rect_.y, width_frame_, height_frame_ };
-	SDL_Rect* current_clip = &explosion_clips[current_frame];
-	SDL_RenderCopy(des, explosion_texture_, current_clip, &renderQuad);
-
-	
-	current_frame++;
-	if (current_frame >= 8)
-	{
-		current_frame = 0; 
-	}
-}
-
-
 
 void MainObject::AddPassedTile(int x, int y) {
 	passed_tiles_.push_back(std::make_pair(x, y));
@@ -207,13 +155,9 @@ void MainObject::PrintRedTiles_ROUND(SDL_Renderer* des, double elapsed_time) {
 void MainObject::PrintRedTiles_ROCKET(SDL_Renderer* des, double elapsed_time) {
 	UpdateElapsedTime(elapsed_time);
 
-	// Tính toán màu dựa trên thời gian trôi qua
 	SDL_Color color = ChangeColor(elapsed_time_);
 
-	// Đặt màu vẽ cho renderer
 	SDL_SetRenderDrawColor(des, color.r, color.g, color.b, color.a);
-
-	// Duyệt qua tất cả các ô đã đi qua và vẽ chúng
 	for (int i = passed_tiles_.size() - 30; i < passed_tiles_.size(); ++i) {
 		int tile_x = passed_tiles_[i].first;
 		int tile_y = passed_tiles_[i].second;
@@ -446,27 +390,11 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 		
 		if (events.type == SDL_KEYDOWN)
 		{
-			if (events.key.keysym.sym == SDLK_UP)
+			if (events.key.keysym.sym == SDLK_UP || events.key.keysym.sym == SDLK_SPACE)
 			{	
 					input_type_.jump_ = 1;		
 			}
 
-		}
-
-		if (events.type == SDL_KEYUP)
-		{
-
-			if (events.key.keysym.sym == SDLK_SPACE)
-			{
-				BulletObject* p_bullet = new BulletObject();
-				p_bullet->LoadImgBullet(screen);
-				p_bullet->SetRect(this->rect_.x + width_frame_ - 20, rect_.y + height_frame_ * 0.25);
-
-				p_bullet->set_x_val(20);
-				p_bullet->set_y_val(20);
-				p_bullet->set_is_move(true);
-				p_bullet_list_.push_back(p_bullet);
-			}
 		}
 	}
 
@@ -495,47 +423,6 @@ void MainObject::HandelInputAction(SDL_Event events, SDL_Renderer* screen)
 		
 }
 
-void MainObject::HandleBullet(SDL_Renderer* des)
-{
-	for (int i = 0; i < p_bullet_list_.size(); i++)
-	{
-		BulletObject* p_bullet = p_bullet_list_.at(i);
-		if (p_bullet != NULL)
-		{
-			if (p_bullet->get_is_move() == true)
-			{
-				p_bullet->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
-				p_bullet->Render(des);
-			}
-			else
-			{
-				p_bullet_list_.erase(p_bullet_list_.begin() + i);
-				if (p_bullet != NULL) 
-				{
-					delete p_bullet;
-					p_bullet = NULL;
-				}
-			}
-		}
-	}
-}
-
-
-void MainObject::RemoveBullet(const int& idx)
-{
-	int size = p_bullet_list_.size();
-	if (size > 0 && idx < size)
-	{
-		BulletObject* p_bullet = p_bullet_list_.at(idx);
-		p_bullet_list_.erase(p_bullet_list_.begin() + idx);
-
-		if (p_bullet)
-		{
-			delete p_bullet;
-			p_bullet = NULL;
-		}
-	}
-}
 
 void MainObject::DoPlayer(Map& map_data)
 {
@@ -634,8 +521,7 @@ void MainObject::DoPlayer(Map& map_data)
 				 {
 						 y_val_ = +ROUND_JUMP_VAL;
 						 type_ROUND_up = true;
-						 type_ROUND_down = false;
-						 
+						 type_ROUND_down = false;	 
 				 }
 
 				 input_type_.jump_ = 0;

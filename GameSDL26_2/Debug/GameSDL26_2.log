@@ -1,19 +1,50 @@
-﻿  Main.cpp
+﻿  MainObject.cpp
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(108,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
-  (compiling source file 'Main.cpp')
+  (compiling source file 'MainObject.cpp')
   
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(121,2): warning C4091: 'typedef ': ignored on left of 'Regime' when no variable is declared
-  (compiling source file 'Main.cpp')
+  (compiling source file 'MainObject.cpp')
   
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(136,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
-  (compiling source file 'Main.cpp')
+  (compiling source file 'MainObject.cpp')
   
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Init.h(48,17): warning C4566: character represented by universal-character-name '\u1EC3' cannot be represented in the current code page (1252)
-  (compiling source file 'Main.cpp')
-  
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Init.h(48,17): warning C4566: character represented by universal-character-name '\u1EA3' cannot be represented in the current code page (1252)
-  (compiling source file 'Main.cpp')
-  
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(198,30): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(198,30): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(128,44): warning C4018: '<': signed/unsigned mismatch
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(142,44): warning C4018: '<': signed/unsigned mismatch
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(161,44): warning C4018: '<': signed/unsigned mismatch
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(177,44): warning C4018: '<': signed/unsigned mismatch
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(199,21): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(200,21): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(223,21): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(224,21): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(237,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(238,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(265,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(266,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(311,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(312,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(577,19): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(586,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(587,22): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(650,29): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(678,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(679,37): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(681,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(682,36): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(796,38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(797,56): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(799,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(800,45): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(824,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(825,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(827,32): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(828,37): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(924,18): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(925,31): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(1038,33): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(1039,29): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(1041,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(1042,58): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(1086,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(1096,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\MainObject.cpp(1223,24): warning C4244: 'return': conversion from 'float' to 'int', possible loss of data
   GameSDL26_2.vcxproj -> D:\GEOMETRYDASH_ver_2\lemon\Debug\GameSDL26_2.exe

@@ -134,7 +134,6 @@
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BossObject.cpp" />
-    <ClCompile Include="BulletObject.cpp" />
     <ClCompile Include="CommonFunc.cpp" />
     <ClCompile Include="game_map.cpp" />
     <ClCompile Include="ImpTimer.cpp" />
@@ -147,7 +146,6 @@
     <ClInclude Include="Before_run.h" />
     <ClInclude Include="BinRecyc.h" />
     <ClInclude Include="BossObject.h" />
-    <ClInclude Include="BulletObject.h" />
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="game_map.h" />
     <ClInclude Include="ImpTimer.h" />

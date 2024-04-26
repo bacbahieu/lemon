@@ -73,39 +73,6 @@ void RenderDeathCount(SDL_Renderer* renderer) {
     }
 }
 
-
-void RenderOptions(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, int x, int y) {
-    std::vector<std::string> options = {
-        "Start Game",
-        "Load Game",
-        "Options",
-        "Save Game",
-        "Settings",
-        "Exit",
-        "High Scores",
-        "Credits",
-        "Tutorial",
-        "Quit"
-    };
-
-    for (int i = 0; i < options.size(); ++i) {
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, options[i].c_str(), color);
-        if (textSurface != nullptr) {
-            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-            if (textTexture != nullptr) {
-                SDL_Rect textRect = { x, y + i * 30, textSurface->w, textSurface->h };
-                SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-                SDL_DestroyTexture(textTexture);
-            }
-            SDL_FreeSurface(textSurface);
-        }
-    }
-}
-
-
-
-
-
 void CleanUpDeathCounter() {
     TTF_CloseFont(font);
     font = NULL;

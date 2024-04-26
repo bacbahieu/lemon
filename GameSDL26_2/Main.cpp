@@ -15,7 +15,6 @@
 
 bool die_by_laser = false;
 
-
 int main(int argc, char* argv[])
 {
     ImpTimer fps_timer;
@@ -174,8 +173,6 @@ int main(int argc, char* argv[])
 
             // Handle player actions
             Map map_data = game_map.getMap();
-            p_player.HandleBullet(g_screen);
-            p_player.ShowExplosion(g_screen);
             p_player.SetMapXY(map_data.start_x_, map_data.start_y_);
             p_player.DoPlayer(map_data);
 

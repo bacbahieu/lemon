@@ -5,7 +5,6 @@
 #include <vector>
 #include "CommonFunc.h"
 #include "BaseObject.h"
-#include "BulletObject.h"
 #include "BossObject.h"
 #include "Laser.h"
 
@@ -51,14 +50,6 @@ public :
 	void UpdateImagePlayer(SDL_Renderer* des);
 	SDL_Rect GetRectFrame();
 
-	void set_bullet_list(std::vector<BulletObject*> bullet_list)
-	{
-		p_bullet_list_ = bullet_list;
-	}
-	std::vector<BulletObject*> get_bullet_list() const { return p_bullet_list_; }
-
-	void HandleBullet(SDL_Renderer* des);
-	void RemoveBullet(const int& idx);
 	void IncreaseMoney();
 	int get_frame_width() const { return width_frame_; }
 	int get_frame_height() const { return height_frame_; }
@@ -69,9 +60,6 @@ public :
 	int GetX();
 
 	float Get_x_pos_player() { return x_pos_; }
-
-	void LoadExplosionImage(SDL_Renderer* screen) ;
-	void ShowExplosion(SDL_Renderer* des);
 
 	void AddPassedTile(int x, int y);
 	void PrintRedTiles_NORMAL(SDL_Renderer* des, double elapsed_time);
@@ -101,7 +89,6 @@ private:
 	std::vector<std::pair<int, int>> passed_tiles_;
 	double elapsed_time_;
 	int money_count;
-	std::vector<BulletObject*> p_bullet_list_;
 	float x_val_;
 	float y_val_;
 
