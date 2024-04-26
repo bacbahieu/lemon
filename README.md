@@ -118,6 +118,11 @@
   + Header *CommonFunc.h*: Chứa tất cả các thư viện, dữ liệu, thông số, hằng số, cần cho cả chương trình game.
   + Header *game_map.h*: Quản lý toàn bộ về việc xây dựng ô bản đồ, vẽ ô bản đồ.
   + Header *ImpTimer*: Quản lý thời gian của game.
+  + Header *Before_run.h*: Quản lý đếm ngược trước khi vào chơi.
+  + Header *Init.h*: Khởi tạo mọi tài nguyên cần dùng.
+  + Header *Logo.h*: Tạo logo cho game.
+  + Header *Menu*: Quản lý ảnh, sự kiện chuột trong menu.
+  + Header *Option_credits.h*: Quản lý khung credits sau khi win game.
   + Header *MainObject.h*: Chứa logic chính của nhân vật game
       * Xử lý events: Xử lý các thao tác di chuyển của nhân vật nhận từ bàn phím.
       * Xử lý các chức năng của nhân vật: nhảy cao, tăng tốc,...
@@ -127,12 +132,12 @@
       * Tạo hiệu ứng đuôi ảnh nhân vật.
   + Header *Menu.h*: Xử lý chương trình.
 - Folder *Source Files*: *Chứa tất cả các file .cpp viết toàn bộ mã code của các thành phần class khai báo trong file .h tương ứng.
- *File Main.cpp* chỉ khởi tạo cửa sổ, loading âm thanh, tạo menu, liên kết toàn bộ tài nguyê, từ nhân vật, boss, map,..
+ *File Main.cpp* chỉ khởi tạo cửa sổ, loading âm thanh, tạo menu, liên kết toàn bộ tài nguyên, từ nhân vật, boss, map,..
 
 ## **Conclusion**
 ### ***Điều tâm đắc***
   - Dự án này hoàn toàn là do em tự làm, không đi sao chép ở bất kì đâu.
-  - Xây dựng tính năng nhân vật theo sở thích.
+  - Xây dựng tính năng nhân vật theo sở thích, làm ra game mà mình thích nhất từ nhỏ.
   - Hiểu được mô hình phát triển 1 phần mềm kiểu thác nước: Phân tích, thiết kế, lập trình, kiểm thử, vận hành và bảo trì.
   - Hiểu được cách dùng github.
   - Hiểu sơ sơ một số khía cạnh của lập trình hướng đối tượng: kế thừa, đa hình,...
