@@ -8,115 +8,13 @@
 #include "LText.h"
 #include "Logo.h"
 #include "Menu.h"
+#include "Init.h"
 #include "Before_run.h"
 #include "Option_credits.h"
 
 
 bool die_by_laser = false;
 
-// Function to play background music
-void PlayBackgroundMusic(Mix_Music* bg_music) {
-    Mix_PlayMusic(bg_music, -1); // -1 means loop indefinitely
-}
-
-
-
-bool InitData(Mix_Music*& bg_music) // Modify to accept reference to bg_music
-{
-    bool success = true;
-    int ret = SDL_Init(SDL_INIT_VIDEO);
-    if (ret < 0)
-        return false;
-
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-
-    g_window = SDL_CreateWindow("Game cua LE TUAN CANH",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH, SCREEN_HEIGHT,
-        SDL_WINDOW_SHOWN);
-    if (g_window == NULL)
-    {
-        success = false;
-    }
-    else
-    {
-        g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-        if (g_screen == NULL)
-            success = false;
-        else {
-            SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOW, RENDER_DRAW_COLOW, RENDER_DRAW_COLOW, RENDER_DRAW_COLOW);
-            int imgFlags = IMG_INIT_PNG;
-            if (!(IMG_Init(imgFlags) && imgFlags))
-                success = false;
-        }
-    }
-
-
-    // Init icon game
-    SDL_Surface* iconSurface = IMG_Load("img//icon_game.png");
-    if (!iconSurface) {
-        SDL_Log("Không thể tải ảnh icon: %s", IMG_GetError());
-    }
-    else {
-        SDL_SetWindowIcon(g_window, iconSurface);
-        SDL_FreeSurface(iconSurface); 
-    }
-
-    // Initialize SDL_mixer
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-    {
-        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-        success = false;
-    }
-
-    // Load background music
-    bg_music = Mix_LoadMUS("sound//PRESS_START.mp3");
-    if (!bg_music) {
-        printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
-        success = false;
-    }
-
-    return success;
-}
-
-
-bool InitTTF() {
-    // Khoi tao SDL_ttf
-    if (TTF_Init() == -1) {
-        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-        return false;
-    }
-    return true;
-}
-
-bool LoadBackground()
-{
-    bool ret = g_background.LoadImg("img//background_8.png", g_screen);
-    if (ret == false)
-        return false;
-
-    return true;
-}
-
-void close(Mix_Music* bg_music)
-{
-    g_background.Free();
-
-    SDL_DestroyRenderer(g_screen);
-    g_screen = NULL;
-
-    SDL_DestroyWindow(g_window);
-    g_window = NULL;
-
-    // Free resources and quit SDL_mixer
-    Mix_FreeMusic(bg_music);
-    bg_music = NULL;
-    Mix_Quit();
-
-    IMG_Quit();
-    SDL_Quit();
-}
 
 int main(int argc, char* argv[])
 {
@@ -125,12 +23,10 @@ int main(int argc, char* argv[])
     Mix_Music* menu_music = NULL;
     Mix_Music* bg_music = NULL; // Initialize bg_music pointer
 
-
-
-    if (InitData(bg_music) == false)
+    if (InitData(bg_music, g_screen) == false)
         return -1;
 
-    if (LoadBackground() == false)
+    if (LoadBackground(g_screen) == false)
         return -1;
 
     SDL_SetTextureBlendMode(g_background.GetObjectW(), SDL_BLENDMODE_BLEND);
@@ -141,8 +37,6 @@ int main(int argc, char* argv[])
     if (!InitTTF()) {
         return -1;
     }
-
-
 
     // Load menu music
     menu_music = Mix_LoadMUS("sound//menu_music.mp3");
@@ -161,12 +55,9 @@ int main(int argc, char* argv[])
     p_player.LoadImg("img//nhan_vat.png", g_screen);
     p_player.set_clips();
 
-
     BossObject p_boss;
     p_boss.SplitImage(g_screen);
 
-   
-   
 
     InitDeathCounter(g_screen);
 
@@ -175,8 +66,6 @@ int main(int argc, char* argv[])
     while (!is_quit)
     {
         fps_timer.start();
-        
-        
 
         while (SDL_PollEvent(&g_event) != 0)
         {
@@ -246,8 +135,6 @@ int main(int argc, char* argv[])
                     map_3_option.Render(g_screen);
                 }
             }
-
-            
         }
 
         else if (game_state == BEFORE_RUN)
@@ -270,7 +157,6 @@ int main(int argc, char* argv[])
             if (Mix_PlayingMusic() == 0) {
                 PlayBackgroundMusic(bg_music);
             }
-
             // Update background position
             bg_x_pos -= 1;
             if (bg_x_pos <= -g_background.GetWidth()) {
@@ -282,10 +168,6 @@ int main(int argc, char* argv[])
             if (bg_x_pos < SCREEN_WIDTH - g_background.GetWidth()) {
                 g_background.Render_bg(g_screen, NULL, bg_x_pos + g_background.GetWidth(), bg_y_pos);
             }
-
-            
-            
-            
 
             // Handle player actions
             Map map_data = game_map.getMap();
@@ -299,18 +181,12 @@ int main(int argc, char* argv[])
             game_map.SetMap(map_data);
             game_map.DrawMap(g_screen);
 
-            
-
-      
-
             if (p_player.GetX() >= 800 && p_player.GetX() <= 1120) {
                 SDL_SetTextureColorMod(g_background.GetObjectW(), 250,175,180);
             }
 
-          
             if (p_player.GetX() >= 900 && p_player.GetX() <= 1070)
             {
-                
                 // Xuất hiện boss
                 p_boss.DoBoss(map_data);
                 p_boss.Show(g_screen);
@@ -319,11 +195,8 @@ int main(int argc, char* argv[])
                 std::cout << "Boss xuất hiện!" << std::endl;
                 p_player.CheckCollisionWithLaser(p_player, p_boss);
             }
-
             pause_button.Render(g_screen);
-
             float percent_distance_ = (static_cast<float>(p_player.GetX()) / static_cast<float>(total_map_length)) * 100.0f;
-
             UpdatePercent(percent_distance_);
 
             // ve khung thanh phan tram
@@ -347,22 +220,15 @@ int main(int argc, char* argv[])
             SDL_RenderFillRect(g_screen, &percent_bar);
 
             RenderDeathCount(g_screen);
-
-            
         }
         else if (is_game_paused) {
-            
-                RenderPausedScreen(); // Hiển thị khung ảnh đã chụp khi trò chơi tạm 
-          
-            
+            RenderPausedScreen(); // Hiển thị khung ảnh đã chụp khi trò chơi tạm 
         }
 
         if (p_player.Check_End_Game()) {
             game_state = AFTER_RUN;
         }
-
         SDL_RenderPresent(g_screen);
-
 
         // Play background music if player returns to start position
         if (p_player.CheckPlayerStartPosition() ) {
@@ -386,7 +252,7 @@ int main(int argc, char* argv[])
     }
 
     // Clean up resources
-    close(bg_music);
+    close(bg_music, g_screen, g_window);
 
     return 0;
 }
