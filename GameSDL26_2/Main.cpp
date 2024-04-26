@@ -45,16 +45,19 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    // Init map
     GameMap game_map;
 
     char dat[] = "map_2/map02.dat";
     game_map.LoadMap(dat);
     game_map.LoadTiles(g_screen);
 
+    // Init player
     MainObject p_player;
     p_player.LoadImg("img//nhan_vat.png", g_screen);
     p_player.set_clips();
 
+    // Init boss
     BossObject p_boss;
     p_boss.SplitImage(g_screen);
 
@@ -182,7 +185,7 @@ int main(int argc, char* argv[])
             game_map.DrawMap(g_screen);
 
             if (p_player.GetX() >= 800 && p_player.GetX() <= 1120) {
-                SDL_SetTextureColorMod(g_background.GetObjectW(), 250,175,180);
+                SDL_SetTextureColorMod(g_background.GetObjectW(), 255, 0, 0);
             }
 
             if (p_player.GetX() >= 900 && p_player.GetX() <= 1070)

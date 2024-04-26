@@ -684,7 +684,6 @@ void MainObject::DoPlayer(Map& map_data)
 					 come_back_time_++;
 			     }
 			 
-			 
 		 }
 		 
 
@@ -738,8 +737,8 @@ void MainObject::DoPlayer(Map& map_data)
 		if (come_back_time_ == 0)// Reset again
 		{
 			UpdateDeathCount();
-			x_pos_ = 25000; // 25000; // 64
-			y_pos_ = 200;
+			x_pos_ = 32; // 25000; // 64
+			y_pos_ = 380;
 			x_val_ = 0;
 			y_val_ = 0;
 			speed_run = PLAYER_SPEED_MIN;

@@ -14,6 +14,6 @@ D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Init.h(48,17): warning C4566: character 
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Init.h(48,17): warning C4566: character represented by universal-character-name '\u1EA3' cannot be represented in the current code page (1252)
   (compiling source file 'Main.cpp')
   
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(195,30): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(195,30): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(198,30): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(198,30): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
   GameSDL26_2.vcxproj -> D:\GEOMETRYDASH_ver_2\lemon\Debug\GameSDL26_2.exe
