@@ -74,5 +74,14 @@
     <ClInclude Include="Option_credits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Logo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Before_run.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

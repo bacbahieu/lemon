@@ -144,14 +144,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="Before_run.h" />
     <ClInclude Include="BinRecyc.h" />
     <ClInclude Include="BossObject.h" />
     <ClInclude Include="BulletObject.h" />
     <ClInclude Include="CommonFunc.h" />
     <ClInclude Include="game_map.h" />
     <ClInclude Include="ImpTimer.h" />
+    <ClInclude Include="Logo.h" />
     <ClInclude Include="LText.h" />
     <ClInclude Include="MainObject.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Option_credits.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
