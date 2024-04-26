@@ -43,7 +43,7 @@ const int RETURN_BUTTON_HEIGHT = 72;
 
 
 
-const int total_map_length = 1078;
+const int total_map_length = 1128;
 
 #define SPACE_PORTAL_NORMAL_TO_FLAPPY_DOWN 500
 #define SPACE_PORTAL_NORMAL_TO_FLAPPY_UP 499
@@ -63,11 +63,15 @@ const int total_map_length = 1078;
 #define SPACE_PORTAL_ALL_TO_ROCKET_MAX 295
 
 #define END_TILE_MIN 296
-#define END_TILE_MAX 299
+#define END_TILE_MAX 297
 
 
 #define THREAT_TILE_MIN 100
 #define THREAT_TILE_MAX 199
+
+#define THREAT_TILE_MIN_2 300
+#define THREAT_TILE_MAX_2 420
+
 
 #define JUMP_6_TILE_L 200
 #define JUMP_6_TILE_R 201

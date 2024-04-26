@@ -36,9 +36,6 @@
     <ClCompile Include="BulletObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,13 +62,13 @@
     <ClInclude Include="BulletObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BossObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BinRecyc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

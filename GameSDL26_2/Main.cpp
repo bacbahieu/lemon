@@ -11,6 +11,8 @@ enum GameState {
     MENU,
     BEFORE_RUN,
     PLAYING,
+    AFTER_RUN,
+    OPTION,
 };
 
 BaseObject g_background;
@@ -29,13 +31,15 @@ BaseObject option_image;
 BaseObject start_button;
 BaseObject setting_button;
 
-BaseObject map_1_option;
-BaseObject map_2_option;
 BaseObject map_3_option;
 
 BaseObject before_run_3mi;
 BaseObject before_run_2mi;
 BaseObject before_run_1mi;
+
+BaseObject after_run_1;
+BaseObject after_run_2;
+BaseObject after_run_3;
 
 
 bool is_game_paused = false;
@@ -48,15 +52,15 @@ bool is_pause_button_loaded = false;
 
 bool come_map = false;
 
-bool is_map_0_loaded = true;
-bool is_map_1_loaded = false;
-bool is_map_2_loaded = false;
 bool is_map_3_loaded = false;
 
 bool bf_run_3mi = false;
 bool bf_run_2mi = false;
 bool bf_run_1mi = false;
 
+bool af_end_1 = false;
+bool af_end_2 = false;
+bool af_end_3 = false;
 
 bool die_by_laser = false;
 
@@ -65,16 +69,12 @@ int overall_volume = MIX_MAX_VOLUME;
 
 
 void UpdateOverallVolume(int volume) {
-    // Set âm lượng tổng thể
     overall_volume = volume;
-    // Cập nhật âm lượng cho tất cả các kênh
-    Mix_Volume(-1, overall_volume); // Đặt âm lượng cho tất cả các kênh là overall_volume
+    Mix_Volume(-1, overall_volume); 
 }
 
 void HandleVolumeSlider(int volume) {
-    // Cập nhật âm lượng tổng thể
     UpdateOverallVolume(volume);
-    // Render các thay đổi về âm lượng hoặc thực hiện các hành động khác nếu cần
 }
 
 bool LoadLogoUET() {
@@ -134,35 +134,6 @@ bool LoadSettingButton() {
     return true;
 }
 
-bool LoadMap_1() {
-    bool ret = map_1_option.LoadImg("img//map_1_option.png", g_screen);
-    if (!ret) {
-        std::cout << "Failed to load map 1!" << std::endl;
-        return false;
-    }
-
-    map_1_option.Render(g_screen);
-
-    is_map_1_loaded = true;
-
-    return true;
-
-}
-
-bool LoadMap_2() {
-    bool ret = map_2_option.LoadImg("img//map_2_option.png", g_screen);
-    if (!ret) {
-        std::cout << "Failed to load map 2!" << std::endl;
-        return false;
-    }
-
-    map_2_option.Render(g_screen);
-
-    is_map_2_loaded = true;
-
-    return true;
-
-}
 
 bool LoadMap_3() {
     bool ret = map_3_option.LoadImg("img//map_3_option.png", g_screen);
@@ -172,8 +143,6 @@ bool LoadMap_3() {
     }
 
     map_3_option.Render(g_screen);
-
-    is_map_3_loaded = true;
 
     return true;
 
@@ -225,6 +194,47 @@ bool Load_Before_1() {
 
 }
 
+bool Load_After_1() {
+    bool ret = after_run_1.LoadImg("img//end_img_1.png", g_screen);
+    if (!ret) {
+        std::cout << "Failed to load end_img_1!" << std::endl;
+        return false;
+    }
+
+    after_run_1.Render(g_screen);
+    af_end_1  = true;
+
+    return true;
+
+}
+
+bool Load_After_2() {
+    bool ret = after_run_2.LoadImg("img//end_img_2.png", g_screen);
+    if (!ret) {
+        std::cout << "Failed to load end_img_2!" << std::endl;
+        return false;
+    }
+
+    after_run_2.Render(g_screen);
+    af_end_2 = true;
+
+    return true;
+
+}
+
+bool Load_After_3() {
+    bool ret = after_run_3.LoadImg("img//end_img_3.png", g_screen);
+    if (!ret) {
+        std::cout << "Failed to load end_img_3!" << std::endl;
+        return false;
+    }
+
+    after_run_3.Render(g_screen);
+    af_end_3 = true;
+
+    return true;
+
+}
 
 
 // Function to play background music
@@ -255,6 +265,7 @@ void HandleMouseEventsMenu(SDL_Event& event, SDL_Renderer* renderer) {
             if (x >= START_BUTTON_X - 150 && x <= START_BUTTON_X + 150 &&
                 y >= START_BUTTON_Y - 150 && y <= START_BUTTON_Y + 150) {
                 come_map = true;
+
             }
             else if (x >= SETTING_BUTTON_X && x <= SETTING_BUTTON_X + SETTING_BUTTON_WIDTH &&
                 y >= SETTING_BUTTON_Y && y <= SETTING_BUTTON_Y + SETTING_BUTTON_HEIGHT) {
@@ -273,66 +284,14 @@ void HandleMouseEventsMenu(SDL_Event& event, SDL_Renderer* renderer) {
         }
 
         if (come_map) {
-            LoadMap_1();
-            if (is_map_1_loaded) {
+            is_map_3_loaded = true;
 
-                if (x >= 1195 && x <= 1255 && y >= 268 && y <= 380) {
-                    is_map_1_loaded = false;
-                    map_1_option.Free();
-                    LoadMap_2();
-                    std::cout << "RUN Map 2" << std::endl;
-                }
-                else if (x >= RETURN_BUTTON_X && x <= RETURN_BUTTON_X + RETURN_BUTTON_WIDTH &&
-                    y >= RETURN_BUTTON_Y && y <= RETURN_BUTTON_Y + RETURN_BUTTON_HEIGHT) {
-                    map_1_option.Free();
-                    menu_image.Render(renderer);
-                    in_first_menu = true;
-                    come_map = false; // Reset come_map when returning to the first menu
-                }
-            }
-
-            if (is_map_2_loaded) {
-                if (x >= 1195 && x <= 1255 && y >= 268 && y <= 380) {
-                    is_map_2_loaded = false;
-                    map_2_option.Free();
-                    LoadMap_3();
-                    std::cout << "RUN Map 3" << std::endl;
-                }
-                else if (x >= 30 && x <= 90 && y >= 268 && y <= 380) {
-                    is_map_2_loaded = false;
-                    map_2_option.Free();
-                    LoadMap_1();
-                }
-                else if (x >= RETURN_BUTTON_X && x <= RETURN_BUTTON_X + RETURN_BUTTON_WIDTH &&
-                    y >= RETURN_BUTTON_Y && y <= RETURN_BUTTON_Y + RETURN_BUTTON_HEIGHT) {
-                    map_2_option.Free();
-                    menu_image.Render(renderer);
-                    in_first_menu = true;
-                    come_map = false; // Reset come_map when returning to the first menu
-                }
-            }
-
-            if (is_map_3_loaded) {
-                if (x >= 30 && x <= 90 && y >= 268 && y <= 380) {
-                    is_map_3_loaded = false;
-                    map_3_option.Free();
-                    LoadMap_2();
-                }
-                else if (x >= RETURN_BUTTON_X && x <= RETURN_BUTTON_X + RETURN_BUTTON_WIDTH &&
-                    y >= RETURN_BUTTON_Y && y <= RETURN_BUTTON_Y + RETURN_BUTTON_HEIGHT) {
-                    map_3_option.Free();
-                    menu_image.Render(renderer);
-                    in_first_menu = true;
-                    come_map = false; // Reset come_map when returning to the first menu
-                }
-                else if (x >= 255 && x <= 1020 && y >= 105 && y <= 300)
-                {
-         
-                    is_map_3_loaded = false;
-                    map_3_option.Free();
-                    menu_image.Render(renderer);
-                    game_state = BEFORE_RUN;
-                }
+            if (x >= 255 && x <= 1020 && y >= 105 && y <= 300)
+            {
+                is_map_3_loaded = false;
+                map_3_option.Free();
+                menu_image.Render(renderer);
+                game_state = BEFORE_RUN;
             }
         }
     }
@@ -558,6 +517,7 @@ int main(int argc, char* argv[])
 
     int bf_run_timer = 3000; // time_count_down
 
+    int af_run_timer = 3000;
 
     InitDeathCounter(g_screen);
 
@@ -629,18 +589,8 @@ int main(int argc, char* argv[])
                     setting_button.Render(g_screen);
                 }
 
-                if (is_map_1_loaded) {
-
-
-                    map_1_option.Render(g_screen);
-                }
-                if (is_map_2_loaded) {
-
-                    map_2_option.Render(g_screen);
-                }
-
                 if (is_map_3_loaded) {
-
+                    LoadMap_3();
                     map_3_option.Render(g_screen);
                 }
             }
@@ -674,6 +624,34 @@ int main(int argc, char* argv[])
 
             
         }
+
+        else if (game_state == AFTER_RUN)
+        {
+            af_run_timer -= 200;
+      
+            if (af_run_timer > 2000) {
+                Load_After_1();
+                after_run_1.Render(g_screen);
+            }
+            else if (af_run_timer <= 2000 && af_run_timer > 1000) {
+                after_run_1.Free();
+                Load_After_2();
+                after_run_2.Render(g_screen);
+            }
+            else if (af_run_timer <= 1000 && af_run_timer > 0) {
+                after_run_2.Free();
+                Load_After_3();
+                after_run_3.Render(g_screen);
+            }
+            else if (af_run_timer <= 0) {
+                after_run_3.Free();
+                game_state = OPTION;
+            }
+        }
+        else if (game_state == OPTION) {
+            
+        }
+
 
         else if (game_state == PLAYING && !is_game_paused)
         {
@@ -719,10 +697,14 @@ int main(int argc, char* argv[])
 
             spawn_timer -= fps_timer.get_ticks();
 
+            if (p_player.GetX() >= 800 && p_player.GetX() <= 1120) {
+                SDL_SetTextureColorMod(g_background.GetObjectW(), 250,175,180);
+            }
+
           
             if (p_player.GetX() >= 900 && p_player.GetX() <= 1070)
             {
-                SDL_SetTextureColorMod(g_background.GetObjectW(), 255, 0, 0);
+                
                 // Xuất hiện boss
                 p_boss.DoBoss(map_data);
                 p_boss.Show(g_screen);
@@ -771,6 +753,9 @@ int main(int argc, char* argv[])
             
         }
 
+        if (p_player.Check_End_Game()) {
+            game_state = AFTER_RUN;
+        }
 
         SDL_RenderPresent(g_screen);
 

@@ -17,7 +17,8 @@ void LaserEffect::Update(SDL_Renderer* des) {
 
 
 BossObject::BossObject():
-laser_effect_(1000, 2000)
+laser_effect_(1000, 2000),
+isLaserVisible_(false)
 {
 
     head_texture_ = nullptr;
@@ -48,6 +49,7 @@ laser_effect_(1000, 2000)
 
     head_rotation_angle_ = 0.0;
     jaw_rotation_angle_ = 0.0;
+
 }
 
 
@@ -126,8 +128,6 @@ void BossObject::UpdateRotation() {
         jaw_rotation_angle_ = -max_rotation_angle_;
     }
 
-
-
 }
 
 void BossObject::Show(SDL_Renderer* des) {
@@ -146,10 +146,6 @@ void BossObject::Show(SDL_Renderer* des) {
     SDL_Rect jaw_renderQuad = { jaw_x_pos_, jaw_y_pos_, jaw_width_, jaw_height_ };
     SDL_RenderCopyEx(des, jaw_texture_, nullptr, &jaw_renderQuad, jaw_rotation_angle_, nullptr, SDL_FLIP_NONE);
 
-
-    
-
-    // Các hàm khác để vẽ laser, hiện giữ nguyên
 }
 
 
@@ -195,17 +191,23 @@ void BossObject::RenderBlueTrail(SDL_Renderer* des) {
     int trailStartY = jaw_y_pos_ + 5 * height_frame_ / 8;
 
     int trailLength = 1200; 
-    int trailWidth = 96; 
+
+    const int LASER_WIDTH_MAX = 96;
+    const int LASER_WIDTH_MIN = 6;
+    
 
     int red = 64; 
     int green = 224; 
     int blue = 208; 
     int alpha = 255;
 
-    int pulsationPeriod = 50; 
-    int pulsationAmplitude = 50; 
+    int pulsationPeriod = 200; 
+    int pulsationAmplitude = 150;
 
     int pulsatingGreen = green + pulsationAmplitude * std::sin(SDL_GetTicks() * 2 * M_PI / pulsationPeriod);
+
+    int trailWidth = LASER_WIDTH_MIN + (LASER_WIDTH_MAX - LASER_WIDTH_MIN) * std::abs(std::sin(SDL_GetTicks() * 2 * M_PI / (2 * pulsationPeriod)));
+
 
     for (int i = 0; i < trailLength; ++i) {
         alpha = 255 - (255 * i / trailLength);
@@ -213,6 +215,7 @@ void BossObject::RenderBlueTrail(SDL_Renderer* des) {
         SDL_Rect trailRect = { trailStartX - i, trailStartY - trailWidth / 2, trailWidth , trailWidth };
         SDL_RenderFillRect(des, &trailRect);
     }
+    isLaserVisible_ = (trailWidth > 64);
     trailRectquad = { 0, trailStartY , trailLength, trailWidth };
 
 }
@@ -224,6 +227,12 @@ void BossObject::UpdateLaserEffect(SDL_Renderer* des)
 
 SDL_Rect BossObject::GetRectlaser()
 {
-    std::cout << trailRectquad.x << "\\\\\\\\" << trailRectquad.y << "\n";
-    return trailRectquad;
+    if (isLaserVisible_) {
+        std::cout << trailRectquad.x << "\\\\\\\\" << trailRectquad.y << "\n";
+        return trailRectquad;
+    }
+    else {
+        // Nếu màu laser không được hiển thị, trả về một hình chữ nhật rỗng
+        return SDL_Rect{ 0, 0, 0, 0 };
+    }
 }

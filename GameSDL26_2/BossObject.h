@@ -3,7 +3,8 @@
 
 #include "BaseObject.h"
 #include "Laser.h"
-#include "SDL.h" 
+#include <SDL.h>
+
 
 class LaserEffect {
 private:
@@ -23,7 +24,7 @@ public:
 
 class BossObject : public BaseObject {
 private:
-   
+    
     SDL_Texture* head_texture_;
     SDL_Texture* jaw_texture_;
 
@@ -58,7 +59,7 @@ private:
     const float rotation_speed_ = 1.0f;
     const float max_rotation_angle_ = 25.0f;
 
-
+    bool isLaserVisible_;
     SDL_Rect trailRectquad;
 public:
     

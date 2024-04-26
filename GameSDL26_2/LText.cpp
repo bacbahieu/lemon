@@ -9,6 +9,12 @@ TTF_Font* font_2 = NULL;
 SDL_Texture* death_count_texture = NULL;
 SDL_Texture* percent_texture = NULL;
 
+
+TTF_Font* option_1 = NULL;
+TTF_Font* option_2 = NULL;
+
+
+
 void InitDeathCounter(SDL_Renderer* renderer) {
     font = TTF_OpenFont("font//Rinnero.ttf", 60);
     if (font == NULL) {
@@ -66,6 +72,39 @@ void RenderDeathCount(SDL_Renderer* renderer) {
         SDL_FreeSurface(percent_text_surface);
     }
 }
+
+
+void RenderOptions(SDL_Renderer* renderer, TTF_Font* font, SDL_Color color, int x, int y) {
+    std::vector<std::string> options = {
+        "Start Game",
+        "Load Game",
+        "Options",
+        "Save Game",
+        "Settings",
+        "Exit",
+        "High Scores",
+        "Credits",
+        "Tutorial",
+        "Quit"
+    };
+
+    for (int i = 0; i < options.size(); ++i) {
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, options[i].c_str(), color);
+        if (textSurface != nullptr) {
+            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+            if (textTexture != nullptr) {
+                SDL_Rect textRect = { x, y + i * 30, textSurface->w, textSurface->h };
+                SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+                SDL_DestroyTexture(textTexture);
+            }
+            SDL_FreeSurface(textSurface);
+        }
+    }
+}
+
+
+
+
 
 void CleanUpDeathCounter() {
     TTF_CloseFont(font);

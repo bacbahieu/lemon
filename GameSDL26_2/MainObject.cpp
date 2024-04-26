@@ -810,7 +810,7 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y2][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val1 >= THREAT_TILE_MIN_2 && val1 <= THREAT_TILE_MAX_2) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN_2 && val2 <= THREAT_TILE_MAX_2))
 			{
 				;
 			}
@@ -922,7 +922,7 @@ void MainObject::CheckToMap(Map& map_data)
 			int val1 = map_data.tile[y1][x2];
 			int val2 = map_data.tile[y2][x2];
 
-			if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+	     if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val1 >= THREAT_TILE_MIN_2 && val1 <= THREAT_TILE_MAX_2) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN_2 && val2 <= THREAT_TILE_MAX_2))
 			 {
 				 va_cham_no = true;
 				 come_back_time_++;
@@ -956,7 +956,7 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y2][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val1 >= THREAT_TILE_MIN_2 && val1 <= THREAT_TILE_MAX_2) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN_2 && val2 <= THREAT_TILE_MAX_2))
 			{
 				;
 			}
@@ -1060,7 +1060,7 @@ void MainObject::CheckToMap(Map& map_data)
 				map_data.tile[y1][x2] = 0;
 				IncreaseMoney();
 			}
-			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+			else if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val1 >= THREAT_TILE_MIN_2 && val1 <= THREAT_TILE_MAX_2) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN_2 && val2 <= THREAT_TILE_MAX_2))
 			{
 				;
 			}
@@ -1163,7 +1163,7 @@ void MainObject::CheckToMap(Map& map_data)
 				int val1 = map_data.tile[y2][x1];
 				int val2 = map_data.tile[y2][x2];
 
-				if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+			if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val1 >= THREAT_TILE_MIN_2 && val1 <= THREAT_TILE_MAX_2) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN_2 && val2 <= THREAT_TILE_MAX_2))
 				{
 					va_cham_no = true;
 					come_back_time_++;
@@ -1176,7 +1176,7 @@ void MainObject::CheckToMap(Map& map_data)
 				int val1 = map_data.tile[y1][x1];
 				int val2 = map_data.tile[y1][x2];
 
-				if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX))
+			if ((val1 >= THREAT_TILE_MIN && val1 <= THREAT_TILE_MAX) || (val1 >= THREAT_TILE_MIN_2 && val1 <= THREAT_TILE_MAX_2) || (val2 >= THREAT_TILE_MIN && val2 <= THREAT_TILE_MAX) || (val2 >= THREAT_TILE_MIN_2 && val2 <= THREAT_TILE_MAX_2))
 				{
 					va_cham_no = true;
 					come_back_time_++;
@@ -1244,7 +1244,7 @@ void MainObject::CheckCollisionWithLaser(MainObject& player, BossObject& boss) {
 	if (CheckCollision(player_rect, boss_rect)) {
 
 		std::cout << "Player collided with laser!" << std::endl;
-		timer_va_cham_laser -= 40;
+		timer_va_cham_laser -= 80;
 
 		if (timer_va_cham_laser < 0)
 		{
