@@ -12,7 +12,6 @@ enum GameState {
     BEFORE_RUN,
     PLAYING,
     AFTER_RUN,
-    OPTION,
 };
 
 BaseObject g_background;
@@ -41,6 +40,12 @@ BaseObject after_run_1;
 BaseObject after_run_2;
 BaseObject after_run_3;
 
+BaseObject volume_img_1;
+BaseObject volume_img_2;
+BaseObject volume_img_3;
+BaseObject volume_img_4;
+
+
 
 bool is_game_paused = false;
 bool cap_screen_one_more = false;
@@ -64,17 +69,46 @@ bool af_end_3 = false;
 
 bool die_by_laser = false;
 
-int overall_volume = MIX_MAX_VOLUME;
+int overall_volume = MIX_MAX_VOLUME/4;
 
+
+
+bool LoadVolumeImages() {
+    bool success = true;
+    if (!volume_img_1.LoadImg("img//volume_1.png", g_screen)) {
+        success = false;
+    }
+    if (!volume_img_2.LoadImg("img//volume_2.png", g_screen)) {
+        success = false;
+    }
+    if (!volume_img_3.LoadImg("img//volume_3.png", g_screen)) {
+        success = false;
+    }
+    if (!volume_img_4.LoadImg("img//volume_4.png", g_screen)) {
+        success = false;
+    }
+    return success;
+}
 
 
 void UpdateOverallVolume(int volume) {
-    overall_volume = volume;
+    overall_volume = volume*(MIX_MAX_VOLUME / 4);
     Mix_Volume(-1, overall_volume); 
 }
 
 void HandleVolumeSlider(int volume) {
-    UpdateOverallVolume(volume);
+    if (volume >= 0 && volume < 25) {
+        volume_img_1.Render(g_screen);
+    }
+    else if (volume >= 25 && volume < 50) {
+        volume_img_2.Render(g_screen);
+    }
+    else if (volume >= 50 && volume < 75) {
+        volume_img_3.Render(g_screen);
+    }
+    else {
+        volume_img_4.Render(g_screen);
+    }
 }
 
 bool LoadLogoUET() {
@@ -232,6 +266,175 @@ bool Load_After_3() {
     after_run_3.Render(g_screen);
     af_end_3 = true;
 
+    return true;
+
+}
+
+BaseObject op_end_0;
+BaseObject op_end_1;
+BaseObject op_end_2;
+BaseObject op_end_3;
+BaseObject op_end_4;
+BaseObject op_end_5;
+BaseObject op_end_6;
+BaseObject op_end_7;
+BaseObject op_end_8;
+BaseObject op_end_9;
+BaseObject op_end_10;
+BaseObject op_end_11;
+BaseObject op_end_12;
+BaseObject op_end_black;
+
+bool Load_Op_0() {
+    bool ret = op_end_0.LoadImg("img//option_end.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_0.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_1() {
+    bool ret = op_end_1.LoadImg("img//option_end_1.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_1.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_2() {
+    bool ret = op_end_2.LoadImg("img//option_end_2.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_2.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_3() {
+    bool ret = op_end_3.LoadImg("img//option_end_3.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_3.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_4() {
+    bool ret = op_end_4.LoadImg("img//option_end_4.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_4.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_5() {
+    bool ret = op_end_5.LoadImg("img//option_end_5.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_5.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_6() {
+    bool ret = op_end_6.LoadImg("img//option_end_6.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_6.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_7() {
+    bool ret = op_end_7.LoadImg("img//option_end_7.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_7.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_8() {
+    bool ret = op_end_8.LoadImg("img//option_end_8.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_8.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_9() {
+    bool ret = op_end_9.LoadImg("img//option_end_9.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_9.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_10() {
+    bool ret = op_end_10.LoadImg("img//option_end_10.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_10.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_11() {
+    bool ret = op_end_11.LoadImg("img//option_end_11.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_11.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_12() {
+    bool ret = op_end_12.LoadImg("img//option_end_12.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_12.Render(g_screen);
+    return true;
+
+}
+
+bool Load_Op_black() {
+    bool ret = op_end_black.LoadImg("img//option_end_black.png", g_screen);
+    if (!ret) {
+        return false;
+    }
+
+    op_end_black.Render(g_screen);
     return true;
 
 }
@@ -519,6 +722,8 @@ int main(int argc, char* argv[])
 
     int af_run_timer = 3000;
 
+    int op_time = 14000;
+
     InitDeathCounter(g_screen);
 
     bool is_quit = false;
@@ -561,6 +766,8 @@ int main(int argc, char* argv[])
         }
 
         if (game_state == MENU) {
+
+            op_time = 14000;
 
             time_run_logo -= 80;
 
@@ -625,33 +832,109 @@ int main(int argc, char* argv[])
             
         }
 
-        else if (game_state == AFTER_RUN)
-        {
-            af_run_timer -= 200;
-      
-            if (af_run_timer > 2000) {
+        else if (game_state == AFTER_RUN){
+            op_time -= 25;
+           
+            if (op_time > 15500) {
                 Load_After_1();
                 after_run_1.Render(g_screen);
             }
-            else if (af_run_timer <= 2000 && af_run_timer > 1000) {
+            else if (op_time > 15000 && op_time <= 15500) {
                 after_run_1.Free();
                 Load_After_2();
                 after_run_2.Render(g_screen);
             }
-            else if (af_run_timer <= 1000 && af_run_timer > 0) {
+            else if (op_time > 14500 && op_time <= 15000) {
                 after_run_2.Free();
                 Load_After_3();
                 after_run_3.Render(g_screen);
             }
-            else if (af_run_timer <= 0) {
-                after_run_3.Free();
-                game_state = OPTION;
+            else if (op_time > 14000 && op_time <= 14500) {
+                
+              
+                std::cout << "OPTION_______";
             }
+            else if (op_time > 13000 && op_time <= 14000) {
+                after_run_3.Free();
+                Load_Op_0();
+                op_end_0.Render(g_screen);
+            }
+            else if (op_time > 12000 && op_time <= 13000) {
+                op_end_0.Free();
+                Load_Op_black();
+                op_end_black.Render(g_screen);
+            }
+            else if (op_time > 11800 && op_time <= 12000) {
+                op_end_black.Free();
+                Load_Op_1();
+                op_end_1.Render(g_screen);
+            }
+            else if (op_time > 11600 && op_time <= 11800) {
+                op_end_1.Free();
+                Load_Op_2();
+                op_end_2.Render(g_screen);
+            }
+            else if (op_time > 11400 && op_time <= 11600) {
+                op_end_2.Free();
+                Load_Op_3();
+                op_end_3.Render(g_screen);
+            }
+            else if (op_time > 11200 && op_time <= 11400) {
+                op_end_3.Free();
+                Load_Op_4();
+                op_end_4.Render(g_screen);
+            }
+            else if (op_time > 11000 && op_time <= 11200) {
+                op_end_4.Free();
+                Load_Op_5();
+                op_end_5.Render(g_screen);
+            }
+            else if (op_time > 10800 && op_time <= 11000) {
+                op_end_5.Free();
+                Load_Op_6();
+                op_end_6.Render(g_screen);
+            }
+            else if (op_time > 10600 && op_time <= 10800) {
+                op_end_6.Free();
+                Load_Op_7();
+                op_end_7.Render(g_screen);
+            }
+            else if (op_time > 9100 && op_time <= 10600) {
+                op_end_7.Free();
+                Load_Op_8();
+                op_end_8.Render(g_screen);
+            }
+            else if (op_time > 7600 && op_time <= 9100) {
+                op_end_8.Free();
+                Load_Op_9();
+                op_end_9.Render(g_screen);
+            }
+            else if (op_time > 6100 && op_time <= 7600) {
+                op_end_9.Free();
+                Load_Op_10();
+                op_end_10.Render(g_screen);
+            }
+            else if (op_time > 5500 && op_time <= 6100) {
+                op_end_10.Free();
+                Load_Op_black();
+                op_end_black.Render(g_screen);
+            }
+            else if (op_time > 4000 && op_time <= 5500) {
+                op_end_black.Free();
+                Load_Op_11();
+                op_end_11.Render(g_screen);
+            }
+            else if (op_time > 2500 && op_time <= 4000) {
+                op_end_11.Free();
+                Load_Op_12();
+                op_end_12.Render(g_screen);
+            }
+            else {
+                op_end_12.Free();
+                break;
+            }
+            std::cout << op_time << std::endl;
         }
-        else if (game_state == OPTION) {
-            
-        }
-
 
         else if (game_state == PLAYING && !is_game_paused)
         {

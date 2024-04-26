@@ -1,13 +1,15 @@
-﻿  BossObject.cpp
+﻿  Main.cpp
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(108,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
-  (compiling source file 'BossObject.cpp')
+  (compiling source file 'Main.cpp')
   
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(121,2): warning C4091: 'typedef ': ignored on left of 'Regime' when no variable is declared
-  (compiling source file 'BossObject.cpp')
+  (compiling source file 'Main.cpp')
   
 D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\CommonFunc.h(136,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
-  (compiling source file 'BossObject.cpp')
+  (compiling source file 'Main.cpp')
   
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\BossObject.cpp(207,24): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\BossObject.cpp(209,20): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(575,17): warning C4566: character represented by universal-character-name '\u1EC3' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(575,17): warning C4566: character represented by universal-character-name '\u1EA3' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(961,30): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
+D:\GEOMETRYDASH_ver_2\lemon\GameSDL26_2\Main.cpp(961,30): warning C4566: character represented by universal-character-name '\u1EC7' cannot be represented in the current code page (1252)
   GameSDL26_2.vcxproj -> D:\GEOMETRYDASH_ver_2\lemon\Debug\GameSDL26_2.exe
