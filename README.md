@@ -7,6 +7,8 @@
 + Mã sinh viên: 23020013 
 
 + Bài tập lớn: **Geometry Dash SubZero** (INT2215_50 - Lập trình nâng cao)
++ Link google driver chứa video trình bày: https://drive.google.com/drive/folders/1j00HlPrdgcrnrzN6XM8Dbz18sM3olJf6
+
 # Phụ lục
 - [Description](#description)
   * [Game description and instruction](#game-description-and-instruction)
